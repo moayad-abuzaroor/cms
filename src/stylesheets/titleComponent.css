@@ -1,0 +1,35 @@
+.backDiv{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0px;
+    height: 50px;
+    background-color: white;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+.headerText{
+    margin-left: 35px;
+    font-size: 21px;
+    font-weight: 600;
+}
+
+.headerDiv{
+    display: 'flex';
+    align-items: 'center';
+}
+
+.backButton{
+    margin-right: 25px;
+    padding: 5px;
+    padding-left: 12px;
+    padding-right: 12px;
+    border: none;
+    border-radius: 15px;
+    color: white;
+    background-color: rgb(250, 137, 95);
+    font-weight: bold;
+}
+.backButton:hover{
+    background-color: rgb(255, 68, 0);
+}

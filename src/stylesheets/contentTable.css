@@ -1,0 +1,119 @@
+.mov-container{
+    position: relative;
+    padding: 50px;
+    background-color: rgb(233, 229, 229);
+}
+
+table {
+    border-collapse: collapse; /* This will remove the borders between cells */
+    width: 100%;
+    margin-top: 50px;
+}
+
+th{
+    padding-bottom: 25px; 
+    padding-top: 25px;
+}
+
+th:hover{
+    background-color: lightgray;
+    border-radius: 4px;
+}
+
+td{
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+    width: 130px;
+    padding-bottom: 25px;
+    border: white;
+    border-bottom: 1px solid #ccc;
+    height: 65px;
+}
+
+tbody{
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.icon{
+    padding-right: 10px;
+    cursor: pointer;
+}
+
+.green{
+    color: white;
+    background-color: rgb(87, 202, 87);
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 10px;
+}
+
+.red{
+    color: white;
+    background-color: rgb(233, 36, 36);
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 10px;
+}
+
+.upIcon{
+    padding-left: 5px;
+}
+
+img{
+    width: 50px;
+    padding-right: 6px;
+}
+
+.imageTitle{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.genres{
+    background-color: rgb(224, 224, 224);
+    padding: 3px;
+    font-size: 14px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 10px;
+    width: 120px;
+}
+
+.menu{
+    position: absolute;
+    padding-right: 50px;
+    padding-top: 50px;
+    top: 0;
+    right: 0;
+}
+
+.menuButton{
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin: 5px;
+    border-radius: 15px;
+    border: none;
+    background-color: rgb(251, 104, 50);
+    color: white;
+    font-weight: bold;
+}
+.menuButton:hover{
+    background-color: rgb(255, 68, 0);
+}
+
+.path{
+    position: absolute;
+    top: 0;
+}
+
+.pathText{
+    color: rgb(58, 58, 251);
+}

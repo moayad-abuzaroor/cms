@@ -1,0 +1,150 @@
+body{
+    margin: 0;
+}
+
+.provider-container{
+    padding: 50px;
+    background-color: rgb(233, 229, 229);
+}
+
+.path{
+    position: absolute;
+    top: 0;
+}
+
+.pathText{
+    color: rgb(58, 58, 251);
+}
+
+.backDiv{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0px;
+    height: 50px;
+    background-color: white;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.headerText{
+    margin-left: 35px;
+    font-size: 21px;
+    font-weight: 600;
+}
+
+.headerDiv{
+    display: 'flex';
+    align-items: 'center';
+}
+
+.backButton{
+    margin-right: 25px;
+    padding: 5px;
+    padding-left: 12px;
+    padding-right: 12px;
+    border: none;
+    border-radius: 15px;
+    color: white;
+    background-color: rgb(250, 137, 95);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.backButton:hover{
+    background-color: rgb(255, 68, 0);
+}
+
+.provider-form{
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+    padding: 30px;
+    background-color: white;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.provider-select{
+    margin-top: 6px;
+    width: 100%;
+    height: 34px;
+    margin-right: 10px;
+    border-radius: 3px;
+    border: solid 1px #ccc;
+    outline: none;
+}
+
+.provider-select:focus{
+    border-color: green;
+}
+
+.provider-form-input-div{
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    margin-right: 2%;
+}
+
+.provider-inputBox{
+    margin-top: 6px;
+    height: 30px;
+    width: 100%;
+    border-radius: 3px;
+    border: solid 1px #ccc;
+    outline: none;
+
+}
+
+.provider-inputBox:focus{
+    border-color: green;
+}
+
+.labelBox{
+    font-size: small;
+}
+
+.labelStar{
+    color: red;
+}
+
+.provider-search-button{
+    width: fit-content;
+    padding: 6px;
+    padding-left: 35px;
+    padding-right: 35px;
+    margin-top: 20px;
+    height: 33px;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    background-color: rgb(250, 137, 95);
+    font-size: 15px;    
+}
+
+.provider-buttons-div{
+    padding: 0.3%;
+}
+
+.provider-search-button:hover{
+    background-color: rgb(250, 89, 30);
+}
+
+.provider-skip-button{
+    width: fit-content;
+    padding: 6px;
+    padding-left: 35px;
+    padding-right: 35px;
+    margin-top: 20px;
+    margin-left: 5px;
+    height: 33px;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    background-color: rgb(250, 89, 30);
+    font-size: 15px;    
+}
+
+.provider-skip-button:hover{
+    background-color: orangered;
+}

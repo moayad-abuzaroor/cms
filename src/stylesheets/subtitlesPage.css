@@ -1,0 +1,210 @@
+body{
+    margin: 0;
+}
+
+.subtitlesContainer{
+    padding: 50px;
+    background-color: rgb(233, 229, 229);
+}
+
+.path{
+    position: absolute;
+    top: 0;
+}
+
+.pathText{
+    color: rgb(58, 58, 251);
+}
+
+.backDiv{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0px;
+    height: 50px;
+    background-color: white;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.headerText{
+    margin-left: 35px;
+    font-size: 21px;
+    font-weight: 600;
+}
+
+.headerDiv{
+    display: 'flex';
+    align-items: 'center';
+}
+
+.backButton{
+    margin-right: 25px;
+    padding: 5px;
+    padding-left: 12px;
+    padding-right: 12px;
+    border: none;
+    border-radius: 15px;
+    color: white;
+    background-color: rgb(250, 137, 95);
+    font-weight: bold;
+}
+
+.backButton:hover{
+    background-color: rgb(255, 68, 0);
+}
+
+.subtitleForm{
+    margin-top: 30px;
+    padding: 30px;
+    background-color: white;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.sub-line{
+    border: none;
+    border-bottom: 1px solid #d6d6d6;
+    width: 90%;
+}
+
+.sub-lineLabel{
+    background-color: rgb(34, 34, 253);
+    color: white;
+    font-weight: 500;
+    font-size: 15px;
+    width:fit-content;
+    border-radius: 4px;
+    padding: 5px;
+    align-items: center;
+    justify-content: center;
+}
+
+.movie_trailer{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.movieSource{
+    width: 100%;
+}
+
+.trailerSource{
+    width: 100%;
+}
+
+.subForm{
+    padding-top: 20px;
+    padding-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sub-title{
+    font-size: small;
+}
+
+.sub-labelStar{
+    color: red;
+}
+
+.file-input {
+    position: relative;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+    width: fit-content;
+}
+  
+.file-label {
+    display: block;
+    padding: 10px 20px;
+    background-color: rgb(252, 98, 43); /* Orange background color */
+    color: #fff; /* White text color */
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: 400;
+}
+
+.file-input-field {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.sub-file-allowed{
+    background-color: rgb(250, 137, 95);
+    color: white;
+    padding: 1px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 5px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.sub-file-allowed:hover{
+    background-color: rgb(252, 98, 43);
+}
+
+.sub-languageForm{
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sub-language-select{
+    margin-top: 15px;
+    width: 25%;
+    height: 30px;
+    margin-right: 10px;
+    outline: none;
+    border-radius: 3px;
+    border: solid 1px #ccc;
+}
+
+.sub-language-select:focus{
+    border-color: green;
+}
+
+.sub-AddButton{
+    width: fit-content;
+    padding: 6px;
+    padding-left: 15px;
+    padding-right: 16px;
+    margin-top: 20px;
+    height: 33px;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    background-color: rgb(250, 137, 95);
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.sub-AddButton:hover{
+    background-color: rgb(252, 98, 43);
+}
+
+.sub-table{
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.sub-thead{
+    background-color: #d6d6d6;
+}
+
+.sub-th{
+    height: 20px;
+}
+
+.sub-td{
+    height: 20px;
+}
