@@ -12,7 +12,7 @@ body{
 }
 
 .pathText{
-    color: rgb(58, 58, 251);
+    color: #0594d1;
 }
 
 .addForm{
@@ -107,7 +107,7 @@ body{
 }
 
 .graphics-allowed{
-    background-color: rgb(250, 137, 95);
+    background-color: #4e73df;
     color: white;
     padding: 1px;
     padding-left: 10px;
@@ -119,5 +119,5 @@ body{
 }
 
 .graphics-allowed:hover{
-    background-color: rgb(252, 98, 43);
+    background-color: #2e59d9;
 }

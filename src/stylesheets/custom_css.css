@@ -1,0 +1,32 @@
+th{
+    font-weight: 400;
+}
+
+.table .thead-dark th {
+    color: #fff;
+    background-color: #858796;
+    border-color: #858796;
+}
+
+tr{
+    color: black;
+}
+
+.custom_icon{
+    font-size: 1.2rem;
+}
+
+.badge{
+    font-size: 86%;
+    padding: .35em .45em;
+    border-radius: .25rem;
+    color: black
+}
+
+.text-success {
+    color: #1cc88a!important;
+}
+
+.custom_white{
+    color: white
+}

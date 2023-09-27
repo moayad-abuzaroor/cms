@@ -60,7 +60,7 @@ body{
 }
 
 .lineLabel{
-    background-color: rgb(34, 34, 253);
+    background-color: #51abd2;
     color: white;
     font-weight: 500;
     font-size: 15px;
@@ -190,3 +190,4 @@ body{
     color: red;
     margin-top: 3px;
 }
+

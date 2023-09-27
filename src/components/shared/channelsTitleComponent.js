@@ -6,20 +6,20 @@ import {Link} from 'react-router-dom'
 
 
 
-function MovieTitleComponent(){
+function ChannelsTitleComponent(){
     
     return(
         <div className='backDiv'>
             <div className='headerDiv'>
-                <p className='headerText mt-3'>Movie</p>
+                <p className='headerText mt-3'>Channel</p>
             </div>
-            <Link to='/dashboard/media/movies'>
+            {/*<Link to='/dashboard/media/movies'>*/}
                 <button className=' btn btn-primary mr-3'><FontAwesomeIcon className='icon' icon={faArrowLeft} /> Back to list</button>
-            </Link>            
+            {/*</Link>*/}            
         </div>
     );
 
 }
 
 
-export default MovieTitleComponent;
+export default ChannelsTitleComponent;

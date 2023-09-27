@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import TvShowTitleComponent from '../shared/tvShowsTitleComponent';
 import TvShowsNavBar from '../shared/TvShowsNavBar';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
-function AddTvShow() {
-
-    const [navbarDisabled, setNavbarDisabled] = useState(true);
+function AddSeason() {
 
     const [title, setTitle] = useState('');
     const [requiredMsg, setRequiredMsg] = useState(false);
@@ -13,6 +14,14 @@ function AddTvShow() {
     const handleTitleChange = (e) => {
         setTitle(e.target.value);
         setRequiredMsg(false); // Reset required message when input changes
+    };
+
+    const [seasonNumber, setSeasonNumber] = useState('');
+    const [seasonRequiredMsg, setSeasonRequiredMsg] = useState(false);
+
+    const handleSeasonChange = (e) => {
+        setSeasonNumber(e.target.value);
+        setSeasonRequiredMsg(false); // Reset required message when input changes
     };
 
     const [crewName, setCrewName] = useState('');
@@ -52,66 +61,21 @@ function AddTvShow() {
         setCastTags(updatedTags);
     };
 
-    const [selectedGenres, setSelectedGenres] = useState([]);
-    const [genreOptions, setGenreOptions] = useState([
-        'Genres 1',
-        'Genres 2',
-        'Genres 3',
-        'مسلسلات تركية',
-        'Action',
-        'Crime',
-        'Comedy',
-        'Sci-Fi',
-        'Adventure',
-        'Drama',
-        'مسلسلات عربية',
-        'Arabic Movies',
-        'تركي مدبلج',
-        'Family Movies',
-        'Kids',
-        'Anime',
-        'افلام تركية',
-        'رمضان سنوات سابقة',
-        'History',
-        'Sports'
-    ]);
-    const [genresRequiredMsg, setGenresRequiredMsg] = useState(false);
-
-    const handleGenreSelect = (e) => {
-        const selectedGenre = e.target.value;
-        if (selectedGenre && !selectedGenres.includes(selectedGenre)) {
-        setSelectedGenres([...selectedGenres, selectedGenre]);
-        }
-        setGenresRequiredMsg(false); // Reset the validation message
-    };
-    
-
-    const handleRemoveGenre = (genre) => {
-        setSelectedGenres(selectedGenres.filter(item => item !== genre));
-    };
-
-    var count = 0;
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (title.trim() === '') {
-          setRequiredMsg(true);
-          count = count + 1;
+        setRequiredMsg(true);
         } else {
         // Handle form submission
-          setRequiredMsg(false);
+        setRequiredMsg(false);
         }
 
-        if (selectedGenres.length == 0) {
-          setGenresRequiredMsg(true);
-          count = count + 1;
+        if (seasonNumber.trim() === '') {
+        setSeasonRequiredMsg(true);
         } else {
         // Handle form submission
-        setGenresRequiredMsg(false);
-        }
-
-        if(count == 0){
-          setNavbarDisabled(false)
+        setSeasonRequiredMsg(false);
         }
     };
 
@@ -129,7 +93,15 @@ function AddTvShow() {
 
         <form className='col-lg-11 mx-auto addForm' style={{backgroundColor: 'white'}} onSubmit={handleSubmit}>
 
-            <TvShowsNavBar disabled={navbarDisabled}/>
+            <TvShowsNavBar/>
+
+            <div className="form-row mt-4 ml-auto">
+                <div className='seasons-menu'>
+                    <Link to="seasons">
+                        <button className='btn btn-primary'><FontAwesomeIcon className='icon mr-2' icon={faArrowLeft} />Back to Seasons</button>
+                    </Link>
+                </div>
+            </div>
 
             <div className='line mt-4'>
                 <p className='lineLabel'>Common</p>
@@ -137,7 +109,7 @@ function AddTvShow() {
 
             <div className='form-row mt-4'>
                 <div className='form-group col-md-4'>
-                    <label className='labelBox'>Title (In English) <span className='text-danger'>*</span></label>
+                    <label className='labelBox'>Name (In English) <span className='text-danger'>*</span></label>
                     <input value={title} onChange={handleTitleChange} className={`form-control ${requiredMsg ? 'is-invalid' : ''}`} />
                     {requiredMsg && <div className='text-danger small'>Required Title</div>}
                 </div>
@@ -148,12 +120,17 @@ function AddTvShow() {
                 </div>
 
                 <div className='form-group col-md-4'>
-                    <label className='labelBox'>Year</label>
-                    <input className='form-control' type='text' />
+                    <label className='labelBox'>Season Number</label>
+                    <input value={seasonNumber} onChange={handleSeasonChange} className={`form-control ${seasonRequiredMsg ? 'is-invalid' : ''}`} type='text' />
+                    {seasonRequiredMsg && <div className='text-danger small'>Required Title</div>}
                 </div>
             </div>
             
             <div className='form-row'>
+                <div className='form-group col-md-4'>
+                    <label className='labelBox'>Year</label>
+                    <input className='form-control' type='text' />
+                </div>
                 <div className='form-group col-md-4'>
                     <label className='labelBox'>First Air Date</label>
                     <input className='form-control' type='date' />
@@ -161,91 +138,13 @@ function AddTvShow() {
                 <div className='form-group col-md-4'>
                     <label className='labelBox'>Last Air Date</label>
                     <input className='form-control' type='date' />
-                </div>
-                <div className='form-group col-md-4'>
-                    <label className='labelBox'>Rating (out of 10)</label>
-                    <input className='form-control' type='number' max={10} />
-                </div>                        
-            </div>
-
-            <div className='form-row'>
-                <div className='form-group col-md-4'>
-                    <label className='labelBox'>Awards</label>
-                    <input className='form-control' type='text' />
-                </div>
-                <div className='form-group col-md-4'>
-                    <label className='labelBox'>Episode Runtime (In Minutes)</label>
-                    <input className='form-control' type='number' />
-                </div>
-                <div className="form-group col-md-4">
-                  <label className="labelBox">
-                    Genres <span className="text-danger">*</span>
-                  </label>
-                  <select
-                    className={`form-control ${genresRequiredMsg ? 'is-invalid' : ''}`}
-                    name="Genres"
-                    onChange={handleGenreSelect}
-                    value="" // This is important to reset the selection after each pick
-                  >
-                    <option selected="false" disabled="disabled" value="">
-                      Select Genres
-                    </option>
-                    {genreOptions.map((genre, index) => (
-                      <option key={index} value={genre}>
-                        {genre}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="mt-2">
-                    {selectedGenres.map((genre, index) => (
-                      <span
-                        key={index}
-                        className="badge badge-pill badge-primary mr-2"
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => handleRemoveGenre(genre)}
-                      >
-                        {genre} <span className="font-weight-bold">x</span>
-                      </span>
-                    ))}
-                  </div>
-                  {genresRequiredMsg && <div className='text-danger small'>Required Field</div>}
-                </div>                        
-            </div>
-
-            <div className='form-row'>
-                <div className='form-group col-md-4'>
-                    <label className='labelBox'>Parental Rating</label>
-                    <select className='form-control' name='parentalRating'>
-                        <option selected="false" disabled="disabled">Select a Parental Rating</option>
-                        <option>Rate 1</option>
-                        <option>Rate 2</option>
-                        <option>Rate 3</option>
-                    </select>
-                </div>
-                <div className='form-group col-md-4'>
-                    <label className='labelBox'>Countries</label>
-                    <select className='form-control' name='Countries'>
-                        <option selected="false" disabled="disabled">Select Countries</option>
-                        <option>Country 1</option>
-                        <option>Country 2</option>
-                        <option>Country 3</option>
-                    </select>
-                </div>
-                <div className='form-group col-md-4'>
-                    <label className='labelBox'>Original Version Language</label>
-                    <select className='form-control' name='Genres'>
-                        <option selected="false" disabled="disabled">Select a Language</option>
-                        <option>Language 1</option>
-                        <option>Language 2</option>
-                        <option>Language 3</option>
-                    </select>
-                </div>                        
+                </div>                                        
             </div>
 
             <div className='form-group'>
                 <div>
                     <input type='checkbox'/>
-                    <label className='labelBox'>Active</label>
+                    <label className='labelBox ml-2'>Active</label>
                 </div>                                                    
             </div>
 
@@ -329,7 +228,7 @@ function AddTvShow() {
 
             <div className='form-group'>
                 <input className='btn btn-primary' type='submit' value="Save" />
-                <button type='button' className='btn btn-secondary ml-1'>Cancel</button>
+                <button className='btn btn-secondary ml-1'>Cancel</button>
             </div>
 
         </form>
@@ -338,4 +237,4 @@ function AddTvShow() {
   );
 }
 
-export default AddTvShow;
+export default AddSeason;

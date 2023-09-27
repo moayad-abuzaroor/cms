@@ -1,0 +1,28 @@
+/* Add media query for smaller screens */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%; /* Set width to 100% for smaller screens */
+  }
+
+  .sidebar-brand {
+    display: none; /* Hide the sidebar brand on smaller screens */
+  }
+
+  .sidebar-divider {
+    display: none; /* Hide the sidebar divider on smaller screens */
+  }
+
+  .nav-link {
+    padding: 0.5rem 1rem; /* Adjust padding for nav links on smaller screens */
+  }
+
+  .collapse.show {
+    display: block; /* Ensure that collapsed elements are visible on smaller screens */
+  }
+  .bg-gradient-primary{
+    background-image: linear-gradient(to right, #6cbd4b, #00a0d6)!important;
+  }
+  
+}
+
+

@@ -1,0 +1,26 @@
+
+  
+  .navbar-nav .nav-link {
+    color: #000; /* Set link color */
+  }
+  
+  .navbar-nav .nav-link.active {
+    border-bottom: 2px solid #007bff;
+    background-color: transparent; /* Remove background color */
+    color: inherit; /* Remove text color */
+  }
+  
+  
+  
+  
+  .navbar-toggler-icon {
+    background-color: #000; /* Set toggle button color */
+  }
+  
+  .specNav {
+    background: linear-gradient(to right, #5aa8cf,  #2ad978);
+  }
+  
+  .specSide{
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }

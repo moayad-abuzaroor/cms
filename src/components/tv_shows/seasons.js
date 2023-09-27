@@ -4,6 +4,9 @@ import '../../stylesheets/seasons.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle, faTrash, faEdit, faArrowUpLong, faArrowDownLong, faFilter, faPlus } from '@fortawesome/free-solid-svg-icons';
 import ReactPaginate from 'react-paginate';
+import TvShowsNavBar from "../shared/TvShowsNavBar";
+import { Link } from 'react-router-dom';
+
 
 function Seasons(){
 
@@ -42,7 +45,7 @@ function Seasons(){
 
     const [currentPage, setCurrentPage] = useState(0);
 
-    const itemsPerPage = 1; // Adjust as needed
+    const itemsPerPage = 3; // Adjust as needed
     const totalPages = Math.ceil(seasons.length / itemsPerPage);
 
     const startIndex = currentPage * itemsPerPage;
@@ -52,62 +55,75 @@ function Seasons(){
 
 
     return(
-        <div className="container">
-            <div className='path'>
-                <p className='pathText'>Media Asset Management/VOD / <span style={{color: 'rgb(55, 55, 55)'}}>Tv Shows</span></p>
+        <div className='container-fluid bg-light' style={{ padding: '2%', height: '100%'}}>
+            <div className='row'>
+                <div className='col'>
+                    <p className='pathText'>Media Asset Management/VOD / <span style={{color: 'rgb(55, 55, 55)'}}>TV Shows</span></p>
+                </div>
             </div>
-            
+
             <TvShowTitleComponent/>
 
-            <div className="seasons-form">
+            <div className="row">
+                <form className='col-lg-11 mx-auto addForm' style={{backgroundColor: 'white'}}>
 
-                <div className='seasons-menu'>
-                    <button className='menuButton'><FontAwesomeIcon className='icon' icon={faPlus} />Add New Season</button>
-                </div>
+                    <TvShowsNavBar/>
 
-                <table className="sub-table">
-                    <thead className="sub-thead">
-                        <tr>
-                            <th>Season Name <FontAwesomeIcon className='upIcon' icon={faArrowUpLong} />
-                            <FontAwesomeIcon className='downIcon' icon={faArrowDownLong} /></th>
-                            <th>Season/Episode <FontAwesomeIcon className='upIcon' icon={faArrowUpLong} />
-                            <FontAwesomeIcon className='downIcon' icon={faArrowDownLong} /></th>
-                            <th>Created</th>
-                            <th>Modified <FontAwesomeIcon className='upIcon' icon={faArrowUpLong} />
-                            <FontAwesomeIcon className='downIcon' icon={faArrowDownLong} /></th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {currentSeasons.map((season, index) => (
-                            <tr key={index}>
-                            <td className='sub-td'>{season.season_name}</td>
-                            <td className='sub-td'>{season.season_episode}</td>
-                            <td className='sub-td'>{season.created}</td>
-                            <td className='sub-td'>{season.modified}</td>
-                            <td className='sub-td'> 
-                                {/* Add action buttons here */}
-                                <FontAwesomeIcon className='icon' icon={faEdit} />
-                                <FontAwesomeIcon className='icon' icon={faTrash} />
-                            </td>
-                            </tr>                        
-                        ))}
-                    </tbody>
-                </table>
+                    <div className="form-row mt-4">
+                        <div className='seasons-menu'>
+                        <Link to="addseason">
+                        <button className='btn btn-primary'><FontAwesomeIcon className='icon mr-1' icon={faPlus} />Add New Season</button>
+                        </Link>
+                    </div>
+                    </div>
+                    <div className="table-responsive mt-4">
+                        <table className="table table-striped">
+                            <thead className="thead-dark">
+                                <tr>
+                                    <th className="text-center align-middle">Season Name <FontAwesomeIcon className='ml-1' icon={faArrowUpLong} />
+                                        <FontAwesomeIcon className='ml-1' icon={faArrowDownLong} /></th>
+                                    <th className="text-center align-middle">Season/Episode <FontAwesomeIcon className='ml-1' icon={faArrowUpLong} />
+                                        <FontAwesomeIcon className='ml-1' icon={faArrowDownLong} /></th>
+                                    <th className="text-center align-middle">Created</th>
+                                    <th className="text-center align-middle">Modified <FontAwesomeIcon className='ml-1' icon={faArrowUpLong} />
+                                        <FontAwesomeIcon className='ml-1' icon={faArrowDownLong} /></th>
+                                    <th className="text-center align-middle">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {currentSeasons.map((season, index) => (
+                                    <tr className="text-center align-items-center" key={index}>
+                                    <td className='align-middle'>{season.season_name}</td>
+                                    <td className='align-middle'>{season.season_episode}</td>
+                                    <td className='align-middle'>{season.created}</td>
+                                    <td className='align-middle'>{season.modified}</td>
+                                    <td className='align-middle'> 
+                                        {/* Add action buttons here */}
+                                        <FontAwesomeIcon className='text-primary mx-1' icon={faEdit} />
+                                        <FontAwesomeIcon className='text-danger mx-1' icon={faTrash} />
+                                    </td>
+                                    </tr>                        
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="row justify-content-center">
+                        <div className="col-auto">
+                            <ReactPaginate
+                                pageCount={totalPages}
+                                pageRangeDisplayed={0} // Adjust as needed
+                                marginPagesDisplayed={0} // Adjust as needed
+                                onPageChange={({ selected }) => setCurrentPage(selected)}
+                                containerClassName={'pagination'}
+                                activeClassName={'active'}
+                                previousLabel={'Previous'} // Add previous label
+                                nextLabel={'Next'} // Add next label
+                                disableInitialCallback // Disable the initial callback to prevent multiple renders
+                            />
+                        </div>
+                    </div>
+                </form>
 
-                <ReactPaginate
-                    pageCount={totalPages}
-                    pageRangeDisplayed={0}
-                    marginPagesDisplayed={0}
-                    onPageChange={({ selected }) => setCurrentPage(selected)}
-                    containerClassName={'pagination'}
-                    activeClassName={'active'}
-                    pageLinkClassName={'page-link'} // Add this className
-                    breakLinkClassName={'break-link'} // Add this className
-                    previousLabel={'Previous'} // Add previous label
-                    nextLabel={'Next'} // Add next label
-                    disableInitialCallback // Disable the initial callback to prevent multiple renders
-                />
             </div>
 
         </div>
