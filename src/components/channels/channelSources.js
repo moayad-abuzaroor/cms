@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ChannelsTitleComponent from "../shared/channelsTitleComponent";
+import ChannelsNavBar from "../shared/ChannelsNavBar";
 
 function ChannelSources(){
 
@@ -62,9 +63,9 @@ function ChannelSources(){
             <div className="row">
                 <form className="col-lg-11 mx-auto addForm" style={{backgroundColor: 'white'}}>
 
-                    {/*<MoviesNavBar/>*/}
+                    <ChannelsNavBar />
 
-                    <div className="line mt-1">
+                    <div className="line mt-4">
                         <p className="lineLabel">Primary Source</p>
                     </div>
 

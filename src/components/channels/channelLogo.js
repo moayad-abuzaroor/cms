@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ChannelsTitleComponent from "../shared/channelsTitleComponent";
+import ChannelsNavBar from "../shared/ChannelsNavBar";
 
 function ChannelLogo(){
 
@@ -35,7 +36,9 @@ function ChannelLogo(){
             <div className="row">
                 <form className="col-lg-11 mx-auto addForm" style={{backgroundColor: 'white'}}>
 
-                    <div className='form-group col-md-6'>
+                    <ChannelsNavBar />
+
+                    <div className='form-group col-md-6 mt-4'>
                         <div className='input-group'>
                             <div className='custom-file'>
                                 <input type='file' className='custom-file-input' id='file-upload' accept='image/*' onChange={handleImageUpload} />

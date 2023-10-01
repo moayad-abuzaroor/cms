@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import MovieTitleComponent from "../shared/movietTitleComponent";
 import ChannelsTitleComponent from "../shared/channelsTitleComponent";
+import ChannelsNavBar from "../shared/ChannelsNavBar";
 
 
 function AddChannel(){
@@ -63,7 +64,7 @@ function AddChannel(){
             <div className="row">
                 <form className='col-lg-11 mx-auto addForm' style={{backgroundColor: 'white'}}>
 
-                    {/*<MoviesNavBar disabled={navbarDisabled}/>*/}
+                    <ChannelsNavBar />
 
                     <div className='form-row mt-4'>
                         <div className='form-group col-md-4'>
