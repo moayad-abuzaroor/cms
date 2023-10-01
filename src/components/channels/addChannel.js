@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import ReactPaginate from "react-paginate";
-import MovieTitleComponent from "../shared/movietTitleComponent";
 import ChannelsTitleComponent from "../shared/channelsTitleComponent";
 import ChannelsNavBar from "../shared/ChannelsNavBar";
-import { faCircleMinus, faList, faMinusCircle, faPersonCircleMinus, faRemove } from "@fortawesome/free-solid-svg-icons";
+import { faCircleMinus, faList } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 

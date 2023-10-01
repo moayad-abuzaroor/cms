@@ -11,6 +11,7 @@ function ChannelsNavBar() {
           <NavLink to="/dashboard/media/channels/information" className='nav-link' activeClassName="active">General Information</NavLink>
           <NavLink to="/dashboard/media/channels/sources" className='nav-link' activeClassName="active">Sources</NavLink>
           <NavLink to="/dashboard/media/channels/logo" className='nav-link' activeClassName="active">Logo</NavLink>
+          <NavLink to="/dashboard/media/channels/submit" className='nav-link' activeClassName="active">Sync</NavLink>
         </Nav>
       </Navbar.Collapse>
     </Navbar>

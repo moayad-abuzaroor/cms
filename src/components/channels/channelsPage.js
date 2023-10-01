@@ -4,6 +4,7 @@ import ChannelsTable from "./channelsTable";
 import AddChannel from "./addChannel";
 import ChannelSources from "./channelSources";
 import ChannelLogo from "./channelLogo";
+import ChannelSubmit from "../shared/channelsubmit";
 
 
 function ChannelsPage(){
@@ -18,6 +19,7 @@ function ChannelsPage(){
             <Route path="/information" element={<AddChannel />} />
             <Route path="/sources" element={<ChannelSources />} />
             <Route path="/logo" element={<ChannelLogo />} />
+            <Route path="/submit" element={<ChannelSubmit />} />
         </Routes>
     );
 }
