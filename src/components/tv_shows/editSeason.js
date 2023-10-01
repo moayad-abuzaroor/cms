@@ -152,9 +152,7 @@ function EditSeason (){
                                         <td className='align-middle'>{season.show_episode}</td>
                                         <td className='align-middle'> 
                                             {/* Add action buttons here */}
-                                            <Link to="editseason">
-                                                <FontAwesomeIcon className='text-primary mx-1' icon={faEdit} />
-                                            </Link>
+                                            <FontAwesomeIcon className='text-primary mx-1' icon={faEdit} />
                                             <FontAwesomeIcon className='text-danger mx-1' icon={faTrash} />
                                         </td>
                                     </tr>
