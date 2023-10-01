@@ -50,6 +50,51 @@ function ChannelSources(){
         setBackupProtection(e.target.value);
     };
 
+    const handleBackupToggle = () => {
+        setBackupCheckbox(!backupCheckbox);
+        setBackupStreamLocation(null);
+        setBackupUrlPath('');
+        setBackupProtection(null);
+        setBackupLocationRequiredMsg(false);
+        setBackupUrlRequiredMsg(false);
+    }
+
+    var count = 0;
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if(channelStreamLocation == null){
+            setChannelLocationRequiredMsg(true);
+            count = count + 1;
+        } else {
+            setChannelLocationRequiredMsg(false);
+        }
+
+        if(channelUrlPath == ''){
+            setChannelUrlRequiredMsg(true);
+            count = count + 1;
+        } else {
+            setChannelUrlRequiredMsg(false);
+        }
+
+        if(backupCheckbox){
+            if(backupStreamLocation == null){
+                setBackupLocationRequiredMsg(true);
+                count = count + 1;
+            } else {
+                setBackupLocationRequiredMsg(false);
+            }
+    
+            if(backupUrlPath == ''){
+                setBackupUrlRequiredMsg(true);
+                count = count + 1;
+            } else {
+                setBackupUrlRequiredMsg(false);
+            }
+        }
+
+    }
+
     return(
         <div className="contatiner-fluid bg-light" style={{ padding: '2%', height: '100%' }}>
             <div className="row">
@@ -61,7 +106,7 @@ function ChannelSources(){
             <ChannelsTitleComponent/>
 
             <div className="row">
-                <form className="col-lg-11 mx-auto addForm" style={{backgroundColor: 'white'}}>
+                <form onSubmit={handleSubmit} className="col-lg-11 mx-auto addForm" style={{backgroundColor: 'white'}}>
 
                     <ChannelsNavBar />
 
@@ -110,7 +155,7 @@ function ChannelSources(){
 
                     <div className='form-group col-md-4 mt-1'>
                         <div className='form-check mt-3'>
-                            <input className='form-check-input' onChange={() => (setBackupCheckbox(!backupCheckbox))} style={{transform: "scale(1.4)"}} type='checkbox' />
+                            <input className='form-check-input' onChange={handleBackupToggle} style={{transform: "scale(1.4)"}} type='checkbox' />
                             <label className='form-check-label labelBox ml-1' style={{fontSize: '100%'}}>Enable Backup Source</label>
                         </div>
                     </div>

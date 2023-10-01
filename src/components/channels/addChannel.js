@@ -22,7 +22,7 @@ function AddChannel(){
         setChannelNumberRequiredMsg(false); // Reset required message when input changes
     };
 
-    const [type, setType] = useState('');
+    const [type, setType] = useState(null);
     const [typeRequiredMsg, setTypeRequiredMsg] = useState(false);
 
     const handleTypeChange = (e) => {
@@ -51,6 +51,40 @@ function AddChannel(){
         setSelectedCategories(selectedCategories.filter(item => item !== category));
     };
 
+    var count = 0;
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (title.trim() === '') {
+            setRequiredMsg(true);
+            count = count + 1;
+        } else {
+            // Handle form submission
+            setRequiredMsg(false);
+        }
+
+        if(selectedCategories.length == 0){
+            setCategoriesRequiredMsg(true);
+            count = count + 1;
+        } else {
+            setCategoriesRequiredMsg(false);
+        }
+
+        if(type == null){
+            setTypeRequiredMsg(true);
+            count = count + 1;
+        } else {
+            setTypeRequiredMsg(false);
+        }
+
+        if(channelNumber == ''){
+            setChannelNumberRequiredMsg(true);
+            count = count + 1;
+        } else {
+            setChannelNumberRequiredMsg(false);
+        }
+    }
+
     return(
         <div className="container-fluid bg-light" style={{ padding: '2%', height: '100%'}}>
             <div className='row'>
@@ -62,7 +96,7 @@ function AddChannel(){
             <ChannelsTitleComponent/>
 
             <div className="row">
-                <form className='col-lg-11 mx-auto addForm' style={{backgroundColor: 'white'}}>
+                <form onSubmit={handleSubmit} className='col-lg-11 mx-auto addForm' style={{backgroundColor: 'white'}}>
 
                     <ChannelsNavBar />
 
@@ -120,15 +154,17 @@ function AddChannel(){
                     <div className="form-row">
                         <div className='form-group col-md-4'>
                             <label className='labelBox'>Channel Number <span className='text-danger'>*</span></label>
-                            <input className={`form-control ${channelNumberRequiredMsg ? 'is-invalid' : ''}`} type='number' />
+                            <input value={channelNumber} onChange={handleChannelNumberChange} className={`form-control ${channelNumberRequiredMsg ? 'is-invalid' : ''}`} type='number' />
+                            {channelNumberRequiredMsg && <div className='text-danger small'>Required Field</div>}
                         </div>
                         <div className='form-group col-md-4'>
                             <label className='labelBox'>Select Type <span className='text-danger'>*</span></label>
-                            <select value={type} onChange={handleTypeChange} className='form-control' name='type'>
+                            <select value={type} onChange={handleTypeChange} className={`form-control ${typeRequiredMsg ? 'is-invalid' : ''}`} name='type'>
                                 <option selected="false" disabled="disabled">Select Type</option>
                                 <option>Video</option>
                                 <option>Audio</option>
                             </select>
+                            {typeRequiredMsg && <div className='text-danger small'>Required Field</div>}
                         </div>
                     </div>
 

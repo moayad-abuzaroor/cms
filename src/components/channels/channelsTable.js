@@ -117,11 +117,11 @@ function ChannelsTable(){
                     <button className="btn btn-secondary mr-2">
                         <FontAwesomeIcon icon={faFilter} /> Filter
                     </button>
-                    {/*<Link to="">*/}
+                    <Link to="information">
                         <button className="btn btn-primary">
                             <FontAwesomeIcon icon={faPlus} /> Add New Channel
                         </button>
-                    {/*</Link>*/}
+                    </Link>
                 </div>
             </div>
 

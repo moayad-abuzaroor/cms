@@ -13,9 +13,9 @@ function ChannelsTitleComponent(){
             <div className='headerDiv'>
                 <p className='headerText mt-3'>Channel</p>
             </div>
-            {/*<Link to='/dashboard/media/movies'>*/}
+            <Link to='/dashboard/media/channels'>
                 <button className=' btn btn-primary mr-3'><FontAwesomeIcon className='icon' icon={faArrowLeft} /> Back to list</button>
-            {/*</Link>*/}            
+            </Link>            
         </div>
     );
 
