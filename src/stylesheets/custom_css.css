@@ -40,3 +40,13 @@ tr{
     border-top-right-radius: 0%;
     border-bottom-right-radius: 0%;
 }
+
+.animated-card {
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+.animated-card:hover {
+    transform: scale(1.05);
+}
+  
