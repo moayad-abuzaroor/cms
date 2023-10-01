@@ -8,6 +8,7 @@ import Seasons from "../tv_shows/seasons";
 import MetaProvider from './metaProvider';
 import AddSeason from './addSeason';
 import TvSubmit from '../shared/tvSubmit';
+import EditSeason from './editSeason';
 
 function TvShowPage() {
 
@@ -26,6 +27,7 @@ function TvShowPage() {
         <Route path='/tv_metaprovider/*' element={<MetaProvider />} />
         <Route path='/seasons/addseason' element={<AddSeason />} />
         <Route path='/submit' element={<TvSubmit />} />
+        <Route path='/seasons/editseason' element={<EditSeason />} />
       </Routes>
     </div>
   );

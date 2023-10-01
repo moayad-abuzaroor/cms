@@ -99,7 +99,9 @@ function Seasons(){
                                     <td className='align-middle'>{season.modified}</td>
                                     <td className='align-middle'> 
                                         {/* Add action buttons here */}
-                                        <FontAwesomeIcon className='text-primary mx-1' icon={faEdit} />
+                                        <Link to="editseason">
+                                            <FontAwesomeIcon className='text-primary mx-1' icon={faEdit} />
+                                        </Link>
                                         <FontAwesomeIcon className='text-danger mx-1' icon={faTrash} />
                                     </td>
                                     </tr>                        
