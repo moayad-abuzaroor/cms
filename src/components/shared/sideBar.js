@@ -74,17 +74,8 @@ function SideBar() {
                 <Link to="media/tv-shows" className="collapse-item">
                   <FontAwesomeIcon className="text-info mr-2" icon={faTv} /> TV Shows
                 </Link>
-                <Link to="/media/movies" className="collapse-item">
-                  <FontAwesomeIcon className="text-info mr-2" style={{fontSize:'small'}} icon={faPhotoFilm} /> Genres
-                </Link>
-                <Link to="/media/movies" className="collapse-item">
-                  <FontAwesomeIcon className="text-info mr-2" style={{fontSize:'small'}} icon={faPeopleGroup} /> VOD Packages
-                </Link>
-                <Link to="/media/movies" className="collapse-item">
-                  <FontAwesomeIcon className="text-info mr-3" style={{fontSize:'small'}} icon={faDatabase} />Metadata Providers
-                </Link>
-                <Link to="/media/movies" className="collapse-item">
-                  <FontAwesomeIcon className="text-info mr-2" style={{fontSize:'small'}} icon={faVideo} /> Video Profiles
+                <Link to="media/channels" className="collapse-item">
+                  <FontAwesomeIcon className="text-info mr-2" style={{fontSize:'small'}} icon={faPhotoFilm} /> Channels
                 </Link>              
             </div>}
         </div>}

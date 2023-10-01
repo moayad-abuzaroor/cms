@@ -7,6 +7,7 @@ import MoviesPage from '../movies/moviesPage';
 import TvShowPage from '../tv_shows/tvShowPage';
 import NavHeader from './NavHeader';
 import Dashboard from './dashboard';
+import ChannelsPage from '../channels/channelsPage';
 
 function Pages() {
   return (
@@ -23,6 +24,7 @@ function Pages() {
                 <Route path='/' element={<Dashboard />} />
                 <Route path="/media/movies/*" element={<MoviesPage />} />
                 <Route path="/media/tv-shows/*" element={<TvShowPage />} />
+                <Route path="/media/channels/*" element={<ChannelsPage />} />
               </Routes>
             </main>
           </div>

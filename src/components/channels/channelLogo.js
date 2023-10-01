@@ -26,7 +26,7 @@ function ChannelLogo(){
         <div className="container-fluid bg-light" style={{ padding: '2%', height: '100%' }}>
             <div className="row">
                 <div className="col">
-                    <p className="pathText">Media Asset Management/VOD / <span style={{ color: 'rgb(55, 55, 55)' }}>Movies</span></p>
+                    <p className="pathText">Media Asset Management/VOD / <span style={{ color: 'rgb(55, 55, 55)' }}>Channels</span></p>
                 </div>
             </div>
 
