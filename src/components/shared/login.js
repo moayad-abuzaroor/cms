@@ -3,32 +3,30 @@ import { Link, useHistory, useNavigate } from "react-router-dom";
 import bg from '../../images/login.jpg'
 
 function Login() {
-    const [users, setUsers] = useState([
-        {
-          username: 'moayad',
-          password: '123'
-        }
-      ]);
 
       const[invalidMsg, setInvalidMsg] = useState(false);
     
       const navigate = useNavigate();
     
-      const handleLogin = (e) => {
+      const handleLogin = async (e) => {
         e.preventDefault();
         const username = e.target.elements.username.value;
         const password = e.target.elements.password.value;
-    
-        const user = users.find(user => user.username === username && user.password === password);        
-    
-        if (user) {
-          console.log("User logged in:", user.username);
-          // Navigate to the dashboard
-          navigate("/dashboard");
-        } else {
-          setInvalidMsg(true);
+
+        try {
+            const response = await fetch(`http://localhost:8000/api/login/?username=${username}&password=${password}`);
+
+            if (response.ok) {
+                console.log("User logged in:", username);
+                // Navigate to the dashboard
+                navigate("/dashboard");
+            } else {
+                setInvalidMsg(true);
+            }
+        } catch (error) {
+            console.error('Error:', error);
         }
-      };
+    };
 
   return (
     <div className="container-fluid">
