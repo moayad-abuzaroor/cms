@@ -5,7 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import MoviesNavBar from '../shared/MoviesNavBar';
 
-function MovieGraphics() {
+function MovieGraphics({sharedTitle}) {
+
     const [selectedImageILike, setSelectedImageILike] = useState(null);
     const [selectedImageJaw, setSelectedImageJaw] = useState(null);
     const [selectedImageMin, setSelectedImageMin] = useState(null);
@@ -56,7 +57,6 @@ function MovieGraphics() {
                 <form className='col-lg-11 mx-auto addForm' style={{ backgroundColor: 'white' }}>
 
                     <MoviesNavBar/>
-
                     <div className='form-row mt-4'>
                         <div className='form-group col-md-6'>
                             <select className='form-control' name='apps' onChange={handleSelectChange}>

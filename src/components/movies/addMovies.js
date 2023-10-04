@@ -7,7 +7,7 @@ import MovieTitleComponent from '../shared/movietTitleComponent';
 import MoviesNavBar from '../shared/MoviesNavBar';
 
 
-function AddMovies() {
+function AddMovies({ sharedTitle, setSharedTitle }) {
 
   const [navbarDisabled, setNavbarDisabled] = useState(true);
 
@@ -99,7 +99,7 @@ function AddMovies() {
 
     if(count == 0){
       setNavbarDisabled(false);
-      
+      setSharedTitle(title);
     }
   };
   
