@@ -23,7 +23,42 @@ function MoviesTable() {
       .then(data => { setMovies(data); })     
       .catch(error => { console.error('Error fetching movies:', error); });
     }, []);
-  console.log(movies)
+
+    const handleDeleteClick = (movieId) => {
+      // Confirm deletion (you might want to show a modal or confirmation dialog)
+      const confirmDelete = window.confirm('Are you sure you want to delete this movie?');
+  
+      if (confirmDelete) {
+        handleDelete(movieId);
+      }
+    };
+  
+    const handleDelete = (movieId) => {
+    
+      // Define the URL for the delete endpoint
+      const deleteUrl = `http://localhost:8000/api/movie/${movieId}`;
+      
+      // Make the DELETE request
+      fetch(deleteUrl, {
+        method: 'DELETE',
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          window.location.reload();
+          return response.json(); // If the server returns JSON, you can parse it
+        })
+        .then(data => {
+          console.log('Movie deleted successfully:', data);
+          // Optionally, you can update your component state or perform other actions here
+          
+        })
+        .catch(error => {
+          console.error('Error deleting movie:', error);
+          // Handle error, show a message, etc.
+        });
+    };
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
   const [currentPage, setCurrentPage] = useState(0);
@@ -183,8 +218,8 @@ function MoviesTable() {
                   </span>
                 </td>
                 <td className='align-middle'>
-                  <FontAwesomeIcon className="text-primary mx-1 custom_icon" icon={faEdit} />
-                  <FontAwesomeIcon className="text-danger mx-1 custom_icon" icon={faTrash} />
+                  <FontAwesomeIcon style={{cursor: 'pointer'}} className="text-primary mx-1 custom_icon" icon={faEdit} />
+                  <FontAwesomeIcon style={{cursor: 'pointer'}} className="text-danger mx-1 custom_icon" icon={faTrash} onClick={() => handleDeleteClick(movie.id)} />
                 </td>
               </tr>
             ))}
