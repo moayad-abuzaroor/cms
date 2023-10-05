@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle, faTrash, faEdit, faArrowUp, faArrowDown, faFilter, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
@@ -11,38 +11,19 @@ import shbrWnos from '../../images/shbrWnos.jpg';
 import '../../stylesheets/custom_css.css'
 
 function MoviesTable() {
-  const [movies, setMovies] = useState([
-    {
-      title: 'Tiger 24 (2022)',
-      year: 2022,
-      releaseDate: '2023-01-20',
-      source: 'Yes',
-      subtitles: '2',
-      genres: 'افلام وثائقية - Documentary Movies',
-      status: 'Active',
-      imageUrl: logo1
-    },
-    {
-      title: 'The Jerk (1979)',
-      year: 1979,
-      releaseDate: '1979-12-14',
-      source: 'Yes',
-      subtitles: '2',
-      genres: 'كوميديا - Comedy',
-      status: 'Active',
-      imageUrl: jerk
-    },
-    {
-      title: 'شبر ونص (2004)',
-      year: 2004,
-      releaseDate: '2004-8-01',
-      source: 'Yes',
-      subtitles: '0',
-      genres: 'افلام عربية - Arabic Movies',
-      status: 'Not Active',
-      imageUrl: shbrWnos
-    }
-  ]);
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    // Define the URL for your API endpoint
+    const apiUrl = 'http://localhost:8000/api/get_all_movies/';
+
+    // Make the GET request
+    fetch(apiUrl)
+      .then(response => response.json())
+      .then(data => { setMovies(data); })     
+      .catch(error => { console.error('Error fetching movies:', error); });
+    }, []);
+  console.log(movies)
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
   const [currentPage, setCurrentPage] = useState(0);
@@ -74,8 +55,9 @@ function MoviesTable() {
   const endIndex = startIndex + itemsPerPage;
 
   const filteredMovies = movies.filter((movie) =>
-    movie.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  movie.movie_title.toLowerCase().includes(searchTerm && searchTerm.toLowerCase())
+);
+
 
   const sortedMovies = [...filteredMovies].sort((a, b) => {
     if (sortConfig.key) {
@@ -95,6 +77,8 @@ function MoviesTable() {
   const handleSearch = () => {
     setCurrentPage(0);
   };
+
+  
 
   return (
     <div className="container-fluid bg-light" style={{ padding: '2%', height: '100%' }}>
@@ -133,37 +117,37 @@ function MoviesTable() {
         <table className="table table-striped">
           <thead className="thead-dark">
             <tr>
-              <th className="text-center align-middle" onClick={() => handleSort('title')}>
+              <th className="text-center align-middle" onClick={() => handleSort('movie_title')}>
                 Title
                 <FontAwesomeIcon className="ml-1" icon={faArrowUp} />
                 <FontAwesomeIcon className="ml-1" icon={faArrowDown} />
               </th>
-              <th className="text-center align-middle" onClick={() => handleSort('year')}>
+              <th className="text-center align-middle" onClick={() => handleSort('movie_year')}>
                 Year
                 <FontAwesomeIcon className="ml-1" icon={faArrowUp} />
                 <FontAwesomeIcon className="ml-1" icon={faArrowDown} />
               </th>
-              <th className="text-center align-middle" onClick={() => handleSort('releaseDate')}>
+              <th className="text-center align-middle" onClick={() => handleSort('movie_release_date')}>
                 Release Date
                 <FontAwesomeIcon className="ml-1" icon={faArrowUp} />
                 <FontAwesomeIcon className="ml-1" icon={faArrowDown} />
               </th>
-              <th className="text-center align-middle" onClick={() => handleSort('source')}>
+              <th className="text-center align-middle" onClick={() => handleSort('movie_source')}>
                 Source
                 <FontAwesomeIcon className="ml-1" icon={faArrowUp} />
                 <FontAwesomeIcon className="ml-1" icon={faArrowDown} />
               </th>
-              <th className="text-center align-middle" onClick={() => handleSort('subtitles')}>
+              <th className="text-center align-middle" onClick={() => handleSort('movie_subtitles')}>
                 Subtitles
                 <FontAwesomeIcon className="ml-1" icon={faArrowUp} />
                 <FontAwesomeIcon className="ml-1" icon={faArrowDown} />
               </th>
-              <th className="text-center align-middle" onClick={() => handleSort('genres')}>
+              <th className="text-center align-middle" onClick={() => handleSort('movie_genres')}>
                 Genres
                 <FontAwesomeIcon className="ml-1" icon={faArrowUp} />
                 <FontAwesomeIcon className="ml-1" icon={faArrowDown} />
               </th>
-              <th className="text-center align-middle" onClick={() => handleSort('status')}>
+              <th className="text-center align-middle" onClick={() => handleSort('movie_status')}>
                 Status
                 <FontAwesomeIcon className="ml-1" icon={faArrowUp} />
                 <FontAwesomeIcon className="ml-1" icon={faArrowDown} />
@@ -176,26 +160,26 @@ function MoviesTable() {
               <tr className="text-center align-middle" key={index}>
                 <td className='align-middle'>
                   <div className="d-flex align-items-center">
-                    <img src={movie.imageUrl} alt={movie.title} className="mr-2 img-thumbnail" style={{ maxWidth: '50px', maxHeight: '50px' }} />
-                    {movie.title}
+                    <img src={movie.ilike_image} alt={movie.movie_title} className="mr-2 img-thumbnail" style={{ maxWidth: '50px', maxHeight: '50px' }} />
+                    {movie.movie_title}
                   </div>
                 </td>
-                <td className='align-middle'>{movie.year}</td>
-                <td className='align-middle'>{movie.releaseDate}</td>
+                <td className='align-middle'>{movie.movie_year}</td>
+                <td className='align-middle'>{movie.movie_release_date}</td>
                 <td className='align-middle'>
-                  <span className={movie.source === 'Yes' ? 'badge badge-success custom_white' : 'badge badge-danger custom_white'}>
-                    {movie.source}
+                  <span className={movie.movie_source === 'Yes' ? 'badge badge-success custom_white' : 'badge badge-danger custom_white'}>
+                    {movie.movie_source}
                   </span>
                 </td>
-                <td className='align-middle'>{movie.subtitles}</td>
+                <td className='align-middle'>{movie.movie_subtitles}</td>
                 <td className='align-middle'>
                   <div className="bg-light p-2 rounded">
-                    {movie.genres}
+                    {movie.movie_genres}
                   </div>
                 </td>
                 <td className='align-middle'>
-                  <span className={movie.status === 'Active' ? 'badge badge-success custom_white' : 'badge badge-danger custom_white'}>
-                    {movie.status}
+                  <span className={movie.movie_status === 'Active' ? 'badge badge-success custom_white' : 'badge badge-danger custom_white'}>
+                    {movie.movie_status}
                   </span>
                 </td>
                 <td className='align-middle'>
