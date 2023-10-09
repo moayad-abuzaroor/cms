@@ -3,9 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import MovieTitleComponent from '../shared/movietTitleComponent';
 import MoviesNavBar from '../shared/MoviesNavBar';
 
-function VideoSources(sharedData, setSharedData) {
+function VideoSources({sharedData, setSharedData}) {
 
-    console.log(sharedData.sharedData)
+    console.log(sharedData)
 
     const [movieStreamLocation, setMovieStreamLocation] = useState(null);
     const [movieLocationRequiredMsg, setMovieLocationRequiredMsg] = useState(false);
@@ -55,49 +55,90 @@ function VideoSources(sharedData, setSharedData) {
         setTrailerProtectionRequiredMsg(false); // Reset required message when input changes
     };
 
+    var count = 0;
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (movieStreamLocation == null) {
-        setMovieLocationRequiredMsg(true);
+            setMovieLocationRequiredMsg(true);
+            count = count + 1;
         } else {
-        // Handle form submission
-        setMovieLocationRequiredMsg(false);
+            // Handle form submission
+            setMovieLocationRequiredMsg(false);
         }
 
         if (movieUrlPath.trim() === '') {
-        setMovieUrlRequiredMsg(true);
+            setMovieUrlRequiredMsg(true);
+            count = count + 1;
         } else {
-        // Handle form submission
-        setMovieUrlRequiredMsg(false);
+            // Handle form submission
+            setMovieUrlRequiredMsg(false);
         }
 
         if (movieProtection == null) {
-        setMovieProtectionRequiredMsg(true);
+            setMovieProtectionRequiredMsg(true);
+            count = count + 1;
         } else {
-        // Handle form submission
-        setMovieProtectionRequiredMsg(false);
+            // Handle form submission
+            setMovieProtectionRequiredMsg(false);
         }
 
         if (trailerStreamLocation == null) {
-        setTrailerLocationRequiredMsg(true);
+            setTrailerLocationRequiredMsg(true);
+            count = count + 1;
         } else {
-        // Handle form submission
-        setTrailerLocationRequiredMsg(false);
+            // Handle form submission
+            setTrailerLocationRequiredMsg(false);
         }
 
         if (trailerUrlPath.trim() === '') {
-        setTrailerUrlRequiredMsg(true);
+            setTrailerUrlRequiredMsg(true);
+            count = count + 1;
         } else {
-        // Handle form submission
-        setTrailerUrlRequiredMsg(false);
+            // Handle form submission
+            setTrailerUrlRequiredMsg(false);
         }
 
         if (trailerProtection == null) {
-        setTrailerProtectionRequiredMsg(true);
+            setTrailerProtectionRequiredMsg(true);
+            count = count + 1;
         } else {
-        // Handle form submission
-        setTrailerProtectionRequiredMsg(false);
+            // Handle form submission
+            setTrailerProtectionRequiredMsg(false);
+        }
+
+        if(count == 0){
+            const formData = new FormData();
+
+            formData.append('movie_title', sharedData.movie_title);
+            formData.append('movie_genres', sharedData.movie_genres);
+
+            formData.append('movie_stream_location', movieStreamLocation);
+            formData.append('movie_url', movieUrlPath);
+            formData.append('movie_protection', movieProtection);
+
+            formData.append('trailer_stream_location', trailerStreamLocation);
+            formData.append('trailer_url', trailerUrlPath);
+            formData.append('trailer_protection', trailerProtection);
+
+            // Send the request
+            fetch(`http://localhost:8000/api/movie/${sharedData.id}`, {
+                method: 'PUT',
+                headers: {
+                    
+                },
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response data if needed
+                console.log('Success:', data);
+                setSharedData(data)
+            })
+            .catch(error => {
+                // Handle errors
+                console.error('Error:', error);
+            });
         }
     };
 
@@ -232,7 +273,7 @@ function VideoSources(sharedData, setSharedData) {
 
                     <div className="form-group mt-4">
                         <input className="btn btn-primary" type="submit" value="Save" />
-                        <button className="btn btn-secondary ml-1">Cancel</button>
+                        <button type='button' className="btn btn-secondary ml-1">Cancel</button>
                     </div>
                 </form>
             </div>

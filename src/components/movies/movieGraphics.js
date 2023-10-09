@@ -73,9 +73,7 @@ function MovieGraphics({sharedData, setSharedData}) {
     
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(selectedImageILike)
         const formData = new FormData(); // Create a FormData object to handle file uploads
-        const boundary = formData._boundary; 
 
         // Add form data to the FormData object
         formData.append('movie_title', sharedData.movie_title);
