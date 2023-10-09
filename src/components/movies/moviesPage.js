@@ -27,8 +27,8 @@ function MoviesPage() {
       <Route path="/" element={<MoviesTable />} />
       <Route path="mov_metaprovider/mov_metadata" element={<AddMovies sharedData={sharedData} setSharedData={setSharedData} />} />
       <Route path="/mov_graphics" element={<MovieGraphics sharedData={sharedData} setSharedData={setSharedData} />} />
-      <Route path="/mov_videosources" element={<VideoSources sharedData={sharedData} setSharedData={setSharedData}/>} />
-      <Route path="/mov_subtitles" element={<SubtitlesPage />} />
+      <Route path="/mov_videosources" element={<VideoSources sharedData={sharedData} setSharedData={setSharedData} />} />
+      <Route path="/mov_subtitles" element={<SubtitlesPage sharedData={sharedData} setSharedData={setSharedData} />} />
       <Route path="/mov_market" element={<MarketManagerPage />} />
       <Route path="/mov_metaprovider/*" element={<MovieMetaProvider />} />
       <Route path="/submit" element={<Submit />} />

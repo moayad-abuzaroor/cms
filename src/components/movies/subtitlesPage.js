@@ -6,8 +6,8 @@ import MovieTitleComponent from '../shared/movietTitleComponent';
 import '../../stylesheets/subtitlesPage.css'
 import MoviesNavBar from '../shared/MoviesNavBar';
 
-function SubtitlesPage() {
-
+function SubtitlesPage({sharedData, setSharedData}) {
+    console.log(sharedData)
     const [subtitles, setSubtitles] = useState([
         {
             locale: 'ar',
