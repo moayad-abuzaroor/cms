@@ -13,6 +13,9 @@ import '../../stylesheets/custom_css.css'
 function MoviesTable() {
   const [movies, setMovies] = useState([]);
 
+  const [source, setSource] = useState('No')
+  const [subtitle, setSubtitle] = useState(5)
+
   useEffect(() => {
     // Define the URL for your API endpoint
     const apiUrl = 'http://localhost:8000/api/get_all_movies/';
@@ -20,7 +23,8 @@ function MoviesTable() {
     // Make the GET request
     fetch(apiUrl)
       .then(response => response.json())
-      .then(data => { setMovies(data); })     
+      .then(data => { setMovies(data);
+        })     
       .catch(error => { console.error('Error fetching movies:', error); });
     }, []);
 
@@ -60,6 +64,7 @@ function MoviesTable() {
         });
     };
 
+
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
   const [currentPage, setCurrentPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
@@ -84,7 +89,7 @@ function MoviesTable() {
     setSortConfig({ key, direction });
   };
 
-  const itemsPerPage = 2;
+  const itemsPerPage = 8;
   const totalPages = Math.ceil(movies.length / itemsPerPage);
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -226,7 +231,7 @@ function MoviesTable() {
           </tbody>
         </table>
       </div>
-      <div className="row justify-content-center mt-2">
+      <div className="row justify-content-center mt-4">
         <div className="col-auto">
           <ReactPaginate
             pageCount={totalPages}

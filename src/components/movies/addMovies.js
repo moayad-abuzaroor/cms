@@ -7,17 +7,126 @@ import MovieTitleComponent from '../shared/movietTitleComponent';
 import MoviesNavBar from '../shared/MoviesNavBar';
 
 
-function AddMovies({ sharedTitle, setSharedTitle }) {
+function AddMovies({ sharedData, setSharedData }) {
 
   const [navbarDisabled, setNavbarDisabled] = useState(true);
 
-  const [title, setTitle] = useState('');
+  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [genre, setGenre] = useState('');
+  const [genreOptions, setGenreOptions] = useState([
+    'Genres 1',
+    'Genres 2',
+    'Genres 3'
+  ]);
+  const [genresRequiredMsg, setGenresRequiredMsg] = useState(false);
+
+  const handleGenreSelect = (e) => {
+    const selectedGenre = e.target.value;
+    if (selectedGenre && !selectedGenres.includes(selectedGenre)) {
+      setSelectedGenres([...selectedGenres, selectedGenre]);
+      setGenre(selectedGenre)
+    }
+    setGenresRequiredMsg(false); // Reset the validation message
+  };
+  
+
+  const handleRemoveGenre = (genre) => {
+    setSelectedGenres(selectedGenres.filter(item => item !== genre));
+  };
+
+  const [statusCheck, setStatusCheck] = useState(false);
+  const [status, setStatus] = useState('InActive')
+
+  const handleStatusChange = (e) => {
+    setStatusCheck(e.target.checked);
+    if(statusCheck == true) setStatus('Active')
+    else setStatus('InActive')
+  };
+
+  
+
+  const [movieDetails, setMovieDetails] = useState({
+    movie_title: '', movie_description: '', movie_year: '', movie_release_date: '', movie_rate: '', movie_awards: '', movie_runtime: '',
+    movie_source: '', movie_subtitles: '', movie_genres: genre, movie_country: '',
+    movie_parental_rate: '', movie_language: '', movie_status: status, ilike_image: '', jaw_image: '', ministra_image: '', movie_stream_location: '', movie_url: '',
+    movie_protection: '', trailer_stream_location: '', trailer_url: '', trailer_protection: '', movie_subtitle: '', trailer_subtitle: '', subtitles_language: '',
+    market_manager_country: ''
+  });
+
   const [requiredMsg, setRequiredMsg] = useState(false);
 
   const handleTitleChange = (e) => {
-    setTitle(e.target.value);
+    setMovieDetails({
+      ...movieDetails,
+      movie_title: e.target.value
+    });
     setRequiredMsg(false); // Reset required message when input changes
   };
+
+  const handleDescriptionChange = (e) => {
+    setMovieDetails({
+      ...movieDetails,
+      movie_description: e.target.value
+    });
+  };
+
+  const handleReleaseDateChange = (e) => {
+    setMovieDetails({
+      ...movieDetails,
+      movie_release_date: e.target.value
+    });
+  };
+
+  const handleYearChange = (e) => {
+    setMovieDetails({
+      ...movieDetails,
+      movie_year: e.target.value
+    });
+  };
+
+  const handleRatingChange = (e) => {
+    setMovieDetails({
+      ...movieDetails,
+      movie_rate: e.target.value
+    });
+  };
+
+  const handleAwardsChange = (e) => {
+    setMovieDetails({
+      ...movieDetails,
+      movie_awards: e.target.value
+    });
+  };
+
+  const handleRuntimeChange = (e) => {
+    setMovieDetails({
+      ...movieDetails,
+      movie_runtime: e.target.value
+    });
+  };
+
+  const handleCountryChange = (e) => {
+    setMovieDetails({
+      ...movieDetails,
+      movie_country: e.target.value
+    });
+  };
+
+  const handleParentalRateChange = (e) => {
+    setMovieDetails({
+      ...movieDetails,
+      movie_parental_rate: e.target.value
+    });
+  };
+
+  const handleLanguageChange = (e) => {
+    setMovieDetails({
+      ...movieDetails,
+      movie_language: e.target.value
+    });
+  };
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   const [crewName, setCrewName] = useState('');
   const [crewRole, setCrewRole] = useState('');
@@ -56,32 +165,13 @@ function AddMovies({ sharedTitle, setSharedTitle }) {
     setCastTags(updatedTags);
   };
 
-  const [selectedGenres, setSelectedGenres] = useState([]);
-  const [genreOptions, setGenreOptions] = useState([
-    'Genres 1',
-    'Genres 2',
-    'Genres 3'
-  ]);
-  const [genresRequiredMsg, setGenresRequiredMsg] = useState(false);
-
-  const handleGenreSelect = (e) => {
-    const selectedGenre = e.target.value;
-    if (selectedGenre && !selectedGenres.includes(selectedGenre)) {
-      setSelectedGenres([...selectedGenres, selectedGenre]);
-    }
-    setGenresRequiredMsg(false); // Reset the validation message
-  };
   
-
-  const handleRemoveGenre = (genre) => {
-    setSelectedGenres(selectedGenres.filter(item => item !== genre));
-  };
 
   var count = 0;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (title.trim() === '') {
+    if (movieDetails.movie_title.trim() === '') {
       setRequiredMsg(true);
       count = count + 1;
     } else {
@@ -99,9 +189,55 @@ function AddMovies({ sharedTitle, setSharedTitle }) {
 
     if(count == 0){
       setNavbarDisabled(false);
-      setSharedTitle(title);
+      console.log(selectedGenres[0])
+      setMovieDetails({...movieDetails, movie_genres: selectedGenres[0]})
+      setSharedData(movieDetails);
+      console.log(movieDetails)
+      
+
+
+
+      const formData = new FormData(); // Create a FormData object to handle file uploads
+
+      // Add form data to the FormData object
+      formData.append('movie_title', movieDetails.movie_title);
+      formData.append('movie_description', movieDetails.movie_description);
+      formData.append('movie_release_date', movieDetails.movie_release_date);
+      formData.append('movie_year', movieDetails.movie_year);
+      formData.append('movie_rate', movieDetails.movie_rate);
+      formData.append('movie_awards', movieDetails.movie_awards);
+      formData.append('movie_runtime', movieDetails.movie_runtime);
+      formData.append('movie_genres', selectedGenres[0]);
+      formData.append('movie_country', movieDetails.movie_country);
+      formData.append('movie_parental_rate', movieDetails.movie_parental_rate);
+      formData.append('movie_language', movieDetails.movie_language);
+      formData.append('movie_status', movieDetails.movie_status);
+      // ... Add other fields similarly
+
+      // Add files to FormData (assuming ilikeImageFile, jawImageFile, and ministraImageFile are file objects)
+      
+
+      // Send the request
+      fetch('http://localhost:8000/api/insert_movie/', {
+        method: 'POST',
+        body: formData,
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Handle the response data if needed
+        console.log('Success:', data);
+        setSharedData(data);
+      })
+      .catch(error => {
+        // Handle errors
+        console.error('Error:', error);
+      });
+    };
+
+
+
     }
-  };
+  
   
 
   return (
@@ -116,7 +252,7 @@ function AddMovies({ sharedTitle, setSharedTitle }) {
 
       <div className='row'>
 
-        <form onSubmit={handleSubmit} className='col-lg-11 mx-auto addForm' style={{backgroundColor: 'white'}}>
+        <form encType="multipart/form-data" onSubmit={handleSubmit} className='col-lg-11 mx-auto addForm' style={{backgroundColor: 'white'}}>
           
 
             <MoviesNavBar disabled={navbarDisabled}/>
@@ -130,7 +266,7 @@ function AddMovies({ sharedTitle, setSharedTitle }) {
                     <label htmlFor="title" className='labelBox'>Title (In English) <span className='text-danger'>*</span></label>
                     <input 
                         id="title"
-                        value={title}
+                        value={movieDetails.movie_title}
                         onChange={handleTitleChange}
                         className={`form-control ${requiredMsg ? 'is-invalid' : ''}`} 
                     />
@@ -140,36 +276,36 @@ function AddMovies({ sharedTitle, setSharedTitle }) {
 
                 <div className='form-group col-md-4'>
                     <label className='labelBox'>Description (In English)</label>
-                    <textarea className='form-control'></textarea>
+                    <textarea value={movieDetails.movie_description} onChange={handleDescriptionChange} className='form-control'></textarea>
                 </div>
 
                 <div className='form-group col-md-4'>
                     <label className='labelBox'>Release Date</label>
-                    <input className='form-control' type='date' />
+                    <input value={movieDetails.movie_release_date} onChange={handleReleaseDateChange} className='form-control' type='date'/>
                 </div>
             </div>
 
             <div className='form-row'>
                 <div className='form-group col-md-4'>
                     <label className='labelBox'>Year</label>
-                    <input className='form-control' type='text' />
+                    <input value={movieDetails.movie_year} onChange={handleYearChange} className='form-control' type='number' />
                 </div>
 
                 <div className='form-group col-md-4'>
                     <label className='labelBox'>Rating (out of 10)</label>
-                    <input className='form-control' type='number' max={10} />
+                    <input value={movieDetails.movie_rate} onChange={handleRatingChange} className='form-control' type='number' max={10} />
                 </div>
 
                 <div className='form-group col-md-4'>
                     <label className='labelBox'>Awards</label>
-                    <input className='form-control' type='text' />
+                    <input value={movieDetails.movie_awards} onChange={handleAwardsChange} className='form-control' type='text' />
                 </div>
             </div>
 
             <div className='form-row'>
                 <div className='form-group col-md-4'>
                     <label className='labelBox'>Runtime (In Minutes)</label>
-                    <input className='form-control' type='number' />
+                    <input value={movieDetails.movie_runtime} onChange={handleRuntimeChange} className='form-control' type='number' />
                 </div>
 
                 <div className="form-group col-md-4">
@@ -208,7 +344,7 @@ function AddMovies({ sharedTitle, setSharedTitle }) {
 
                 <div className='form-group col-md-4'>
                     <label className='labelBox'>Countries</label>
-                    <select className='form-control' name='Countries'>
+                    <select value={movieDetails.movie_country} onChange={handleCountryChange} className='form-control' name='Countries'>
                         <option selected="false" disabled="disabled">Select Countries</option>
                         <option>Country 1</option>
                         <option>Country 2</option>
@@ -220,7 +356,7 @@ function AddMovies({ sharedTitle, setSharedTitle }) {
             <div className='form-row'>
                 <div className='form-group col-md-4'>
                     <label className='labelBox'>Parental Rating</label>
-                    <select className='form-control' name='parentalRating'>
+                    <select value={movieDetails.movie_parental_rate} onChange={handleParentalRateChange} className='form-control' name='parentalRating'>
                         <option selected="false" disabled="disabled">Select a Parental Rating</option>
                         <option>Rate 1</option>
                         <option>Rate 2</option>
@@ -230,7 +366,7 @@ function AddMovies({ sharedTitle, setSharedTitle }) {
 
                 <div className='form-group col-md-4'>
                     <label className='labelBox'>Original Version Language</label>
-                    <select className='form-control' name='Genres'>
+                    <select value={movieDetails.movie_language} onChange={handleLanguageChange} className='form-control' name='Genres'>
                         <option selected="false" disabled="disabled">Select a Language</option>
                         <option>Language 1</option>
                         <option>Language 2</option>
@@ -240,7 +376,7 @@ function AddMovies({ sharedTitle, setSharedTitle }) {
 
                 <div className='form-group col-md-4'>
                     <div className='form-check mt-4'>
-                        <input className='form-check-input' type='checkbox' />
+                        <input name="status_check" className='form-check-input' type='checkbox' checked={statusCheck} onChange={handleStatusChange} />
                         <label className='form-check-label labelBox'>Active</label>
                     </div>
                 </div>

@@ -3,7 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import MovieTitleComponent from '../shared/movietTitleComponent';
 import MoviesNavBar from '../shared/MoviesNavBar';
 
-function VideoSources() {
+function VideoSources(sharedData, setSharedData) {
+
+    console.log(sharedData.sharedData)
 
     const [movieStreamLocation, setMovieStreamLocation] = useState(null);
     const [movieLocationRequiredMsg, setMovieLocationRequiredMsg] = useState(false);
