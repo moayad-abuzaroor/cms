@@ -4,7 +4,8 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import MovieTitleComponent from "../shared/movietTitleComponent";
 import MoviesNavBar from "../shared/MoviesNavBar";
 
-function MarketManagerPage() {
+function MarketManagerPage({sharedData, setSharedData}) {
+    console.log(sharedData)
     return (
         <div className="container-fluid bg-light" style={{ padding: '2%', height: '100%' }}>
             <div className='row'>
