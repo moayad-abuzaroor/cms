@@ -29,17 +29,62 @@ function SubtitlesPage({sharedData, setSharedData}) {
     const [movieSubtitleRequiredMsg, setMovieSubtitleRequiredMsg] = useState(false);
 
     const handleMovieSubtitleChange = (e) => {
-        setMovieSubtitle(e.target.value);
+        setMovieSubtitle(e.target.files[0]);
         setMovieSubtitleRequiredMsg(false); // Reset required message when input changes
     };
 
+    const [trailerSubtitle, setTrailerSubtitle] = useState('');
+
+    const handleTrailerSubtitleChange = (e) => {
+        setTrailerSubtitle(e.target.files[0]);
+    };
+
+    const [language, setLanguage] = useState(null);
+
+    const handleLanguageChange = (e) => {
+        setLanguage(e.target.value);
+    };
+
+    var count = 0;
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (movieSubtitle.trim() === '') {
+        if (movieSubtitle == '') {
             setMovieSubtitleRequiredMsg(true);
+            count = count + 1;
         } else {
         // Handle form submission
-        setMovieSubtitleRequiredMsg(false);
+            setMovieSubtitleRequiredMsg(false);
+        }
+
+        if(count == 0){
+            const formData = new FormData(); // Create a FormData object to handle file uploads
+
+            formData.append('movie_title', sharedData.movie_title);
+            formData.append('movie_genres', sharedData.movie_genres);
+
+            formData.append('movie_subtitle', movieSubtitle);
+            formData.append('trailer_subtitle', trailerSubtitle);
+            formData.append('subtitles_language', language)
+
+            // Send the request
+            fetch(`http://localhost:8000/api/movie/${sharedData.id}`, {
+                method: 'PUT',
+                headers: {
+                    
+                },
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response data if needed
+                console.log('Success:', data);
+                setSharedData(data)
+            })
+            .catch(error => {
+                // Handle errors
+                console.error('Error:', error);
+            });
         }
     };
 
@@ -69,15 +114,14 @@ function SubtitlesPage({sharedData, setSharedData}) {
                                 <div className="form-group col-md-6">
                                     <div className="input-group">
                                         <div className="custom-file">
-                                            <input
-                                             value={movieSubtitle}
-                                             onChange={handleMovieSubtitleChange}
-                                             type="file" className={`custom-file-input ${movieSubtitleRequiredMsg ? 'is-invalid' : ''}`}
-                                             id="movieSubtitleUpload" accept=".srt,.sub,.sbv,.smi,.vtt" />
-                                            <label className="custom-file-label" htmlFor="movieSubtitleUpload">Browse</label>
+                                        <input                                       
+                                            onChange={handleMovieSubtitleChange}
+                                            type="file" className={`custom-file-input ${movieSubtitleRequiredMsg ? 'is-invalid' : ''}`}
+                                            id="movieSubtitleUpload" accept=".srt,.sub,.sbv,.smi,.vtt" />
+                                            <label className="custom-file-label" htmlFor="movieSubtitleUpload">{movieSubtitle.name || 'Browse'}</label>
                                         </div>                                        
                                     </div>
-                                    {movieSubtitleRequiredMsg && <div className='text-danger small'>Required Title</div>}
+                                    {movieSubtitleRequiredMsg && <div className='text-danger small'>Required Field</div>}
                                 </div>
                                 <div className='sub-allowed' style={{ paddingTop: '8px' }}>
                                     <span>Allowed Extensions</span>
@@ -99,8 +143,10 @@ function SubtitlesPage({sharedData, setSharedData}) {
                                 <div className="form-group col-md-6">
                                     <div className="input-group">
                                         <div className="custom-file">
-                                            <input type="file" className="custom-file-input" id="trailerSubtitleUpload" accept=".srt,.sub,.sbv,.smi,.vtt" />
-                                            <label className="custom-file-label" htmlFor="trailerSubtitleUpload">Browse</label>
+                                            <input type="file"
+                                             onChange={handleTrailerSubtitleChange}
+                                             className="custom-file-input" id="trailerSubtitleUpload" accept=".srt,.sub,.sbv,.smi,.vtt" />
+                                            <label className="custom-file-label" htmlFor="trailerSubtitleUpload">{trailerSubtitle.name || 'Browse'}</label>
                                         </div>
                                     </div>
                                 </div>
@@ -124,7 +170,7 @@ function SubtitlesPage({sharedData, setSharedData}) {
                         <div className="col-md-6">
                             
                             <div className='form-group mt-4'>
-                                <select className='form-control' name='sub-language'>
+                                <select value={language} onChange={handleLanguageChange} className='form-control' name='sub-language'>
                                     <option selected="false" disabled="disabled">Select a Language</option>
                                     <option>Arabic</option>
                                     <option>English</option>
@@ -169,6 +215,10 @@ function SubtitlesPage({sharedData, setSharedData}) {
                                 ))}
                             </tbody>
                         </table>
+                    </div>
+                    <div className='form-group mt-4'>
+                        <input className='btn btn-primary' type='submit' value="Save" />
+                        <button type='button' className='btn btn-secondary ml-1'>Cancel</button>
                     </div>
                 </form>
             </div>
