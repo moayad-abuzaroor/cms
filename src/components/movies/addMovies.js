@@ -13,7 +13,30 @@ function AddMovies({ sharedData, setSharedData }) {
 
   const [navbarDisabled, setNavbarDisabled] = useState(true);
 
-  const [selectedGenres, setSelectedGenres] = useState([sharedData.movie_genres]);
+  // if(sharedData.id == null){
+  //   const [selectedGenres, setSelectedGenres] = useState([]);
+  //   const [statusCheck, setStatusCheck] = useState(false);
+  //   const [status, setStatus] = useState('InActive');
+  // }
+  // else{
+  //   const [selectedGenres, setSelectedGenres] = useState([sharedData.movie_genres]);
+  //   const [statusCheck, setStatusCheck] = useState(sharedData.movie_status === 'Active');
+  //   const [status, setStatus] = useState(sharedData.movie_status);
+  // }
+
+  // ...
+
+const initialGenres = sharedData?.id ? [sharedData.movie_genres] : [];
+const initialStatusCheck = sharedData?.id ? (sharedData.movie_status === 'Active') : false;
+const initialStatus = sharedData?.id ? sharedData.movie_status : 'InActive';
+
+const [selectedGenres, setSelectedGenres] = useState(initialGenres);
+const [statusCheck, setStatusCheck] = useState(initialStatusCheck);
+const [status, setStatus] = useState(initialStatus);
+
+// ...
+
+  
   const [genre, setGenre] = useState('');
   const [genreOptions, setGenreOptions] = useState([
     'Genres 1',
@@ -36,8 +59,7 @@ function AddMovies({ sharedData, setSharedData }) {
     setSelectedGenres(selectedGenres.filter(item => item !== genre));
   };
 
-  const [statusCheck, setStatusCheck] = useState(sharedData.movie_status === 'Active');
-  const [status, setStatus] = useState(sharedData.movie_status);
+  
 
 
   const handleStatusChange = (e) => {
@@ -203,7 +225,7 @@ function AddMovies({ sharedData, setSharedData }) {
 
 
       const formData = new FormData(); // Create a FormData object to handle file uploads
-
+console.log(movieDetails)
       // Add form data to the FormData object
       formData.append('movie_title', movieDetails.movie_title);
       formData.append('movie_description', movieDetails.movie_description);
@@ -221,7 +243,7 @@ function AddMovies({ sharedData, setSharedData }) {
 
       // Add files to FormData (assuming ilikeImageFile, jawImageFile, and ministraImageFile are file objects)
       
-      if(sharedData.id == ''){
+      if(sharedData.id == null){
         // Send the request
         fetch('http://localhost:8000/api/insert_movie/', {
           method: 'POST',
