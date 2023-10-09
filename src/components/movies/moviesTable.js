@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle, faTrash, faEdit, faArrowUp, faArrowDown, faFilter, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 
 import logo1 from '../../images/logo1.jpg';
@@ -10,7 +10,7 @@ import shbrWnos from '../../images/shbrWnos.jpg';
 
 import '../../stylesheets/custom_css.css'
 
-function MoviesTable() {
+function MoviesTable({sharedData, setSharedData}) {
   const [movies, setMovies] = useState([]);
 
   const [source, setSource] = useState('No')
@@ -118,7 +118,12 @@ function MoviesTable() {
     setCurrentPage(0);
   };
 
-  
+  const navigate = useNavigate();
+
+  const handleEdit = (movie) => {
+    setSharedData(movie)
+    navigate('mov_metaprovider/mov_metadata');
+  }
 
   return (
     <div className="container-fluid bg-light" style={{ padding: '2%', height: '100%' }}>
@@ -223,7 +228,7 @@ function MoviesTable() {
                   </span>
                 </td>
                 <td className='align-middle'>
-                  <FontAwesomeIcon style={{cursor: 'pointer'}} className="text-primary mx-1 custom_icon" icon={faEdit} />
+                  <FontAwesomeIcon style={{cursor: 'pointer'}} className="text-primary mx-1 custom_icon" icon={faEdit} onClick={() => handleEdit(movie)} />
                   <FontAwesomeIcon style={{cursor: 'pointer'}} className="text-danger mx-1 custom_icon" icon={faTrash} onClick={() => handleDeleteClick(movie.id)} />
                 </td>
               </tr>

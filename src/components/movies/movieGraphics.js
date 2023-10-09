@@ -13,9 +13,9 @@ function MovieGraphics({sharedData, setSharedData}) {
     const [backendSelectedImageJaw, setBackendSelectedImageJaw] = useState('');
     const [backendSelectedImageMin, setBackendSelectedImageMin] = useState('');
 
-    const [selectedImageILike, setSelectedImageILike] = useState(null);
-    const [selectedImageJaw, setSelectedImageJaw] = useState('');
-    const [selectedImageMin, setSelectedImageMin] = useState('');
+    const [selectedImageILike, setSelectedImageILike] = useState(sharedData.ilike_image);
+    const [selectedImageJaw, setSelectedImageJaw] = useState(sharedData.jaw_image);
+    const [selectedImageMin, setSelectedImageMin] = useState(sharedData.ministra_image);
 
     const [selectedApp, setSelectedApp] = useState(""); // Initialize with an empty string
 

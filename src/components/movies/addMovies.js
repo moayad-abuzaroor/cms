@@ -9,9 +9,11 @@ import MoviesNavBar from '../shared/MoviesNavBar';
 
 function AddMovies({ sharedData, setSharedData }) {
 
+  console.log(sharedData)
+
   const [navbarDisabled, setNavbarDisabled] = useState(true);
 
-  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [selectedGenres, setSelectedGenres] = useState([sharedData.movie_genres]);
   const [genre, setGenre] = useState('');
   const [genreOptions, setGenreOptions] = useState([
     'Genres 1',
@@ -34,23 +36,29 @@ function AddMovies({ sharedData, setSharedData }) {
     setSelectedGenres(selectedGenres.filter(item => item !== genre));
   };
 
-  const [statusCheck, setStatusCheck] = useState(false);
-  const [status, setStatus] = useState('InActive')
+  const [statusCheck, setStatusCheck] = useState(sharedData.movie_status === 'Active');
+  const [status, setStatus] = useState(sharedData.movie_status);
+
 
   const handleStatusChange = (e) => {
-    setStatusCheck(e.target.checked);
-    if(statusCheck == true) setStatus('Active')
-    else setStatus('InActive')
+    const isChecked = e.target.checked;
+    setStatusCheck(isChecked);
+    if (isChecked) {
+      setStatus('Active');
+    } else {
+      setStatus('InActive');
+    }
   };
+  
 
   
 
   const [movieDetails, setMovieDetails] = useState({
-    movie_title: '', movie_description: '', movie_year: '', movie_release_date: '', movie_rate: '', movie_awards: '', movie_runtime: '',
-    movie_source: '', movie_subtitles: '', movie_genres: genre, movie_country: '',
-    movie_parental_rate: '', movie_language: '', movie_status: status, ilike_image: '', jaw_image: '', ministra_image: '', movie_stream_location: '', movie_url: '',
-    movie_protection: '', trailer_stream_location: '', trailer_url: '', trailer_protection: '', movie_subtitle: '', trailer_subtitle: '', subtitles_language: '',
-    market_manager_country: ''
+    movie_title: sharedData.movie_title, movie_description: sharedData.movie_description, movie_year: sharedData.movie_year, movie_release_date: sharedData.movie_release_date, movie_rate: sharedData.movie_rate, movie_awards: sharedData.movie_awards, movie_runtime: sharedData.movie_runtime,
+    movie_source: sharedData.movie_source, movie_subtitles: sharedData.movie_subtitles, movie_genres: genre, movie_country: sharedData.movie_country,
+    movie_parental_rate: sharedData.movie_parental_rate, movie_language: sharedData.movie_language, movie_status: status, ilike_image: sharedData.ilike_image, jaw_image: sharedData.jaw_image, ministra_image: sharedData.ministra_image, movie_stream_location: sharedData.movie_stream_location, movie_url: sharedData.movie_url,
+    movie_protection: sharedData.movie_protection, trailer_stream_location: sharedData.trailer_stream_location, trailer_url: sharedData.trailer_url, trailer_protection: sharedData.trailer_protection, movie_subtitle: sharedData.movie_subtitle, trailer_subtitle: sharedData.trailer_subtitle, subtitles_language: sharedData.subtitles_language,
+    market_manager_country: sharedData.market_manager_country
   });
 
   const [requiredMsg, setRequiredMsg] = useState(false);
@@ -189,10 +197,7 @@ function AddMovies({ sharedData, setSharedData }) {
 
     if(count == 0){
       setNavbarDisabled(false);
-      console.log(selectedGenres[0])
       setMovieDetails({...movieDetails, movie_genres: selectedGenres[0]})
-      setSharedData(movieDetails);
-      console.log(movieDetails)
       
 
 
@@ -202,36 +207,54 @@ function AddMovies({ sharedData, setSharedData }) {
       // Add form data to the FormData object
       formData.append('movie_title', movieDetails.movie_title);
       formData.append('movie_description', movieDetails.movie_description);
-      formData.append('movie_release_date', movieDetails.movie_release_date);
-      formData.append('movie_year', movieDetails.movie_year);
-      formData.append('movie_rate', movieDetails.movie_rate);
-      formData.append('movie_awards', movieDetails.movie_awards);
-      formData.append('movie_runtime', movieDetails.movie_runtime);
-      formData.append('movie_genres', selectedGenres[0]);
-      formData.append('movie_country', movieDetails.movie_country);
-      formData.append('movie_parental_rate', movieDetails.movie_parental_rate);
-      formData.append('movie_language', movieDetails.movie_language);
-      formData.append('movie_status', movieDetails.movie_status);
+      if (movieDetails.movie_release_date !== null) formData.append('movie_release_date', movieDetails.movie_release_date);
+      if (movieDetails.movie_year !== null) formData.append('movie_year', movieDetails.movie_year);
+      if (movieDetails.movie_rate !== null) formData.append('movie_rate', movieDetails.movie_rate);
+      if (movieDetails.movie_awards !== null) formData.append('movie_awards', movieDetails.movie_awards);
+      if (movieDetails.movie_runtime !== null) formData.append('movie_runtime', movieDetails.movie_runtime);
+      if (movieDetails.movie_genres !== null) formData.append('movie_genres', selectedGenres[0]);
+      if (movieDetails.movie_country !== null) formData.append('movie_country', movieDetails.movie_country);
+      if (movieDetails.movie_parental_rate !== null) formData.append('movie_parental_rate', movieDetails.movie_parental_rate);
+      if (movieDetails.movie_language !== null) formData.append('movie_language', movieDetails.movie_language);
+      if (movieDetails.movie_status !== null) formData.append('movie_status', status);
       // ... Add other fields similarly
 
       // Add files to FormData (assuming ilikeImageFile, jawImageFile, and ministraImageFile are file objects)
       
-
-      // Send the request
-      fetch('http://localhost:8000/api/insert_movie/', {
-        method: 'POST',
-        body: formData,
-      })
-      .then(response => response.json())
-      .then(data => {
-        // Handle the response data if needed
-        console.log('Success:', data);
-        setSharedData(data);
-      })
-      .catch(error => {
-        // Handle errors
-        console.error('Error:', error);
-      });
+      if(sharedData.id == ''){
+        // Send the request
+        fetch('http://localhost:8000/api/insert_movie/', {
+          method: 'POST',
+          body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response data if needed
+          console.log('Success:', data);
+          setSharedData(data);
+        })
+        .catch(error => {
+          // Handle errors
+          console.error('Error:', error);
+        });
+      }
+      else{
+        // Send the request
+        fetch(`http://localhost:8000/api/movie/${sharedData.id}`, {
+          method: 'PUT',
+          body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response data if needed
+          console.log('Success:', data);
+          setSharedData(data);
+        })
+        .catch(error => {
+          // Handle errors
+          console.error('Error:', error);
+        });
+      }
     };
 
 

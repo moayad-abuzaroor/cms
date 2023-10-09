@@ -16,15 +16,15 @@ function MoviesPage() {
     document.title = 'CMS | Movies';
   }, []);
   
-  const [sharedData, setSharedData] = useState({id:'', movie_title: '', movie_description: '', movie_year: '', movie_release_date: '', movie_rate: '', movie_awards: '', movie_runtime: '',
-  movie_source: '', movie_subtitles: '', movie_genres: '', movie_country: '',
-  movie_parental_rate: '', movie_language: '', movie_status: '', ilike_image: '', jaw_image: '', ministra_image: '', movie_stream_location: '', movie_url: '',
-  movie_protection: '', trailer_stream_location: '', trailer_url: '', trailer_protection: '', movie_subtitle: '', trailer_subtitle: '', subtitles_language: '',
-  market_manager_country: ''});
+  const [sharedData, setSharedData] = useState({id:'', movie_title: null, movie_description: null, movie_year: null, movie_release_date: null, movie_rate: null, movie_awards: null, movie_runtime: null,
+  movie_source: null, movie_subtitles: null, movie_genres: null, movie_country: null,
+  movie_parental_rate: null, movie_language: null, movie_status: null, ilike_image: null, jaw_image: null, ministra_image: null, movie_stream_location: null, movie_url: null,
+  movie_protection: null, trailer_stream_location: null, trailer_url: null, trailer_protection: null, movie_subtitle: null, trailer_subtitle: null, subtitles_language: null,
+  market_manager_country: null});
 
   return (
     <Routes>
-      <Route path="/" element={<MoviesTable />} />
+      <Route path="/" element={<MoviesTable sharedData={sharedData} setSharedData={setSharedData} />} />
       <Route path="mov_metaprovider/mov_metadata" element={<AddMovies sharedData={sharedData} setSharedData={setSharedData} />} />
       <Route path="/mov_graphics" element={<MovieGraphics sharedData={sharedData} setSharedData={setSharedData} />} />
       <Route path="/mov_videosources" element={<VideoSources sharedData={sharedData} setSharedData={setSharedData} />} />
