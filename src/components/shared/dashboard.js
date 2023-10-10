@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faTv, faFilm, faPeopleGroup, faDatabase, faVideo, faPhotoFilm, faPhotoVideo, faHome, faPlay, faAngleRight, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
@@ -6,7 +6,31 @@ function Dashboard() {
 
   useEffect(() => {
     document.title = 'CMS | Dashboard';
-  }, []); 
+  }, []);
+  
+  const [movies, setMovies] = useState(0)
+  const [tvshows, setTvshows] = useState(0)
+
+  useEffect(() => {
+    // Define the URL for your API endpoint
+    const tvshowsUrl = 'http://localhost:8000/api/get_all_tvshows/';
+
+    // Make the GET request
+    fetch(tvshowsUrl)
+      .then(response => response.json())
+      .then(data => { setTvshows(data.length);
+        })     
+      .catch(error => { console.error('Error fetching movies:', error); });
+
+    const moviesUrl = 'http://localhost:8000/api/get_all_movies/';
+
+    // Make the GET request
+    fetch(moviesUrl)
+      .then(response => response.json())
+      .then(data => { setMovies(data.length);
+        })     
+      .catch(error => { console.error('Error fetching movies:', error); });
+  }, []);
 
   return (
     <div className="container-fluid">
@@ -58,7 +82,7 @@ function Dashboard() {
                 <div className="col mr-2">
                   <div className="text-xs font-weight-bold text-info text-uppercase mb-1">
                     Movies</div>
-                  <div className="h5 mb-0 font-weight-bold text-gray-800">10268</div>
+                  <div className="h5 mb-0 font-weight-bold text-gray-800">{movies}</div>
                 </div>
                 <div className="col-auto">
                     <FontAwesomeIcon className="fa-2x text-gray-300" icon={faFilm} />
@@ -75,7 +99,7 @@ function Dashboard() {
                 <div className="col mr-2">
                   <div className="text-xs font-weight-bold text-warning text-uppercase mb-1">
                     TV Shows</div>
-                  <div className="h5 mb-0 font-weight-bold text-gray-800">3791</div>
+                  <div className="h5 mb-0 font-weight-bold text-gray-800">{tvshows}</div>
                 </div>
                 <div className="col-auto">
                     <FontAwesomeIcon className="fa-2x text-gray-300" icon={faFilm} />
