@@ -201,7 +201,7 @@ const [status, setStatus] = useState(initialStatus);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (movieDetails.movie_title.trim() === '') {
+    if (movieDetails.movie_title == null) {
       setRequiredMsg(true);
       count = count + 1;
     } else {

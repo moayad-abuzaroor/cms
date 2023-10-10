@@ -6,7 +6,7 @@ import logo1 from '../../images/logo1.jpg';
 import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 
-function TvShowsTable() {
+function TvShowsTable({ sharedData, setSharedData }) {
   const [tvShows, setTvShows] = useState([]);
 
   useEffect(() => {
@@ -65,7 +65,7 @@ function TvShowsTable() {
       direction = 'descending';
     }
   
-    if (['season', 'episode', 'year'].includes(key)) {
+    if (['seasons', 'episodes', 'year'].includes(key)) {
       setSortConfig({ key, direction, type: 'number' });
     } else {
       setSortConfig({ key, direction, type: 'string' });
@@ -75,7 +75,7 @@ function TvShowsTable() {
 
   const [currentPage, setCurrentPage] = useState(0);
 
-  const itemsPerPage = 3; // Adjust as needed
+  const itemsPerPage = 8; // Adjust as needed
   const totalPages = Math.ceil(tvShows.length / itemsPerPage);
 
   const startIndex = currentPage * itemsPerPage;
@@ -119,6 +119,13 @@ function TvShowsTable() {
 
   const currentTvShows = sortedTvShows.slice(startIndex, endIndex);
 
+  const handleEmptyShared = () => {
+    setSharedData({id: null, tvshow_title: null, tvshow_seasons: null, tvshow_episodes: null, tvshow_year: null, tvshow_genres: null,
+      tvshow_status: null, tvshow_description: null, tvshow_first_date: null, tvshow_last_date: null, tvshow_rate: null, tvshow_awards: null, tvshow_parental_rate: null,
+      tvshow_country: null, tvshow_language: null, tvshow_stream_location: null, tvshow_url: null, tvshow_protection: null,
+      ilike_image: null, jaw_image: null, ministra_image: null, seasons: null})
+  }
+
   return (
     <div className="container-fluid bg-light" style={{ padding: '2%', height: '100%' }}>
       <div className="row mb-4">
@@ -146,7 +153,7 @@ function TvShowsTable() {
             <FontAwesomeIcon icon={faFilter} /> Filter
           </button>
           <Link to="tv_metaprovider">
-            <button className="btn btn-primary">
+            <button onClick={handleEmptyShared} className="btn btn-primary">
               <FontAwesomeIcon icon={faPlus} /> Add TV Show
             </button>
           </Link>
