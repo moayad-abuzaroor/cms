@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import TvShowTitleComponent from "../shared/tvShowsTitleComponent";
 import TvShowsNavBar from "../shared/TvShowsNavBar";
 
-function TvShowVideoSources(){
+function TvShowVideoSources({sharedData, setSharedData}){
 
-    const [showStreamLocation, setShowStreamLocation] = useState(null);
+    console.log(sharedData)
+
+    const [showStreamLocation, setShowStreamLocation] = useState(sharedData.tvshow_stream_location ? sharedData.tvshow_stream_location : null);
     const [showLocationRequiredMsg, setShowLocationRequiredMsg] = useState(false);
 
     const handleShowStreamLocationChange = (e) => {
@@ -12,7 +14,7 @@ function TvShowVideoSources(){
         setShowLocationRequiredMsg(false); // Reset required message when input changes
     };
 
-    const [showUrlPath, setShowUrlPath] = useState('');
+    const [showUrlPath, setShowUrlPath] = useState(sharedData.tvshow_url);
     const [showUrlRequiredMsg, setShowUrlRequiredMsg] = useState(false);
 
     const handleShowUrlChange = (e) => {
@@ -20,7 +22,7 @@ function TvShowVideoSources(){
         setShowUrlRequiredMsg(false); // Reset required message when input changes
     };
 
-    const [showProtection, setShowProtection] = useState(null);
+    const [showProtection, setShowProtection] = useState(sharedData.tvshow_protection);
     const [showProtectionRequiredMsg, setShowProtectionRequiredMsg] = useState(false);
 
     const handleShowProtectionChange = (e) => {
@@ -28,27 +30,64 @@ function TvShowVideoSources(){
         setShowProtectionRequiredMsg(false); // Reset required message when input changes
     };
 
+    var count = 0;
+
     const handleSubmit = (e) => {
-        e.preventDefault();
+        e.preventDefault();  
+
         if (showStreamLocation == null) {
-        setShowLocationRequiredMsg(true);
+            setShowLocationRequiredMsg(true);
+            count = count + 1;
         } else {
-        // Handle form submission
-        setShowLocationRequiredMsg(false);
+            // Handle form submission
+            setShowLocationRequiredMsg(false);
         }
 
-        if (showUrlPath.trim() === '') {
-        setShowUrlRequiredMsg(true);
+        if (showUrlPath == '') {
+            setShowUrlRequiredMsg(true);
+            count = count + 1;
         } else {
-        // Handle form submission
-        setShowUrlRequiredMsg(false);
+            // Handle form submission
+            setShowUrlRequiredMsg(false);
         }
 
         if (showProtection == null) {
-        setShowProtectionRequiredMsg(true);
+            setShowProtectionRequiredMsg(true);
+            count = count + 1;
         } else {
-        // Handle form submission
-        setShowProtectionRequiredMsg(false);
+            // Handle form submission
+            setShowProtectionRequiredMsg(false);
+        }
+
+        if(count == 0){
+            console.log(showStreamLocation)
+            const formData = new FormData();
+
+            formData.append('tvshow_title', sharedData.tvshow_title);
+            formData.append('tvshow_genres', sharedData.tvshow_genres);
+
+            formData.append('tvshow_stream_location', showStreamLocation);
+            formData.append('tvshow_url', showUrlPath);
+            formData.append('tvshow_protection', showProtection);
+
+            // Send the request
+            fetch(`http://localhost:8000/api/tvshow/${sharedData.id}`, {
+                method: 'PUT',
+                headers: {
+                    
+                },
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response data if needed
+                console.log('Success:', data);
+                setSharedData(data)
+            })
+            .catch(error => {
+                // Handle errors
+                console.error('Error:', error);
+            });
         }
     }
 
