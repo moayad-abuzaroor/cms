@@ -8,7 +8,9 @@ import TvShowTitleComponent from '../shared/tvShowsTitleComponent';
 import TvShowsNavBar from '../shared/TvShowsNavBar';
 
 
-function SeriesGraphics(){
+function SeriesGraphics({ sharedData, setSharedData }){
+
+    console.log(sharedData)
 
     const [selectedImageILike, setSelectedImageILike] = useState(null);
     const [selectedImageJaw, setSelectedImageJaw] = useState(null);
