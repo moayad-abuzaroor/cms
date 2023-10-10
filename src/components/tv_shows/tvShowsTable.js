@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle, faTrash, faEdit, faArrowUp, faArrowDown, faFilter, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -7,35 +7,19 @@ import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 
 function TvShowsTable() {
-  const [tvShows, setTvShows] = useState([
-    { 
-      title: 'اسمي فرح (مدبلج)',
-      season: '1',
-      episode: '70',
-      year: 2023,
-      genres: 'تركي مدبلج',
-      status: 'Active',
-      imageUrl: logo1
-    },
-    { 
-      title: 'Dragon - دراغون بول',
-      season: '1',
-      episode: '130',
-      year: '2015-2018',
-      genres: 'اطفال - kids',
-      status: 'Not Active',
-      imageUrl: logo1
-    },
-    { 
-      title: 'شاء القدر (مدبلج)',
-      season: '1',
-      episode: '96',
-      year: 2022,
-      genres: 'مسلسلات عربية',
-      status: 'Active',
-      imageUrl: logo1
-    }
-  ]);
+  const [tvShows, setTvShows] = useState([]);
+
+  useEffect(() => {
+    // Define the URL for your API endpoint
+    const apiUrl = 'http://localhost:8000/api/get_all_tvshows/';
+
+    // Make the GET request
+    fetch(apiUrl)
+      .then(response => response.json())
+      .then(data => { setTvShows(data);
+        })     
+      .catch(error => { console.error('Error fetching movies:', error); });
+    }, []);
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
 
@@ -68,7 +52,7 @@ function TvShowsTable() {
   };
 
   const filteredTvShows = tvShows.filter((tvShow) =>
-    tvShow.title.toLowerCase().includes(searchTerm.toLowerCase())
+    tvShow.tvshow_title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
 
@@ -136,32 +120,32 @@ function TvShowsTable() {
         <table className="table table-striped">
           <thead className="thead-dark">
             <tr>
-              <th className="text-center align-middle" onClick={() => handleSort('title')}>
+              <th className="text-center align-middle" onClick={() => handleSort('tvshow_title')}>
                 Title
                 <FontAwesomeIcon className="ml-1" icon={faArrowUp} />
                 <FontAwesomeIcon className="ml-1" icon={faArrowDown} />
               </th>
-              <th className="text-center align-middle" onClick={() => handleSort('season')}>
+              <th className="text-center align-middle" onClick={() => handleSort('tvshow_seasons')}>
                 Seasons
                 <FontAwesomeIcon className="ml-1" icon={faArrowUp} />
                 <FontAwesomeIcon className="ml-1" icon={faArrowDown} />
               </th>
-              <th className="text-center align-middle" onClick={() => handleSort('episode')}>
+              <th className="text-center align-middle" onClick={() => handleSort('tvshow_episodes')}>
                 Episode
                 <FontAwesomeIcon className="ml-1" icon={faArrowUp} />
                 <FontAwesomeIcon className="ml-1" icon={faArrowDown} />
               </th>
-              <th className="text-center align-middle" onClick={() => handleSort('year')}>
+              <th className="text-center align-middle" onClick={() => handleSort('tvshow_year')}>
                 Year
                 <FontAwesomeIcon className="ml-1" icon={faArrowUp} />
                 <FontAwesomeIcon className="ml-1" icon={faArrowDown} />
               </th>
-              <th className="text-center align-middle" onClick={() => handleSort('genres')}>
+              <th className="text-center align-middle" onClick={() => handleSort('tvshow_genres')}>
                 Genres
                 <FontAwesomeIcon className="ml-1" icon={faArrowUp} />
                 <FontAwesomeIcon className="ml-1" icon={faArrowDown} />
               </th>
-              <th className="text-center align-middle" onClick={() => handleSort('status')}>
+              <th className="text-center align-middle" onClick={() => handleSort('tvshow_status')}>
                 Status
                 <FontAwesomeIcon className="ml-1" icon={faArrowUp} />
                 <FontAwesomeIcon className="ml-1" icon={faArrowDown} />
@@ -174,21 +158,38 @@ function TvShowsTable() {
               <tr className="text-center align-items-center" key={index}>
                 <td>
                   <div className="d-flex align-items-center">
-                    <img src={tvShow.imageUrl} alt={tvShow.title} className="mr-2 img-thumbnail" style={{ maxWidth: '50px', maxHeight: '50px' }} />
-                    {tvShow.title}
+                    <img src={tvShow.ilike_image} alt={tvShow.tvshow_title} className="mr-2 img-thumbnail" style={{ maxWidth: '50px', maxHeight: '50px' }} />
+                    {tvShow.tvshow_title}
                   </div>
                 </td>
-                <td className='align-middle'>{tvShow.season}</td>
-                <td className='align-middle'>{tvShow.episode}</td>
-                <td className='align-middle'>{tvShow.year}</td>
+                <td className='align-middle'>{tvShow.seasons.length}</td>
+                {/* {
+  tvShow.seasons[0]?.episodes.length !== undefined ? (
+    <td className='align-middle'>{tvShow.seasons[0]?.episodes.length}</td>
+  ) : (
+    <td className='align-middle'>0</td>
+  )
+}
+ */}
+                {
+                  tvShow.seasons[0]?.episodes.length !== undefined ? (
+                    <td className='align-middle'>{
+                      tvShow.seasons.reduce((total, season) => total + (season?.episodes?.length || 0), 0) || 0
+                    }
+                    </td>
+                  ) : (
+                    <td className='align-middle'>0</td>
+                  )
+                }
+                <td className='align-middle'>{tvShow.tvshow_year}</td>
                 <td className='align-middle'>
                   <div className="genres bg-light p-2 rounded">
-                    {tvShow.genres}
+                    {tvShow.tvshow_genres}
                   </div>
                 </td>
                 <td className='align-middle'>
-                  <span className={tvShow.status === 'Active' ? 'badge bg-success custom_white' : 'badge bg-danger custom_white'}>
-                    {tvShow.status}
+                  <span className={tvShow.tvshow_status === 'Active' ? 'badge bg-success custom_white' : 'badge bg-danger custom_white'}>
+                    {tvShow.tvshow_status}
                   </span>
                 </td>
                 <td className='align-middle'>
