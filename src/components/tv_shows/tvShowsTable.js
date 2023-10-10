@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle, faTrash, faEdit, faArrowUp, faArrowDown, faFilter, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logo1 from '../../images/logo1.jpg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 
 function TvShowsTable({ sharedData, setSharedData }) {
@@ -118,6 +118,13 @@ function TvShowsTable({ sharedData, setSharedData }) {
   
 
   const currentTvShows = sortedTvShows.slice(startIndex, endIndex);
+
+  const navigate = useNavigate();
+
+  const handleEdit = (tvshow) => {
+    setSharedData(tvshow)
+    navigate('tv_metaprovider/metadata');
+  }
 
   const handleEmptyShared = () => {
     setSharedData({id: null, tvshow_title: null, tvshow_seasons: null, tvshow_episodes: null, tvshow_year: null, tvshow_genres: null,
@@ -236,7 +243,7 @@ function TvShowsTable({ sharedData, setSharedData }) {
                   </span>
                 </td>
                 <td className='align-middle'>
-                  <FontAwesomeIcon style={{cursor: 'pointer'}} className="text-primary mx-1 custom_icon" icon={faEdit} />
+                  <FontAwesomeIcon style={{cursor: 'pointer'}} className="text-primary mx-1 custom_icon" icon={faEdit} onClick={() => handleEdit(tvShow)} />
                   <FontAwesomeIcon style={{cursor: 'pointer'}} className="text-danger mx-1 custom_icon" icon={faTrash} onClick={() => handleDeleteClick(tvShow.id)} />
                 </td>
               </tr>
@@ -244,7 +251,7 @@ function TvShowsTable({ sharedData, setSharedData }) {
           </tbody>
         </table>
       </div>
-      <div className="row justify-content-center mt-2">
+      <div className="row justify-content-center mt-4">
         <div className="col-auto">
           <ReactPaginate
             pageCount={totalPages}

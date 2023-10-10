@@ -7,9 +7,9 @@ function AddTvShow({ sharedData, setSharedData }) {
 
   console.log(sharedData)
 
-  const initialGenres = sharedData?.id ? [sharedData.movie_genres] : [];
-  const initialStatusCheck = sharedData?.id ? (sharedData.movie_status === 'Active') : false;
-  const initialStatus = sharedData?.id ? sharedData.movie_status : 'InActive';
+  const initialGenres = sharedData?.id ? [sharedData.tvshow_genres] : [];
+  const initialStatusCheck = sharedData?.id ? (sharedData.tvshow_status === 'Active') : false;
+  const initialStatus = sharedData?.id ? sharedData.tvshow_status : 'InActive';
 
   const [selectedGenres, setSelectedGenres] = useState(initialGenres);
   const [statusCheck, setStatusCheck] = useState(initialStatusCheck);
