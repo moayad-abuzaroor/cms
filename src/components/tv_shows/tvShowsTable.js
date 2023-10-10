@@ -21,6 +21,42 @@ function TvShowsTable() {
       .catch(error => { console.error('Error fetching movies:', error); });
     }, []);
 
+    const handleDeleteClick = (tvshowId) => {
+      // Confirm deletion (you might want to show a modal or confirmation dialog)
+      const confirmDelete = window.confirm('Are you sure you want to delete this Tv Show?');
+  
+      if (confirmDelete) {
+        handleDelete(tvshowId);
+      }
+    };
+
+    const handleDelete = (tvshowId) => {
+    
+      // Define the URL for the delete endpoint
+      const deleteUrl = `http://localhost:8000/api/tvshow/${tvshowId}`;
+      
+      // Make the DELETE request
+      fetch(deleteUrl, {
+        method: 'DELETE',
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          window.location.reload();
+          return response.json(); // If the server returns JSON, you can parse it
+        })
+        .then(data => {
+          console.log('Movie deleted successfully:', data);
+          // Optionally, you can update your component state or perform other actions here
+          
+        })
+        .catch(error => {
+          console.error('Error deleting movie:', error);
+          // Handle error, show a message, etc.
+        });
+    };
+
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
 
   const handleSort = (key) => {
@@ -193,8 +229,8 @@ function TvShowsTable() {
                   </span>
                 </td>
                 <td className='align-middle'>
-                  <FontAwesomeIcon className="text-primary mx-1 custom_icon" icon={faEdit} />
-                  <FontAwesomeIcon className="text-danger mx-1 custom_icon" icon={faTrash} />
+                  <FontAwesomeIcon style={{cursor: 'pointer'}} className="text-primary mx-1 custom_icon" icon={faEdit} />
+                  <FontAwesomeIcon style={{cursor: 'pointer'}} className="text-danger mx-1 custom_icon" icon={faTrash} onClick={() => handleDeleteClick(tvShow.id)} />
                 </td>
               </tr>
             ))}
