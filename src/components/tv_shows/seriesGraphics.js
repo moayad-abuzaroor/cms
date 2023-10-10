@@ -12,9 +12,13 @@ function SeriesGraphics({ sharedData, setSharedData }){
 
     console.log(sharedData)
 
-    const [selectedImageILike, setSelectedImageILike] = useState(null);
-    const [selectedImageJaw, setSelectedImageJaw] = useState(null);
-    const [selectedImageMin, setSelectedImageMin] = useState(null);
+    const [backendSelectedImageILike, setBackendSelectedImageILike] = useState(null);
+    const [backendSelectedImageJaw, setBackendSelectedImageJaw] = useState('');
+    const [backendSelectedImageMin, setBackendSelectedImageMin] = useState('');
+
+    const [selectedImageILike, setSelectedImageILike] = useState(sharedData.ilike_image);
+    const [selectedImageJaw, setSelectedImageJaw] = useState(sharedData.jaw_image);
+    const [selectedImageMin, setSelectedImageMin] = useState(sharedData.ministra_image);
 
     const [selectedApp, setSelectedApp] = useState(""); // Initialize with an empty string
 
@@ -28,17 +32,23 @@ function SeriesGraphics({ sharedData, setSharedData }){
 
         reader.onload = () => {
             if(selectedApp == 'All'){
+                setBackendSelectedImageILike(file);
+                setBackendSelectedImageJaw(file);
+                setBackendSelectedImageMin(file);
                 setSelectedImageILike(reader.result);
                 setSelectedImageJaw(reader.result);
                 setSelectedImageMin(reader.result);
             }
             if(selectedApp == 'iLike 3.0'){
+                setBackendSelectedImageILike(file);
                 setSelectedImageILike(reader.result);
             }
             if(selectedApp == 'JAW TV'){
+                setBackendSelectedImageJaw(file);
                 setSelectedImageJaw(reader.result);
             }
             if(selectedApp == 'Ministra'){
+                setBackendSelectedImageMin(file);
                 setSelectedImageMin(reader.result);
             }
         };
@@ -46,6 +56,39 @@ function SeriesGraphics({ sharedData, setSharedData }){
         if (file) {
             reader.readAsDataURL(file);
         }
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const formData = new FormData(); // Create a FormData object to handle file uploads
+
+        // Add form data to the FormData object
+        formData.append('tvshow_title', sharedData.tvshow_title);
+        formData.append('tvshow_genres', sharedData.tvshow_genres);
+    
+        // Add files to FormData (assuming ilikeImageFile, jawImageFile, and ministraImageFile are file objects)
+            formData.append('ilike_image', backendSelectedImageILike);
+            formData.append('jaw_image', backendSelectedImageJaw);
+            formData.append('ministra_image', backendSelectedImageMin);
+    
+        // Send the request
+        fetch(`http://localhost:8000/api/tvshow/${sharedData.id}`, {
+            method: 'PUT',
+            headers: {
+                
+            },
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle the response data if needed
+            console.log('Success:', data);
+            setSharedData(data)
+        })
+        .catch(error => {
+            // Handle errors
+            console.error('Error:', error);
+        });
     };
 
     return(
@@ -59,7 +102,7 @@ function SeriesGraphics({ sharedData, setSharedData }){
             <TvShowTitleComponent />
 
             <div className='row'>
-                <form className='col-lg-11 mx-auto addForm' style={{ backgroundColor: 'white' }}>
+                <form onSubmit={handleSubmit} className='col-lg-11 mx-auto addForm' style={{ backgroundColor: 'white' }}>
 
                     <TvShowsNavBar/>
 
@@ -112,6 +155,10 @@ function SeriesGraphics({ sharedData, setSharedData }){
                         <span className='graphics-allowed ml-1'>.jpg</span>
                         <span className='graphics-allowed'>.png</span>
                         <span className='graphics-allowed'>.jpeg</span>
+                    </div>
+                    <div className='form-group mt-4'>
+                        <input className='btn btn-primary' type='submit' value="Save" />
+                        <button type='button' className='btn btn-secondary ml-1'>Cancel</button>
                     </div>
                 </form>
             </div>
