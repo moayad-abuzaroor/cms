@@ -93,7 +93,12 @@ function ChannelsTable({ sharedData, setSharedData }){
         if (sortConfig.key === key && sortConfig.direction === 'ascending') {
           direction = 'descending';
         }
-        setSortConfig({ key, direction });
+      
+        if (['chno'].includes(key)) {
+          setSortConfig({ key, direction, type: 'number' });
+        } else {
+          setSortConfig({ key, direction, type: 'string' });
+        }
       };
     
       const itemsPerPage = 8;
@@ -156,7 +161,7 @@ function ChannelsTable({ sharedData, setSharedData }){
                 <table className="table table-striped">
                     <thead className="thead-dark">
                         <tr>
-                            <th className="text-center align-middle" onClick={() => handleSort('chno')}>
+                            <th className="text-center align-middle" onClick={() => handleSort('channel_number')}>
                                 Ch.No
                                 <FontAwesomeIcon className="ml-1" icon={faArrowUp} />
                                 <FontAwesomeIcon className="ml-1" icon={faArrowDown} />
@@ -164,7 +169,7 @@ function ChannelsTable({ sharedData, setSharedData }){
                             <th className="text-center align-middle">
                                 Logo
                             </th>
-                            <th className="text-center align-middle" onClick={() => handleSort('title')}>
+                            <th className="text-center align-middle" onClick={() => handleSort('channel_title')}>
                                 Title
                                 <FontAwesomeIcon className="ml-1" icon={faArrowUp} />
                                 <FontAwesomeIcon className="ml-1" icon={faArrowDown} />
@@ -175,12 +180,12 @@ function ChannelsTable({ sharedData, setSharedData }){
                             <th className="text-center align-middle">
                                 Channel Categories
                             </th>
-                            <th className="text-center align-middle" onClick={() => handleSort('parental')}>
+                            <th className="text-center align-middle" onClick={() => handleSort('channel_parental_rate')}>
                                 Parental Rating
                                 <FontAwesomeIcon className="ml-1" icon={faArrowUp} />
                                 <FontAwesomeIcon className="ml-1" icon={faArrowDown} />
                             </th>
-                            <th className="text-center align-middle" onClick={() => handleSort('status')}>
+                            <th className="text-center align-middle" onClick={() => handleSort('channel_status')}>
                                 Status
                                 <FontAwesomeIcon className="ml-1" icon={faArrowUp} />
                                 <FontAwesomeIcon className="ml-1" icon={faArrowDown} />
