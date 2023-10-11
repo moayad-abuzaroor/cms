@@ -9,7 +9,7 @@ import jerk from '../../images/jerk.webp';
 import shbrWnos from '../../images/shbrWnos.jpg';
 
 
-function ChannelsTable(){
+function ChannelsTable({ sharedData, setSharedData }){
 
     const [channels, setChannels] = useState([]);
 
@@ -61,6 +61,13 @@ function ChannelsTable(){
         });
     };
 
+    const handleEmptyShared = () => {
+        setSharedData({id:null, channel_title: '', channel_epg: null,
+        channel_categories: null, channel_number: '', channel_type: null, channel_parental_rate: null,
+        channel_status: null, channel_stream_location: null, channel_url: null, channel_protection: null, backup_stream_location: null,
+        backup_url: null, backup_protection: null, channel_logo: null})
+      }
+
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(0);
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
@@ -89,7 +96,7 @@ function ChannelsTable(){
         setSortConfig({ key, direction });
       };
     
-      const itemsPerPage = 2;
+      const itemsPerPage = 8;
       const totalPages = Math.ceil(channels.length / itemsPerPage);
       const startIndex = currentPage * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
@@ -138,7 +145,7 @@ function ChannelsTable(){
                         <FontAwesomeIcon icon={faFilter} /> Filter
                     </button>
                     <Link to="information">
-                        <button className="btn btn-primary">
+                        <button onClick={handleEmptyShared} className="btn btn-primary">
                             <FontAwesomeIcon icon={faPlus} /> Add New Channel
                         </button>
                     </Link>
@@ -201,9 +208,11 @@ function ChannelsTable(){
                                         {channel.channel_categories}
                                     </div>
                                 </td>
-                                <td className="align-middle">
+                                {channel.channel_parental_rate !== null ? <td className="align-middle">
                                     {channel.channel_parental_rate}
-                                </td>
+                                </td> : <td className="align-middle">
+                                    Not Restricted
+                                </td>}
                                 <td className='align-middle'>
                                     <span className={channel.channel_status === 'Active' ? 'badge badge-success custom_white' : 'badge badge-danger custom_white'}>
                                         {channel.channel_status}

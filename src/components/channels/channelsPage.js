@@ -13,8 +13,8 @@ function ChannelsPage(){
         document.title = 'CMS | Channels';
       }, []);
 
-    const [sharedData, setSharedData] = useState({id:null, channel_title: null, channel_epg: null,
-        channel_categories: null, channel_number: null, channel_type: null, channel_parental_rate: null,
+    const [sharedData, setSharedData] = useState({id:null, channel_title: '', channel_epg: null,
+        channel_categories: null, channel_number: '', channel_type: null, channel_parental_rate: null,
         channel_status: null, channel_stream_location: null, channel_url: null, channel_protection: null, backup_stream_location: null,
         backup_url: null, backup_protection: null, channel_logo: null
     });

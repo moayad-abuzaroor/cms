@@ -6,8 +6,9 @@ import { faCircleMinus, faList } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
-function AddChannel(){
+function AddChannel({ sharedData, setSharedData }){
 
+    console.log(sharedData)
     const [epg, setEPG] = useState([
         {
             title: 'Abu Dhabi AE',
@@ -60,6 +61,25 @@ function AddChannel(){
         }
     ]);
 
+    const initialCategories = sharedData?.id ? [sharedData.channel_categories] : [];
+    const initialStatusCheck = sharedData?.id ? (sharedData.channel_status === 'Active') : false;
+    const initialStatus = sharedData?.id ? sharedData.channel_status : 'InActive';
+
+    const [selectedCategories, setSelectedCategories] = useState(initialCategories);
+    const [statusCheck, setStatusCheck] = useState(initialStatusCheck);
+    const [status, setStatus] = useState(initialStatus);
+
+    const handleStatusChange = (e) => {
+        const isChecked = e.target.checked;
+        setStatusCheck(isChecked);
+        if (isChecked) {
+          setStatus('Active');
+        } else {
+          setStatus('InActive');
+        }
+      };
+
+
     const [currentPage, setCurrentPage] = useState(0);
 
     const itemsPerPage = 8; // Adjust as needed
@@ -75,31 +95,13 @@ function AddChannel(){
         closeModal();
     };
 
-    const [title, setTitle] = useState('');
     const [requiredMsg, setRequiredMsg] = useState(false);
 
-    const handleTitleChange = (e) => {
-        setTitle(e.target.value);
-        setRequiredMsg(false); // Reset required message when input changes
-    };
-
-    const [channelNumber, setChannelNumber] = useState('');
     const [channelNumberRequiredMsg, setChannelNumberRequiredMsg] = useState(false);
 
-    const handleChannelNumberChange = (e) => {
-        setChannelNumber(e.target.value);
-        setChannelNumberRequiredMsg(false); // Reset required message when input changes
-    };
-
-    const [type, setType] = useState(null);
     const [typeRequiredMsg, setTypeRequiredMsg] = useState(false);
 
-    const handleTypeChange = (e) => {
-        setType(e.target.value);
-        setTypeRequiredMsg(false); // Reset required message when input changes
-    };
-
-    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [category, setCategory] = useState('');
     const [categoriesOptions, setCategoriesOptions] = useState([
         'Categories 1',
         'Categories 2',
@@ -110,7 +112,8 @@ function AddChannel(){
     const handleCategoriesSelect = (e) => {
         const selectedCategory = e.target.value;
         if (selectedCategory && !selectedCategories.includes(selectedCategory)) {
-        setSelectedCategories([...selectedCategories, selectedCategory]);
+            setSelectedCategories([...selectedCategories, selectedCategory]);
+            setCategory(selectedCategory)
         }
         setCategoriesRequiredMsg(false); // Reset the validation message
     };
@@ -120,11 +123,58 @@ function AddChannel(){
         setSelectedCategories(selectedCategories.filter(item => item !== category));
     };
 
+    const [channelDetails, setChannelDetails] = useState({
+        channel_title: sharedData.channel_title, channel_epg: sharedData.channel_epg,
+        channel_categories: category, channel_number: sharedData.channel_number, channel_type: sharedData.channel_type,
+        channel_parental_rate: sharedData.channel_parental_rate,
+        channel_status: status, channel_stream_location: sharedData.channel_stream_location, channel_url: sharedData.channel_url,
+        channel_protection: sharedData.channel_protection, backup_stream_location: sharedData.backup_stream_location,
+        backup_url: sharedData.backup_url, backup_protection: sharedData.backup_protection, channel_logo: sharedData.channel_logo
+    });
+
+    const handleTitleChange = (e) => {
+        setChannelDetails({
+          ...channelDetails,
+          channel_title: e.target.value
+        });
+        setRequiredMsg(false); // Reset required message when input changes
+    };
+
+    const handleEPGChange = (e) => {
+        setChannelDetails({
+          ...channelDetails,
+          channel_epg: e.target.value
+        });
+    };
+
+    const handleTypeChange = (e) => {
+        setChannelDetails({
+          ...channelDetails,
+          channel_type: e.target.value
+        });
+        setTypeRequiredMsg(false);
+    };
+
+    const handleNumberChange = (e) => {
+        setChannelDetails({
+          ...channelDetails,
+          channel_number: e.target.value
+        });
+        setChannelNumberRequiredMsg(false);
+    };
+
+    const handleParentalChange = (e) => {
+        setChannelDetails({
+          ...channelDetails,
+          channel_parental_rate: e.target.value
+        });
+    };
+
     var count = 0;
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (title.trim() === '') {
+        if (channelDetails.channel_title == '') {
             setRequiredMsg(true);
             count = count + 1;
         } else {
@@ -139,18 +189,67 @@ function AddChannel(){
             setCategoriesRequiredMsg(false);
         }
 
-        if(type == null){
+        if(channelDetails.channel_type == null){
             setTypeRequiredMsg(true);
             count = count + 1;
         } else {
             setTypeRequiredMsg(false);
         }
 
-        if(channelNumber == ''){
+        if(channelDetails.channel_number == ''){
             setChannelNumberRequiredMsg(true);
             count = count + 1;
         } else {
             setChannelNumberRequiredMsg(false);
+        }
+
+        if(count == 0){
+            setChannelDetails({...channelDetails, channel_categories: selectedCategories[0]})
+
+            const formData = new FormData(); // Create a FormData object to handle file uploads
+
+            formData.append('channel_title', channelDetails.channel_title);
+            if (channelDetails.channel_epg !== null) formData.append('channel_epg', channelDetails.channel_epg);
+            if (channelDetails.channel_categories !== null) formData.append('channel_categories', selectedCategories[0]);
+            if (channelDetails.channel_number !== null) formData.append('channel_number', channelDetails.channel_number);
+            if (channelDetails.channel_type !== null) formData.append('channel_type', channelDetails.channel_type);
+            if (channelDetails.channel_parental_rate !== null) formData.append('channel_parental_rate', channelDetails.channel_parental_rate);
+            if (channelDetails.channel_status !== null) formData.append('channel_status', status);
+
+            if(sharedData.id == null){
+                // Send the request
+                fetch('http://localhost:8000/api/insert_channel/', {
+                  method: 'POST',
+                  body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                  // Handle the response data if needed
+                  console.log('Success:', data);
+                  setSharedData(data);
+                })
+                .catch(error => {
+                  // Handle errors
+                  console.error('Error:', error);
+                });
+              }
+              else{
+                // Send the request
+                fetch(`http://localhost:8000/api/channel/${sharedData.id}`, {
+                  method: 'PUT',
+                  body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                  // Handle the response data if needed
+                  console.log('Success:', data);
+                  setSharedData(data);
+                })
+                .catch(error => {
+                  // Handle errors
+                  console.error('Error:', error);
+                });
+              }
         }
     }
 
@@ -184,7 +283,7 @@ function AddChannel(){
                             <label htmlFor="title" className='labelBox'>Title (In English) <span className='text-danger'>*</span></label>
                             <input 
                                 id="title"
-                                value={title}
+                                value={channelDetails.channel_title}
                                 onChange={handleTitleChange}
                                 className={`form-control ${requiredMsg ? 'is-invalid' : ''}`} 
                             />
@@ -195,7 +294,7 @@ function AddChannel(){
                         <div className='form-group col-md-4'>
                             <label className='labelBox'>Electronic Program Guide</label>
                             <div style={{display: 'flex'}}>
-                                <input value={selectedEPG} className='form-control customBorderRight' disabled/>
+                                <input value={selectedEPG} onChange={handleEPGChange} className='form-control customBorderRight' disabled/>
                                 <button type="button" className="btn btn-primary customBorderLeft customBorderRight" onClick={openModal}>
                                     <FontAwesomeIcon className='mx-1' icon={faList} />
                                 </button>
@@ -241,12 +340,12 @@ function AddChannel(){
                     <div className="form-row">
                         <div className='form-group col-md-4'>
                             <label className='labelBox'>Channel Number <span className='text-danger'>*</span></label>
-                            <input value={channelNumber} onChange={handleChannelNumberChange} className={`form-control ${channelNumberRequiredMsg ? 'is-invalid' : ''}`} type='number' />
+                            <input value={channelDetails.channel_number} onChange={handleNumberChange} className={`form-control ${channelNumberRequiredMsg ? 'is-invalid' : ''}`} type='number' />
                             {channelNumberRequiredMsg && <div className='text-danger small'>Required Field</div>}
                         </div>
                         <div className='form-group col-md-4'>
                             <label className='labelBox'>Select Type <span className='text-danger'>*</span></label>
-                            <select value={type} onChange={handleTypeChange} className={`form-control ${typeRequiredMsg ? 'is-invalid' : ''}`} name='type'>
+                            <select value={channelDetails.channel_type} onChange={handleTypeChange} className={`form-control ${typeRequiredMsg ? 'is-invalid' : ''}`} name='type'>
                                 <option selected="false" disabled="disabled">Select Type</option>
                                 <option>Video</option>
                                 <option>Audio</option>
@@ -258,14 +357,14 @@ function AddChannel(){
                     <div className="form-row">
                         <div className='form-group col-md-4'>
                             <label className='labelBox'>Parental Rating</label>
-                            <select className='form-control' name='parentalRating'>
+                            <select value={channelDetails.channel_parental_rate} onChange={handleParentalChange} className='form-control' name='parentalRating'>
                                 <option selected="false" disabled="disabled">Select a Parental Rating</option>
                                 <option>Restricted</option>
                             </select>
                         </div>
                         <div className='form-group col-md-4 mt-3 ml-4'>
                             <div className='form-check mt-4'>
-                                <input className='form-check-input' style={{transform: "scale(1.1)"}} type='checkbox' />
+                                <input className='form-check-input' style={{transform: "scale(1.1)"}} checked={statusCheck} onChange={handleStatusChange} type='checkbox' />
                                 <label className='form-check-label labelBox'>Active</label>
                             </div>
                         </div>
