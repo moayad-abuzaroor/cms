@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import ChannelsTitleComponent from "../shared/channelsTitleComponent";
 import ChannelsNavBar from "../shared/ChannelsNavBar";
 
-function ChannelLogo(){
+function ChannelLogo({ sharedData, setSharedData }){
 
-    const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedImage, setSelectedImage] = useState(sharedData.channel_logo);
+    const [backendSelectedImage, setBackendSelectedImage] = useState(null);
 
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
@@ -12,6 +13,7 @@ function ChannelLogo(){
 
         reader.onload = () => {
             setSelectedImage(reader.result);
+            setBackendSelectedImage(file);
         };
 
         if (file) {
@@ -21,6 +23,34 @@ function ChannelLogo(){
 
     const handleRemoveImage = () => {
         setSelectedImage(null);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const formData = new FormData(); // Create a FormData object to handle file uploads
+
+        // Add form data to the FormData object
+        formData.append('channel_title', sharedData.channel_title);
+        formData.append('channel_logo', backendSelectedImage);
+    
+        // Send the request
+        fetch(`http://localhost:8000/api/channel/${sharedData.id}`, {
+            method: 'PUT',
+            headers: {
+                
+            },
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle the response data if needed
+            console.log('Success:', data);
+            setSharedData(data)
+        })
+        .catch(error => {
+            // Handle errors
+            console.error('Error:', error);
+        });
     };
 
     return(
@@ -34,7 +64,7 @@ function ChannelLogo(){
             <ChannelsTitleComponent/>
 
             <div className="row">
-                <form className="col-lg-11 mx-auto addForm" style={{backgroundColor: 'white'}}>
+                <form onSubmit={handleSubmit} className="col-lg-11 mx-auto addForm" style={{backgroundColor: 'white'}}>
 
                     <ChannelsNavBar />
 
@@ -54,6 +84,10 @@ function ChannelLogo(){
                                 <button type="button" className="btn btn-danger mt-2" style={{width:'2%', height:'2%', padding:'0.3%'}} onClick={handleRemoveImage}>X</button>
                             </>
                         )}
+                    </div>
+                    <div className='form-group mt-4'>
+                        <input className='btn btn-primary' type='submit' value="Save" />
+                        <button type='button' className='btn btn-secondary ml-1'>Cancel</button>
                     </div>
                 </form>
             </div>
