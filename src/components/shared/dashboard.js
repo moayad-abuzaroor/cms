@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faTv, faFilm, faPeopleGroup, faDatabase, faVideo, faPhotoFilm, faPhotoVideo, faHome, faPlay, faAngleRight, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
@@ -10,6 +11,7 @@ function Dashboard() {
   
   const [movies, setMovies] = useState(0)
   const [tvshows, setTvshows] = useState(0)
+  const [channels, setChannels] = useState(0)
 
   useEffect(() => {
     // Define the URL for your API endpoint
@@ -30,7 +32,30 @@ function Dashboard() {
       .then(data => { setMovies(data.length);
         })     
       .catch(error => { console.error('Error fetching movies:', error); });
+
+    const channelsUrl = 'http://localhost:8000/api/get_all_channels/';
+
+    // Make the GET request
+    fetch(channelsUrl)
+      .then(response => response.json())
+      .then(data => { setChannels(data.length);
+        })     
+      .catch(error => { console.error('Error fetching movies:', error); });
   }, []);
+
+  const navigate = useNavigate();
+
+  const navigateMovies = () => {
+    navigate('media/movies');
+  }
+
+  const navigateTvshows = () => {
+    navigate('media/tv-shows');
+  }
+
+  const navigateChannels = () => {
+    navigate('media/channels');
+  }
 
   return (
     <div className="container-fluid">
@@ -58,14 +83,14 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="col-xl-3 col-md-6 mb-4">
+        <div onClick={navigateChannels} className="col-xl-3 col-md-6 mb-4">
           <div className="card border-left-success shadow h-100 py-2 animated-card">
             <div className="card-body">
               <div className="row no-gutters align-items-center">
                 <div className="col mr-2">
                   <div className="text-xs font-weight-bold text-success text-uppercase mb-1">
                     Channels</div>
-                  <div className="h5 mb-0 font-weight-bold text-gray-800">573</div>
+                  <div className="h5 mb-0 font-weight-bold text-gray-800">{channels}</div>
                 </div>
                 <div className="col-auto">
                     <FontAwesomeIcon className="fa-2x text-gray-300" icon={faTv} />
@@ -75,7 +100,7 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="col-xl-3 col-md-6 mb-4">
+        <div onClick={navigateMovies} className="col-xl-3 col-md-6 mb-4">
           <div className="card border-left-info shadow h-100 py-2 animated-card">
             <div className="card-body">
               <div className="row no-gutters align-items-center">
@@ -92,7 +117,7 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="col-xl-3 col-md-6 mb-4">
+        <div onClick={navigateTvshows} className="col-xl-3 col-md-6 mb-4">
           <div className="card border-left-warning shadow h-100 py-2 animated-card">
             <div className="card-body">
               <div className="row no-gutters align-items-center">
