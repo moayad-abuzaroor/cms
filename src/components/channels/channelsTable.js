@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle, faTrash, faEdit, faArrowUp, faArrowDown, faFilter, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
@@ -11,35 +11,19 @@ import shbrWnos from '../../images/shbrWnos.jpg';
 
 function ChannelsTable(){
 
-    const [channels, setChannels] = useState([
-        {
-            chno: 92,
-            title: 'Sky Sports Football',
-            properties: ['Video', 'Secured'],
-            channelCat: 'Sports - رياضة',
-            parental: '',
-            status: 'Active',
-            imageUrl: logo1
-        },
-        {
-            chno: 279,
-            title: 'Syria TV',
-            properties: ['Video', 'Secured'],
-            channelCat: 'News - اخبار',
-            parental: 'Restricted',
-            status: 'Not Active',
-            imageUrl: jerk
-        },
-        {
-            chno: 12,
-            title: 'MBC Action',
-            properties: ['Video', 'Secured'],
-            channelCat: 'قنوات MBC',
-            parental: '',
-            status: 'Active',
-            imageUrl: shbrWnos
-        }
-    ]);
+    const [channels, setChannels] = useState([]);
+
+    useEffect(() => {
+        // Define the URL for your API endpoint
+        const apiUrl = 'http://localhost:8000/api/get_all_channels/';
+    
+        // Make the GET request
+        fetch(apiUrl)
+          .then(response => response.json())
+          .then(data => { setChannels(data);
+            })     
+          .catch(error => { console.error('Error fetching channels:', error); });
+    }, []);
 
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(0);
@@ -75,7 +59,7 @@ function ChannelsTable(){
       const endIndex = startIndex + itemsPerPage;
     
       const filteredChannels = channels.filter((channel) =>
-        channel.title.toLowerCase().includes(searchTerm.toLowerCase())
+        channel.channel_title.toLowerCase().includes(searchTerm.toLowerCase())
       );
     
       const sortedChannels = [...filteredChannels].sort((a, b) => {
@@ -165,28 +149,28 @@ function ChannelsTable(){
                         {currentChannels.map((channel, index) => (
                             <tr className="text-center align-middle" key={index}>
                                 <td className="align-middle">
-                                    {channel.chno}
+                                    {channel.channel_number}
                                 </td>
                                 <td className="align-middle">
-                                    <img src={channel.imageUrl} alt={channel.title} className="mr-2 img-thumbnail" style={{ maxWidth: '50px', maxHeight: '50px' }} />
+                                    <img src={channel.channel_logo} alt={channel.channel_title} className="mr-2 img-thumbnail" style={{ maxWidth: '50px', maxHeight: '50px' }} />
                                 </td>
                                 <td className="align-middle">
-                                    {channel.title}
+                                    {channel.channel_title}
                                 </td>
                                 <td className="align-middle">
-                                    {channel.properties}
+                                    {channel.channel_type}
                                 </td>
                                 <td className="align-middle">
                                     <div className="bg-light p-2 rounded">
-                                        {channel.channelCat}
+                                        {channel.channel_categories}
                                     </div>
                                 </td>
                                 <td className="align-middle">
-                                    {channel.parental}
+                                    {channel.channel_parental_rate}
                                 </td>
                                 <td className='align-middle'>
-                                    <span className={channel.status === 'Active' ? 'badge badge-success custom_white' : 'badge badge-danger custom_white'}>
-                                        {channel.status}
+                                    <span className={channel.channel_status === 'Active' ? 'badge badge-success custom_white' : 'badge badge-danger custom_white'}>
+                                        {channel.channel_status}
                                     </span>
                                 </td>
                                 <td className='align-middle'>
