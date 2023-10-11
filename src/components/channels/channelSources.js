@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import ChannelsTitleComponent from "../shared/channelsTitleComponent";
 import ChannelsNavBar from "../shared/ChannelsNavBar";
 
-function ChannelSources(){
+function ChannelSources({ sharedData, setSharedData }){
+
+    console.log(sharedData)
 
     const [backupCheckbox, setBackupCheckbox] = useState(false);
 
-    const [channelStreamLocation, setChannelStreamLocation] = useState(null);
+    const [channelStreamLocation, setChannelStreamLocation] = useState(sharedData.channel_stream_location);
     const [channelLocationRequiredMsg, setChannelLocationRequiredMsg] = useState(false);
 
     const handleChannelStreamLocationChange = (e) => {
@@ -14,7 +16,7 @@ function ChannelSources(){
         setChannelLocationRequiredMsg(false); // Reset required message when input changes
     };
 
-    const [channelUrlPath, setChannelUrlPath] = useState('');
+    const [channelUrlPath, setChannelUrlPath] = useState(sharedData.channel_url);
     const [channelUrlRequiredMsg, setChannelUrlRequiredMsg] = useState(false);
 
     const handleChannelUrlChange = (e) => {
@@ -22,7 +24,7 @@ function ChannelSources(){
         setChannelUrlRequiredMsg(false); // Reset required message when input changes
     };
 
-    const [channelProtection, setChannelProtection] = useState(null);
+    const [channelProtection, setChannelProtection] = useState(sharedData.channel_protection);
 
     const handleChannelProtectionChange = (e) => {
         setChannelProtection(e.target.value);
@@ -91,6 +93,37 @@ function ChannelSources(){
             } else {
                 setBackupUrlRequiredMsg(false);
             }
+        }
+
+        if(count == 0){
+            const formData = new FormData();
+
+            formData.append('channel_title', sharedData.channel_title);
+            formData.append('channel_stream_location', channelStreamLocation);
+            formData.append('channel_url', channelUrlPath);
+            formData.append('channel_protection', channelProtection);
+            formData.append('backup_stream_location', backupStreamLocation);
+            formData.append('backup_url', backupUrlPath);
+            formData.append('backup_protection', backupProtection);
+
+            // Send the request
+            fetch(`http://localhost:8000/api/channel/${sharedData.id}`, {
+                method: 'PUT',
+                headers: {
+                    
+                },
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response data if needed
+                console.log('Success:', data);
+                setSharedData(data)
+            })
+            .catch(error => {
+                // Handle errors
+                console.error('Error:', error);
+            });
         }
 
     }
