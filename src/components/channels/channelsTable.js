@@ -243,7 +243,7 @@ function ChannelsTable({ sharedData, setSharedData }){
                     </tbody>
                 </table>
             </div>
-            <div className="row justify-content-center mt-2">
+            <div className="row justify-content-center mt-4">
                 <div className="col-auto">
                     <ReactPaginate
                         pageCount={totalPages}

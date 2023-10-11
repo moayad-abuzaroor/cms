@@ -111,14 +111,14 @@ function ChannelSources({ sharedData, setSharedData }){
             const formData = new FormData();
 
             formData.append('channel_title', sharedData.channel_title);
-            formData.append('channel_stream_location', channelStreamLocation);
-            formData.append('channel_url', channelUrlPath);
-            formData.append('channel_protection', channelProtection);
-            formData.append('channel_drm', channelDRM);
-            formData.append('backup_stream_location', backupStreamLocation);
-            formData.append('backup_url', backupUrlPath);
-            formData.append('backup_protection', backupProtection);
-            formData.append('backup_drm', backupDRM);
+            if (channelStreamLocation !== null) formData.append('channel_stream_location', channelStreamLocation);
+            if (channelUrlPath !== null) formData.append('channel_url', channelUrlPath);
+            if (channelProtection !== null) formData.append('channel_protection', channelProtection);
+            if (channelDRM !== null) formData.append('channel_drm', channelDRM);
+            if (backupStreamLocation !== null) formData.append('backup_stream_location', backupStreamLocation);
+            if (backupUrlPath !== null) formData.append('backup_url', backupUrlPath);
+            if (backupProtection !== null) formData.append('backup_protection', backupProtection);
+            if (backupDRM !== null) formData.append('backup_drm', backupDRM);
 
             // Send the request
             fetch(`http://localhost:8000/api/channel/${sharedData.id}`, {
