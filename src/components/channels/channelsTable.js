@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle, faTrash, faEdit, faArrowUp, faArrowDown, faFilter, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 
 import logo1 from '../../images/logo1.jpg';
@@ -123,6 +123,13 @@ function ChannelsTable({ sharedData, setSharedData }){
 
       const currentChannels = sortedChannels.slice(startIndex, endIndex);
 
+      const navigate = useNavigate();
+
+    const handleEdit = (channel) => {
+        setSharedData(channel)
+        navigate('information');
+    }
+
     return(
         <div className="container-fluid bg-light" style={{ padding: '2%', height: '100%' }}>
             <div className="row mb-4">
@@ -225,7 +232,7 @@ function ChannelsTable({ sharedData, setSharedData }){
                                 </td>
                                 <td className='align-middle'>
                                     <FontAwesomeIcon 
-                                        style={{cursor: 'pointer'}} className="text-primary mx-1 custom_icon" icon={faEdit} 
+                                        style={{cursor: 'pointer'}} className="text-primary mx-1 custom_icon" icon={faEdit} onClick={() => handleEdit(channel)} 
                                     />
                                     <FontAwesomeIcon
                                         style={{cursor: 'pointer'}} className="text-danger mx-1 custom_icon" icon={faTrash} onClick={() => handleDeleteClick(channel.id)}
