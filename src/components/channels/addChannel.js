@@ -124,7 +124,7 @@ function AddChannel({ sharedData, setSharedData }){
     };
 
     const [channelDetails, setChannelDetails] = useState({
-        channel_title: sharedData.channel_title, channel_epg: sharedData.channel_epg,
+        channel_title: sharedData.channel_title, channel_epg: selectedEPG,
         channel_categories: category, channel_number: sharedData.channel_number, channel_type: sharedData.channel_type,
         channel_parental_rate: sharedData.channel_parental_rate,
         channel_status: status, channel_stream_location: sharedData.channel_stream_location, channel_url: sharedData.channel_url,
@@ -143,7 +143,7 @@ function AddChannel({ sharedData, setSharedData }){
     const handleEPGChange = (e) => {
         setChannelDetails({
           ...channelDetails,
-          channel_epg: e.target.value
+          channel_epg: selectedEPG
         });
     };
 
@@ -209,7 +209,7 @@ function AddChannel({ sharedData, setSharedData }){
             const formData = new FormData(); // Create a FormData object to handle file uploads
 
             formData.append('channel_title', channelDetails.channel_title);
-            if (channelDetails.channel_epg !== null) formData.append('channel_epg', channelDetails.channel_epg);
+            if (channelDetails.channel_epg !== null) formData.append('channel_epg', selectedEPG);
             if (channelDetails.channel_categories !== null) formData.append('channel_categories', selectedCategories[0]);
             if (channelDetails.channel_number !== null) formData.append('channel_number', channelDetails.channel_number);
             if (channelDetails.channel_type !== null) formData.append('channel_type', channelDetails.channel_type);
