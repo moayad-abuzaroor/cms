@@ -25,6 +25,42 @@ function ChannelsTable(){
           .catch(error => { console.error('Error fetching channels:', error); });
     }, []);
 
+    const handleDeleteClick = (channelId) => {
+        // Confirm deletion (you might want to show a modal or confirmation dialog)
+        const confirmDelete = window.confirm('Are you sure you want to delete this channel?');
+    
+        if (confirmDelete) {
+          handleDelete(channelId);
+        }
+      };
+    
+    const handleDelete = (channelId) => {
+    
+        // Define the URL for the delete endpoint
+        const deleteUrl = `http://localhost:8000/api/channel/${channelId}`;
+        
+        // Make the DELETE request
+        fetch(deleteUrl, {
+            method: 'DELETE',
+        })
+        .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        window.location.reload();
+        return response.json(); // If the server returns JSON, you can parse it
+        })
+        .then(data => {
+        console.log('Channel deleted successfully:', data);
+        // Optionally, you can update your component state or perform other actions here
+        
+        })
+        .catch(error => {
+        console.error('Error deleting channel:', error);
+        // Handle error, show a message, etc.
+        });
+    };
+
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(0);
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
@@ -174,8 +210,12 @@ function ChannelsTable(){
                                     </span>
                                 </td>
                                 <td className='align-middle'>
-                                    <FontAwesomeIcon className="text-primary mx-1 custom_icon" icon={faEdit} />
-                                <FontAwesomeIcon className="text-danger mx-1 custom_icon" icon={faTrash} />
+                                    <FontAwesomeIcon 
+                                        style={{cursor: 'pointer'}} className="text-primary mx-1 custom_icon" icon={faEdit} 
+                                    />
+                                    <FontAwesomeIcon
+                                        style={{cursor: 'pointer'}} className="text-danger mx-1 custom_icon" icon={faTrash} onClick={() => handleDeleteClick(channel.id)}
+                                    />
                                 </td>
                             </tr>
                         ))}
