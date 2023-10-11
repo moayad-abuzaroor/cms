@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route } from 'react-router-dom';
 import ChannelsTable from "./channelsTable";
 import AddChannel from "./addChannel";
@@ -13,12 +13,18 @@ function ChannelsPage(){
         document.title = 'CMS | Channels';
       }, []);
 
+    const [sharedData, setSharedData] = useState({id:null, channel_title: null, channel_epg: null,
+        channel_categories: null, channel_number: null, channel_type: null, channel_parental_rate: null,
+        channel_status: null, channel_stream_location: null, channel_url: null, channel_protection: null, backup_stream_location: null,
+        backup_url: null, backup_protection: null, channel_logo: null
+    });
+
     return(
         <Routes>
-            <Route path="/" element={<ChannelsTable />} />
-            <Route path="/information" element={<AddChannel />} />
-            <Route path="/sources" element={<ChannelSources />} />
-            <Route path="/logo" element={<ChannelLogo />} />
+            <Route path="/" element={<ChannelsTable sharedData={sharedData} setSharedData={setSharedData} />} />
+            <Route path="/information" element={<AddChannel sharedData={sharedData} setSharedData={setSharedData} />} />
+            <Route path="/sources" element={<ChannelSources sharedData={sharedData} setSharedData={setSharedData} />} />
+            <Route path="/logo" element={<ChannelLogo sharedData={sharedData} setSharedData={setSharedData} />} />
             <Route path="/submit" element={<ChannelSubmit />} />
         </Routes>
     );
