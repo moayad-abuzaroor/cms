@@ -30,6 +30,12 @@ function ChannelSources({ sharedData, setSharedData }){
         setChannelProtection(e.target.value);
     };
 
+    const [channelDRM, setChannelDRM] = useState(sharedData.channel_drm);
+
+    const handleChannelDRMChange = (e) => {
+        setChannelDRM(e.target.value);
+    };
+
     const [backupStreamLocation, setBackupStreamLocation] = useState(null);
     const [backupLocationRequiredMsg, setBackupLocationRequiredMsg] = useState(false);
 
@@ -50,6 +56,12 @@ function ChannelSources({ sharedData, setSharedData }){
 
     const handleBackupProtectionChange = (e) => {
         setBackupProtection(e.target.value);
+    };
+
+    const [backupDRM, setBackupDRM] = useState(sharedData.backup_drm);
+
+    const handleBackupDRMChange = (e) => {
+        setBackupDRM(e.target.value);
     };
 
     const handleBackupToggle = () => {
@@ -102,9 +114,11 @@ function ChannelSources({ sharedData, setSharedData }){
             formData.append('channel_stream_location', channelStreamLocation);
             formData.append('channel_url', channelUrlPath);
             formData.append('channel_protection', channelProtection);
+            formData.append('channel_drm', channelDRM);
             formData.append('backup_stream_location', backupStreamLocation);
             formData.append('backup_url', backupUrlPath);
             formData.append('backup_protection', backupProtection);
+            formData.append('backup_drm', backupDRM);
 
             // Send the request
             fetch(`http://localhost:8000/api/channel/${sharedData.id}`, {
@@ -178,7 +192,9 @@ function ChannelSources({ sharedData, setSharedData }){
                                 <option>nimble2</option>
                             </select>
                             { channelProtection == 'disabled' ? false : true  && channelProtection && <label className="labelBox mt-2">DRM Content ID</label> }
-                            { channelProtection == 'disabled' ? false : true  && channelProtection && <input className='form-control'/>}
+                            { channelProtection == 'disabled' ? false : true  && channelProtection && 
+                                <input value={channelDRM} onChange={handleChannelDRMChange} className='form-control'/>
+                            }
                         </div>
                     </div>
 
@@ -224,7 +240,9 @@ function ChannelSources({ sharedData, setSharedData }){
                                 <option>nimble2</option>
                             </select>
                             { backupProtection == 'disabled' ? false : true  && backupProtection && <label className="labelBox mt-2">DRM Content ID</label> }
-                            { backupProtection == 'disabled' ? false : true  && backupProtection && <input className='form-control'/>}
+                            { backupProtection == 'disabled' ? false : true  && backupProtection && 
+                                <input value={backupDRM} onChange={handleBackupDRMChange} className='form-control'/>
+                            }
                         </div>
                     </div>}
 

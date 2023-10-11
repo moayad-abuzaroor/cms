@@ -64,8 +64,8 @@ function ChannelsTable({ sharedData, setSharedData }){
     const handleEmptyShared = () => {
         setSharedData({id:null, channel_title: '', channel_epg: null,
         channel_categories: null, channel_number: '', channel_type: null, channel_parental_rate: null,
-        channel_status: null, channel_stream_location: null, channel_url: null, channel_protection: null, backup_stream_location: null,
-        backup_url: null, backup_protection: null, channel_logo: null})
+        channel_status: null, channel_stream_location: null, channel_url: '', channel_protection: null, backup_stream_location: null,
+        backup_url: '', backup_protection: null, channel_logo: null, channel_drm:'', backup_drm: ''})
       }
 
     const [searchTerm, setSearchTerm] = useState('');

@@ -129,7 +129,8 @@ function AddChannel({ sharedData, setSharedData }){
         channel_parental_rate: sharedData.channel_parental_rate,
         channel_status: status, channel_stream_location: sharedData.channel_stream_location, channel_url: sharedData.channel_url,
         channel_protection: sharedData.channel_protection, backup_stream_location: sharedData.backup_stream_location,
-        backup_url: sharedData.backup_url, backup_protection: sharedData.backup_protection, channel_logo: sharedData.channel_logo
+        backup_url: sharedData.backup_url, backup_protection: sharedData.backup_protection, channel_logo: sharedData.channel_logo, channel_drm: sharedData.channel_drm,
+        backup_drm: sharedData.backup_drm
     });
 
     const handleTitleChange = (e) => {
