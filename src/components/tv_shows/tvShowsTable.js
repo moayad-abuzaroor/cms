@@ -18,7 +18,7 @@ function TvShowsTable({ sharedData, setSharedData }) {
       .then(response => response.json())
       .then(data => { setTvShows(data);
         })     
-      .catch(error => { console.error('Error fetching movies:', error); });
+      .catch(error => { console.error('Error fetching tv shows:', error); });
     }, []);
 
     const handleDeleteClick = (tvshowId) => {
@@ -47,12 +47,12 @@ function TvShowsTable({ sharedData, setSharedData }) {
           return response.json(); // If the server returns JSON, you can parse it
         })
         .then(data => {
-          console.log('Movie deleted successfully:', data);
+          console.log('TV Show deleted successfully:', data);
           // Optionally, you can update your component state or perform other actions here
           
         })
         .catch(error => {
-          console.error('Error deleting movie:', error);
+          console.error('Error deleting tv show:', error);
           // Handle error, show a message, etc.
         });
     };
