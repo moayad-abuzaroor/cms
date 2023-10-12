@@ -11,7 +11,7 @@ function AddMovies({ sharedData, setSharedData }) {
 
   console.log(sharedData)
 
-  const [navbarDisabled, setNavbarDisabled] = useState(true);
+  const [navbarDisabled, setNavbarDisabled] = useState(sharedData.id == null ? true : false);
 
   // if(sharedData.id == null){
   //   const [selectedGenres, setSelectedGenres] = useState([]);

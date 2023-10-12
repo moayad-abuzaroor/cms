@@ -17,7 +17,7 @@ function AddTvShow({ sharedData, setSharedData }) {
 
   
 
-    const [navbarDisabled, setNavbarDisabled] = useState(true);
+    const [navbarDisabled, setNavbarDisabled] = useState(sharedData.id == null ? true : false);
 
     const [requiredMsg, setRequiredMsg] = useState(false);
 
