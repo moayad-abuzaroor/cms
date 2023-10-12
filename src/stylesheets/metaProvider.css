@@ -217,7 +217,7 @@ body{
   /* metaProvider.css */
 
 .table-responsive {
-    max-height: 300px; /* Set a max height for the table */
-    overflow-y: auto; /* Enable vertical scrolling */
+    max-height: 600px; /* Set a max height for the table */
+    overflow-y: hidden; /* Enable vertical scrolling */
   }
   

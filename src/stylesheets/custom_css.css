@@ -49,4 +49,10 @@ tr{
 .animated-card:hover {
     transform: scale(1.05);
 }
+
+.table {
+    overflow-y: auto; /* This will add a vertical scrollbar if necessary */
+    max-height: 600px; /* Adjust this value to set the maximum height of the table */
+  }
+  
   
