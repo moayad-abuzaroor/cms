@@ -8,6 +8,9 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 function AddSeason() {
 
+    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+    const [showDangerAlert, setShowDangerAlert] = useState(false);
+
     const [title, setTitle] = useState('');
     const [requiredMsg, setRequiredMsg] = useState(false);
 
@@ -61,21 +64,37 @@ function AddSeason() {
         setCastTags(updatedTags);
     };
 
+    var count = 0;
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (title.trim() === '') {
-        setRequiredMsg(true);
+          setRequiredMsg(true);
+          count = count + 1;
         } else {
-        // Handle form submission
-        setRequiredMsg(false);
+          // Handle form submission
+          setRequiredMsg(false);
         }
 
         if (seasonNumber.trim() === '') {
-        setSeasonRequiredMsg(true);
+          setSeasonRequiredMsg(true);
+          count = count + 1;
         } else {
-        // Handle form submission
-        setSeasonRequiredMsg(false);
+          // Handle form submission
+          setSeasonRequiredMsg(false);
+        }
+
+        if(count == 0){
+          setShowSuccessAlert(true);
+          setTimeout(() => {
+              setShowSuccessAlert(false);
+          }, 5000);
+        }
+        else{
+          setShowDangerAlert(true)
+            setTimeout(() => {
+                setShowDangerAlert(false);
+            }, 5000);
         }
     };
 
@@ -232,6 +251,16 @@ function AddSeason() {
             </div>
 
         </form>
+        {showSuccessAlert && (
+            <div className="alert alert-success fixed-bottom fixed-end p-3 m-4 ml-auto" style={{width: '25%', marginBottom: '5px'}} role="alert">
+                Season added successfully
+            </div>
+        )}
+        {showDangerAlert && (
+            <div class="alert alert-danger fixed-bottom fixed-end p-3 m-4 ml-auto" style={{width: '25%', marginBottom: '5px'}} role="alert">
+                Please fill the required fields!
+            </div>
+        )}
       </div>
     </div>
   );
