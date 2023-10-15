@@ -10,6 +10,7 @@ import AddSeason from './addSeason';
 import TvSubmit from '../shared/tvSubmit';
 import EditSeason from './editSeason';
 import ShowEpisodes from './showEpisodes';
+import EditEpisode from './editEpisode';
 
 function TvShowPage() {
 
@@ -36,6 +37,7 @@ function TvShowPage() {
         <Route path='/submit' element={<TvSubmit />} />
         <Route path='/seasons/editseason' element={<EditSeason />} />
         <Route path='/seasons/editseason/episodes' element={<ShowEpisodes />} />
+        <Route path='/seasons/editseason/episodes/editepisode' element={<EditEpisode />} />
       </Routes>
     </div>
   );

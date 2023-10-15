@@ -64,6 +64,12 @@ function ShowEpisodes() {
     const endIndex = startIndex + itemsPerPage;
     const currentEpisodes = episodes.slice(startIndex, endIndex);
 
+    const navigate = useNavigate();
+
+    const navigateEpisodes = () => {
+        navigate('editepisode');
+    }
+
     return(
         <div className="container-fluid bg-light" style={{ padding: '2%', height: '100%'}}>
             <div className='row'>
@@ -135,7 +141,7 @@ function ShowEpisodes() {
                                     <td className='align-middle'></td>
                                     <td className='align-middle'> 
                                         {/* Add action buttons here */}
-                                        <FontAwesomeIcon className='text-primary mx-1' icon={faEdit} />
+                                        <FontAwesomeIcon className='text-primary mx-1' style={{cursor: 'pointer'}} onClick={navigateEpisodes} icon={faEdit} />
                                         <FontAwesomeIcon className='text-danger mx-1' icon={faTrash} />
                                     </td>
                                 </tr>
