@@ -20,6 +20,9 @@ function SeriesGraphics({ sharedData, setSharedData }){
     const [selectedImageJaw, setSelectedImageJaw] = useState(sharedData.jaw_image);
     const [selectedImageMin, setSelectedImageMin] = useState(sharedData.ministra_image);
 
+    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+    const [showDangerAlert, setShowDangerAlert] = useState(false);
+
     const [selectedApp, setSelectedApp] = useState(""); // Initialize with an empty string
 
     const handleSelectChange = (e) => {
@@ -60,6 +63,20 @@ function SeriesGraphics({ sharedData, setSharedData }){
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if(selectedApp == ''){
+            setShowDangerAlert(true)
+            setTimeout(() => {
+            setShowDangerAlert(false);
+        }, 5000);
+        }
+        else{
+            setShowSuccessAlert(true);
+            setTimeout(() => {
+            setShowSuccessAlert(false);
+        }, 5000);
+        }
+
         const formData = new FormData(); // Create a FormData object to handle file uploads
 
         // Add form data to the FormData object
@@ -161,6 +178,16 @@ function SeriesGraphics({ sharedData, setSharedData }){
                         <button type='button' className='btn btn-secondary ml-1'>Cancel</button>
                     </div>
                 </form>
+                {showSuccessAlert && (
+                    <div className="alert alert-success fixed-bottom fixed-end p-3 m-4 ml-auto" style={{width: '25%', marginBottom: '5px'}} role="alert">
+                        Graphics added successfully
+                    </div>
+                )}
+                {showDangerAlert && (
+                    <div class="alert alert-danger fixed-bottom fixed-end p-3 m-4 ml-auto" style={{width: '25%', marginBottom: '5px'}} role="alert">
+                        Please select app!
+                    </div>
+                )}
             </div>
         </div>
     );

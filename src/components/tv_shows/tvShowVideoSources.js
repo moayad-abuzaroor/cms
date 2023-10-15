@@ -6,6 +6,9 @@ function TvShowVideoSources({sharedData, setSharedData}){
 
     console.log(sharedData)
 
+    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+    const [showDangerAlert, setShowDangerAlert] = useState(false);
+
     const [showStreamLocation, setShowStreamLocation] = useState(sharedData.tvshow_stream_location ? sharedData.tvshow_stream_location : null);
     const [showLocationRequiredMsg, setShowLocationRequiredMsg] = useState(false);
 
@@ -60,7 +63,11 @@ function TvShowVideoSources({sharedData, setSharedData}){
         }
 
         if(count == 0){
-            console.log(showStreamLocation)
+            setShowSuccessAlert(true);
+            setTimeout(() => {
+                setShowSuccessAlert(false);
+            }, 5000);
+
             const formData = new FormData();
 
             formData.append('tvshow_title', sharedData.tvshow_title);
@@ -88,6 +95,12 @@ function TvShowVideoSources({sharedData, setSharedData}){
                 // Handle errors
                 console.error('Error:', error);
             });
+        }
+        else{
+            setShowDangerAlert(true)
+            setTimeout(() => {
+                setShowDangerAlert(false);
+            }, 5000);
         }
     }
 
@@ -143,6 +156,16 @@ function TvShowVideoSources({sharedData, setSharedData}){
                     </div>
 
                 </form>
+                {showSuccessAlert && (
+                    <div className="alert alert-success fixed-bottom fixed-end p-3 m-4 ml-auto" style={{width: '25%', marginBottom: '5px'}} role="alert">
+                        Video Sources added successfully
+                    </div>
+                )}
+                {showDangerAlert && (
+                    <div class="alert alert-danger fixed-bottom fixed-end p-3 m-4 ml-auto" style={{width: '25%', marginBottom: '5px'}} role="alert">
+                        Please fill the required fields!
+                    </div>
+                )}
             </div>
         </div>
     );
