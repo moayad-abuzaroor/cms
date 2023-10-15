@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import TvShowTitleComponent from "../shared/tvShowsTitleComponent";
 import TvShowsNavBar from "../shared/TvShowsNavBar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 
@@ -55,6 +55,12 @@ function EditSeason (){
             show_episode:'',
         }
     ]);
+
+    const navigate = useNavigate();
+
+    const navigateEpisodes = () => {
+        navigate('episodes');
+    }
 
     const [currentPage, setCurrentPage] = useState(0);
 
@@ -149,7 +155,7 @@ function EditSeason (){
                                         <td className='align-middle'><input className='btn btn-primary' type='button' value="Add" /></td>
                                         <td className='align-middle'>{season.transfer}</td>
                                         <td className='align-middle'>{season.added_by}</td>
-                                        <td className='align-middle'><input className='btn btn-primary' type='button' value="Show" /></td>
+                                        <td className='align-middle'><input onClick={navigateEpisodes} className='btn btn-primary' type='button' value="Show" /></td>
                                         <td className='align-middle'> 
                                             {/* Add action buttons here */}
                                             <FontAwesomeIcon className='text-primary mx-1' icon={faEdit} />
