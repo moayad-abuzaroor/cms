@@ -75,7 +75,7 @@ const [status, setStatus] = useState(initialStatus);
   };
   
 
-  
+  console.log(status)
 
   const [movieDetails, setMovieDetails] = useState({
     movie_title: sharedData.movie_title, movie_description: sharedData.movie_description, movie_year: sharedData.movie_year, movie_release_date: sharedData.movie_release_date, movie_rate: sharedData.movie_rate, movie_awards: sharedData.movie_awards, movie_runtime: sharedData.movie_runtime,
@@ -244,7 +244,7 @@ const [status, setStatus] = useState(initialStatus);
       if (movieDetails.movie_country !== null) formData.append('movie_country', movieDetails.movie_country);
       if (movieDetails.movie_parental_rate !== null) formData.append('movie_parental_rate', movieDetails.movie_parental_rate);
       if (movieDetails.movie_language !== null) formData.append('movie_language', movieDetails.movie_language);
-      if (movieDetails.movie_status !== null) formData.append('movie_status', status);
+      if (movieDetails.movie_status !== null) {formData.append('movie_status', status)} else {formData.append('movie_status', status)};
       // ... Add other fields similarly
 
       // Add files to FormData (assuming ilikeImageFile, jawImageFile, and ministraImageFile are file objects)
