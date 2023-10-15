@@ -296,6 +296,14 @@ function EditEpisode(){
         }));
       };
 
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        setShowSuccessAlert(true);
+          setTimeout(() => {
+              setShowSuccessAlert(false);
+          }, 5000);
+      }
+
     return(
         <div className='container-fluid bg-light' style={{ padding: '2%', height: '100%'}}>
             <div className='row'>
@@ -307,7 +315,7 @@ function EditEpisode(){
             <TvShowTitleComponent />
 
             <div className='row'>
-                <form className='col-lg-11 mx-auto addForm' style={{backgroundColor: 'white'}}>
+                <form onSubmit={handleSubmit} className='col-lg-11 mx-auto addForm' style={{backgroundColor: 'white'}}>
                     <div style={{display: 'flex', flexDirection: 'row'}}>
                     <h3>Add Episode</h3>
                     <div className="form-row ml-auto">
@@ -556,6 +564,11 @@ function EditEpisode(){
                         </Link>  
                     </div>
                 </form>
+                {showSuccessAlert && (
+                    <div className="alert alert-success fixed-bottom fixed-end p-3 m-4 ml-auto" style={{width: '25%', marginBottom: '5px'}} role="alert">
+                        Episode added successfully
+                    </div>
+                )}
             </div>
         </div>
     )
