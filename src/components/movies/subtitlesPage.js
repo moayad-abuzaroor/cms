@@ -25,6 +25,9 @@ function SubtitlesPage({sharedData, setSharedData}) {
         }
     ]);
 
+    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+    const [showDangerAlert, setShowDangerAlert] = useState(false);
+
     const [movieSubtitle, setMovieSubtitle] = useState('');
     const [movieSubtitleRequiredMsg, setMovieSubtitleRequiredMsg] = useState(false);
 
@@ -58,6 +61,10 @@ function SubtitlesPage({sharedData, setSharedData}) {
         }
 
         if(count == 0){
+            setShowSuccessAlert(true);
+            setTimeout(() => {
+                setShowSuccessAlert(false);
+            }, 5000);
             const formData = new FormData(); // Create a FormData object to handle file uploads
 
             formData.append('movie_title', sharedData.movie_title);
@@ -85,6 +92,12 @@ function SubtitlesPage({sharedData, setSharedData}) {
                 // Handle errors
                 console.error('Error:', error);
             });
+        }
+        else{
+            setShowDangerAlert(true)
+            setTimeout(() => {
+                setShowDangerAlert(false);
+            }, 5000);
         }
     };
 
@@ -221,6 +234,16 @@ function SubtitlesPage({sharedData, setSharedData}) {
                         <button type='button' className='btn btn-secondary ml-1'>Cancel</button>
                     </div>
                 </form>
+                {showSuccessAlert && (
+                    <div className="alert alert-success fixed-bottom fixed-end p-3 m-4 ml-auto" style={{width: '25%', marginBottom: '5px'}} role="alert">
+                        Subtitles added successfully
+                    </div>
+                )}
+                {showDangerAlert && (
+                    <div class="alert alert-danger fixed-bottom fixed-end p-3 m-4 ml-auto" style={{width: '25%', marginBottom: '5px'}} role="alert">
+                        Please fill the required fields!
+                    </div>
+                )}
             </div>
         </div>
     );

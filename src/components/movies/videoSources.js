@@ -7,7 +7,10 @@ function VideoSources({sharedData, setSharedData}) {
 
     console.log(sharedData)
 
-    const [movieStreamLocation, setMovieStreamLocation] = useState(null);
+    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+    const [showDangerAlert, setShowDangerAlert] = useState(false);
+
+    const [movieStreamLocation, setMovieStreamLocation] = useState(sharedData.movie_stream_location);
     const [movieLocationRequiredMsg, setMovieLocationRequiredMsg] = useState(false);
 
     const handleMovieStreamLocationChange = (e) => {
@@ -15,7 +18,7 @@ function VideoSources({sharedData, setSharedData}) {
         setMovieLocationRequiredMsg(false); // Reset required message when input changes
     };
 
-    const [movieUrlPath, setMovieUrlPath] = useState('');
+    const [movieUrlPath, setMovieUrlPath] = useState(sharedData.movie_url);
     const [movieUrlRequiredMsg, setMovieUrlRequiredMsg] = useState(false);
 
     const handleMovieUrlChange = (e) => {
@@ -23,7 +26,7 @@ function VideoSources({sharedData, setSharedData}) {
         setMovieUrlRequiredMsg(false); // Reset required message when input changes
     };
 
-    const [movieProtection, setMovieProtection] = useState(null);
+    const [movieProtection, setMovieProtection] = useState(sharedData.movie_protection);
     const [movieProtectionRequiredMsg, setMovieProtectionRequiredMsg] = useState(false);
 
     const handleMovieProtectionChange = (e) => {
@@ -31,7 +34,7 @@ function VideoSources({sharedData, setSharedData}) {
         setMovieProtectionRequiredMsg(false); // Reset required message when input changes
     };
 
-    const [trailerStreamLocation, setTrailerStreamLocation] = useState(null);
+    const [trailerStreamLocation, setTrailerStreamLocation] = useState(sharedData.trailer_stream_location);
     const [trailerLocationRequiredMsg, setTrailerLocationRequiredMsg] = useState(false);
 
     const handleTrailerStreamLocationChange = (e) => {
@@ -39,7 +42,7 @@ function VideoSources({sharedData, setSharedData}) {
         setTrailerLocationRequiredMsg(false); // Reset required message when input changes
     };
 
-    const [trailerUrlPath, setTrailerUrlPath] = useState('');
+    const [trailerUrlPath, setTrailerUrlPath] = useState(sharedData.trailer_url);
     const [trailerUrlRequiredMsg, setTrailerUrlRequiredMsg] = useState(false);
 
     const handleTrailerUrlChange = (e) => {
@@ -47,7 +50,7 @@ function VideoSources({sharedData, setSharedData}) {
         setTrailerUrlRequiredMsg(false); // Reset required message when input changes
     };
 
-    const [trailerProtection, setTrailerProtection] = useState(null);
+    const [trailerProtection, setTrailerProtection] = useState(sharedData.trailer_protection);
     const [trailerProtectionRequiredMsg, setTrailerProtectionRequiredMsg] = useState(false);
 
     const handleTrailerProtectionChange = (e) => {
@@ -108,6 +111,10 @@ function VideoSources({sharedData, setSharedData}) {
         }
 
         if(count == 0){
+            setShowSuccessAlert(true);
+            setTimeout(() => {
+                setShowSuccessAlert(false);
+            }, 5000);
             const formData = new FormData();
 
             formData.append('movie_title', sharedData.movie_title);
@@ -139,6 +146,12 @@ function VideoSources({sharedData, setSharedData}) {
                 // Handle errors
                 console.error('Error:', error);
             });
+        }
+        else{
+            setShowDangerAlert(true)
+            setTimeout(() => {
+                setShowDangerAlert(false);
+            }, 5000);
         }
     };
 
@@ -276,6 +289,16 @@ function VideoSources({sharedData, setSharedData}) {
                         <button type='button' className="btn btn-secondary ml-1">Cancel</button>
                     </div>
                 </form>
+                {showSuccessAlert && (
+                    <div className="alert alert-success fixed-bottom fixed-end p-3 m-4 ml-auto" style={{width: '25%', marginBottom: '5px'}} role="alert">
+                        Video Sources added successfully
+                    </div>
+                )}
+                {showDangerAlert && (
+                    <div class="alert alert-danger fixed-bottom fixed-end p-3 m-4 ml-auto" style={{width: '25%', marginBottom: '5px'}} role="alert">
+                        Please fill the required fields!
+                    </div>
+                )}
             </div>
         </div>
     );
