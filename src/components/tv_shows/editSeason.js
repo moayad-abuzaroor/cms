@@ -136,7 +136,7 @@ function EditSeason (){
                                     <th className="text-center align-middle">Add Season to iLike</th>
                                     <th className="text-center align-middle">Transfer or Not</th>
                                     <th className="text-center align-middle">Added By</th>
-                                    <th className="text-center align-middle">Show Episode</th>
+                                    <th className="text-center align-middle">Show Episodes</th>
                                     <th className="text-center align-middle">Actions</th>
                                 </tr>
                             </thead>
@@ -146,10 +146,10 @@ function EditSeason (){
                                         <td className='align-middle'>{season.number}</td>
                                         <td className='align-middle'>{season.no}</td>
                                         <td className='align-middle'>{season.name}</td>
-                                        <td className='align-middle'>{season.add}</td>
+                                        <td className='align-middle'><input className='btn btn-primary' type='button' value="Add" /></td>
                                         <td className='align-middle'>{season.transfer}</td>
                                         <td className='align-middle'>{season.added_by}</td>
-                                        <td className='align-middle'>{season.show_episode}</td>
+                                        <td className='align-middle'><input className='btn btn-primary' type='button' value="Show" /></td>
                                         <td className='align-middle'> 
                                             {/* Add action buttons here */}
                                             <FontAwesomeIcon className='text-primary mx-1' icon={faEdit} />
