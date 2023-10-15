@@ -6,6 +6,9 @@ function ChannelSources({ sharedData, setSharedData }){
 
     console.log(sharedData)
 
+    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+    const [showDangerAlert, setShowDangerAlert] = useState(false);
+
     const [backupCheckbox, setBackupCheckbox] = useState(false);
 
     const [channelStreamLocation, setChannelStreamLocation] = useState(sharedData.channel_stream_location);
@@ -36,7 +39,7 @@ function ChannelSources({ sharedData, setSharedData }){
         setChannelDRM(e.target.value);
     };
 
-    const [backupStreamLocation, setBackupStreamLocation] = useState(null);
+    const [backupStreamLocation, setBackupStreamLocation] = useState(sharedData.backup_stream_location);
     const [backupLocationRequiredMsg, setBackupLocationRequiredMsg] = useState(false);
 
     const handleBackupStreamLocationChange = (e) => {
@@ -44,7 +47,7 @@ function ChannelSources({ sharedData, setSharedData }){
         setBackupLocationRequiredMsg(false); // Reset required message when input changes
     };
 
-    const [backupUrlPath, setBackupUrlPath] = useState('');
+    const [backupUrlPath, setBackupUrlPath] = useState(sharedData.backup_url);
     const [backupUrlRequiredMsg, setBackupUrlRequiredMsg] = useState(false);
 
     const handleBackupUrlChange = (e) => {
@@ -52,7 +55,7 @@ function ChannelSources({ sharedData, setSharedData }){
         setBackupUrlRequiredMsg(false); // Reset required message when input changes
     };
 
-    const [backupProtection, setBackupProtection] = useState(null);
+    const [backupProtection, setBackupProtection] = useState(sharedData.backup_protection);
 
     const handleBackupProtectionChange = (e) => {
         setBackupProtection(e.target.value);
@@ -84,7 +87,7 @@ function ChannelSources({ sharedData, setSharedData }){
             setChannelLocationRequiredMsg(false);
         }
 
-        if(channelUrlPath == ''){
+        if(channelUrlPath == '' || channelUrlPath == null){
             setChannelUrlRequiredMsg(true);
             count = count + 1;
         } else {
@@ -108,6 +111,12 @@ function ChannelSources({ sharedData, setSharedData }){
         }
 
         if(count == 0){
+
+            setShowSuccessAlert(true);
+            setTimeout(() => {
+                setShowSuccessAlert(false);
+            }, 5000);
+
             const formData = new FormData();
 
             formData.append('channel_title', sharedData.channel_title);
@@ -138,6 +147,12 @@ function ChannelSources({ sharedData, setSharedData }){
                 // Handle errors
                 console.error('Error:', error);
             });
+        }
+        else{
+            setShowDangerAlert(true)
+            setTimeout(() => {
+                setShowDangerAlert(false);
+            }, 5000);
         }
 
     }
@@ -252,6 +267,16 @@ function ChannelSources({ sharedData, setSharedData }){
                     </div>
 
                 </form>
+                {showSuccessAlert && (
+                    <div className="alert alert-success fixed-bottom fixed-end p-3 m-4 ml-auto" style={{width: '25%', marginBottom: '5px'}} role="alert">
+                        Sources added successfully
+                    </div>
+                )}
+                {showDangerAlert && (
+                    <div class="alert alert-danger fixed-bottom fixed-end p-3 m-4 ml-auto" style={{width: '25%', marginBottom: '5px'}} role="alert">
+                        Please fill the required fields!
+                    </div>
+                )}
             </div>
         </div>
     );
