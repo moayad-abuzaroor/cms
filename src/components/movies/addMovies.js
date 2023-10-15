@@ -12,6 +12,8 @@ function AddMovies({ sharedData, setSharedData }) {
   console.log(sharedData)
 
   const [navbarDisabled, setNavbarDisabled] = useState(sharedData.id == null ? true : false);
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [showDangerAlert, setShowDangerAlert] = useState(false);
 
   // if(sharedData.id == null){
   //   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -219,13 +221,17 @@ const [status, setStatus] = useState(initialStatus);
 
     if(count == 0){
       setNavbarDisabled(false);
+      setShowSuccessAlert(true);
+      setTimeout(() => {
+        setShowSuccessAlert(false);
+      }, 5000);
       setMovieDetails({...movieDetails, movie_genres: selectedGenres[0]})
       
 
 
 
       const formData = new FormData(); // Create a FormData object to handle file uploads
-console.log(movieDetails)
+
       // Add form data to the FormData object
       formData.append('movie_title', movieDetails.movie_title);
       formData.append('movie_description', movieDetails.movie_description);
@@ -277,7 +283,13 @@ console.log(movieDetails)
           console.error('Error:', error);
         });
       }
-    };
+    }
+    else{
+      setShowDangerAlert(true)
+      setTimeout(() => {
+        setShowDangerAlert(false);
+      }, 5000);
+    }
 
 
 
@@ -511,6 +523,16 @@ console.log(movieDetails)
           </div>
 
         </form>
+        {showSuccessAlert && (
+          <div className="alert alert-success fixed-bottom fixed-end p-3 m-4 ml-auto" style={{width: '25%', marginBottom: '5px'}} role="alert">
+            Metadata added successfully
+          </div>
+        )}
+        {showDangerAlert && (
+          <div class="alert alert-danger fixed-bottom fixed-end p-3 m-4 ml-auto" style={{width: '25%', marginBottom: '5px'}} role="alert">
+            Please fill the required fields!
+        </div>
+        )}
       </div>
     </div>
   );
