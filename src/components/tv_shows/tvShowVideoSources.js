@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import TvShowTitleComponent from "../shared/tvShowsTitleComponent";
 import TvShowsNavBar from "../shared/TvShowsNavBar";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleMinus } from "@fortawesome/free-solid-svg-icons";
 
 function TvShowVideoSources({sharedData, setSharedData}){
 
@@ -38,7 +40,7 @@ function TvShowVideoSources({sharedData, setSharedData}){
     const handleSubmit = (e) => {
         e.preventDefault();  
 
-        if (showStreamLocation == null) {
+        if (showStreamLocation == null || showStreamLocation == '') {
             setShowLocationRequiredMsg(true);
             count = count + 1;
         } else {
@@ -54,7 +56,7 @@ function TvShowVideoSources({sharedData, setSharedData}){
             setShowUrlRequiredMsg(false);
         }
 
-        if (showProtection == null) {
+        if (showProtection == null || showProtection == '') {
             setShowProtectionRequiredMsg(true);
             count = count + 1;
         } else {
@@ -122,13 +124,18 @@ function TvShowVideoSources({sharedData, setSharedData}){
                     <div className='form-row mt-4'>
                         <div className='form-group col-md-6'>
                             <label className="labelBox">Stream Location <span className="text-danger">*</span></label>
-                            <select value={showStreamLocation} onChange={handleShowStreamLocationChange}
-                             className={`form-control ${showLocationRequiredMsg ? 'is-invalid' : ''}`} name='StreamLocation'>
-                                <option selected="false" disabled="disabled">Select Stream Location</option>
-                                <option>option 1</option>
-                                <option>option 2</option>
-                                <option>option 3</option>
-                            </select>
+                            <div style={{display: 'flex'}}>
+                                <select value={showStreamLocation} onChange={handleShowStreamLocationChange}
+                                className={`customBorderRight form-control ${showLocationRequiredMsg ? 'is-invalid' : ''}`} name='StreamLocation'>
+                                    <option value='' selected="false" disabled="disabled">Select Stream Location</option>
+                                    <option>option 1</option>
+                                    <option>option 2</option>
+                                    <option>option 3</option>
+                                </select>
+                                <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setShowStreamLocation('')}}>
+                                    <FontAwesomeIcon icon={faCircleMinus} />
+                                </button>
+                            </div>
                             {showLocationRequiredMsg && <div className='text-danger small'>Required Field</div>}
                         </div>
 
@@ -137,17 +144,23 @@ function TvShowVideoSources({sharedData, setSharedData}){
                             <input value={showUrlPath} onChange={handleShowUrlChange} className={`form-control ${showUrlRequiredMsg ? 'is-invalid' : ''}`} />
                             {showUrlRequiredMsg && <div className='text-danger small'>Required Field</div>}
                         </div>
-                    </div>
+                    
 
-                    <div className='form-group'>
-                        <label className="labelBox">Protection <span className="text-danger">*</span></label>
-                        <select value={showProtection} onChange={handleShowProtectionChange}
-                         className={`form-control ${showProtectionRequiredMsg ? 'is-invalid' : ''}`} name='StreamLocation' required>
-                            <option selected="false" disabled="disabled">Select a Protection</option>
-                            <option>option 2</option>
-                            <option>option 3</option>
-                        </select>
-                        {showProtectionRequiredMsg && <div className='text-danger small'>Required Field</div>}
+                        <div className='form-group col-md-6'>
+                            <label className="labelBox">Protection <span className="text-danger">*</span></label>
+                            <div style={{display: 'flex'}}>
+                                <select value={showProtection} onChange={handleShowProtectionChange}
+                                className={`customBorderRight form-control ${showProtectionRequiredMsg ? 'is-invalid' : ''}`} name='StreamLocation'>
+                                    <option value='' selected="false" disabled="disabled">Select a Protection</option>
+                                    <option>option 2</option>
+                                    <option>option 3</option>
+                                </select>
+                                <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setShowProtection('')}}>
+                                    <FontAwesomeIcon icon={faCircleMinus} />
+                                </button>
+                            </div>
+                            {showProtectionRequiredMsg && <div className='text-danger small'>Required Field</div>}
+                        </div>
                     </div>
 
                     <div className='form-group'>
