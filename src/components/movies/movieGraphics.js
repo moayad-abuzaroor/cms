@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import MovieTitleComponent from '../shared/movietTitleComponent';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faCircleMinus } from '@fortawesome/free-solid-svg-icons';
 import MoviesNavBar from '../shared/MoviesNavBar';
 
 function MovieGraphics({sharedData, setSharedData}) {
 
     console.log(sharedData)
 
-    const [backendSelectedImageILike, setBackendSelectedImageILike] = useState(null);
+    const [backendSelectedImageILike, setBackendSelectedImageILike] = useState('');
     const [backendSelectedImageJaw, setBackendSelectedImageJaw] = useState('');
     const [backendSelectedImageMin, setBackendSelectedImageMin] = useState('');
 
@@ -123,7 +123,27 @@ function MovieGraphics({sharedData, setSharedData}) {
         });
     };
     
-    
+    const handleRemoveImages = () => {
+        setBackendSelectedImageILike('');
+        setBackendSelectedImageJaw('');
+        setBackendSelectedImageMin('');
+        setSelectedImageILike(null)
+        setSelectedImageJaw(null)
+        setSelectedImageMin(null)
+    };
+    const handleRemoveImageJaw = () => {
+        setBackendSelectedImageJaw('');
+        setBackendSelectedImageILike(backendSelectedImageJaw);
+        setBackendSelectedImageMin(backendSelectedImageMin);
+        setSelectedImageJaw(null)
+    };
+
+    const handleRemoveImageMin = () => {
+        setBackendSelectedImageMin('');
+        setBackendSelectedImageJaw(backendSelectedImageJaw);
+        setBackendSelectedImageILike(backendSelectedImageILike);
+        setSelectedImageMin(null)
+    };
 
     return (
         <div className='container-fluid bg-light' style={{ padding: '2%', height: '100%' }}>
@@ -153,8 +173,11 @@ function MovieGraphics({sharedData, setSharedData}) {
                             <div className='input-group'>
                                 <div className='custom-file'>
                                     <input type='file' className='custom-file-input' id='file-upload' accept='image/*' onChange={handleImageUpload} />
-                                    <label className='custom-file-label' htmlFor='file-upload'>Browse</label>
+                                    <label className='custom-file-label' htmlFor='file-upload'>{backendSelectedImageILike.name || 'Browse'}</label>
                                 </div>
+                                <button type="button" className="btn btn-danger customBorderLeft" onClick={handleRemoveImages}>
+                                    <FontAwesomeIcon icon={faCircleMinus} />
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -165,7 +188,12 @@ function MovieGraphics({sharedData, setSharedData}) {
                     </div>
 
                     <div className='form-row'>
-                        {selectedImageILike && <img src={selectedImageILike} alt='Selected' className='image' />}
+                        {selectedImageILike &&
+                        <>
+                            <img src={selectedImageILike} alt='Selected' className='image' />
+                        </>
+                         
+                        }
                     </div>
 
                     <div className='line mt-4'>
@@ -173,7 +201,11 @@ function MovieGraphics({sharedData, setSharedData}) {
                     </div>
 
                     <div className='form-row'>
-                        {selectedImageJaw && <img src={selectedImageJaw} alt='Selected' className='image' />}
+                        {selectedImageJaw && 
+                        <>
+                            <img src={selectedImageJaw} alt='Selected' className='image' />
+                        </>
+                        }
                     </div>
 
                     <div className='line mt-4'>
@@ -181,7 +213,11 @@ function MovieGraphics({sharedData, setSharedData}) {
                     </div>
 
                     <div className='form-row'>
-                        {selectedImageMin && <img src={selectedImageMin} alt='Selected' className='image' />}
+                        {selectedImageMin && 
+                        <>
+                            <img src={selectedImageMin} alt='Selected' className='image' />
+                        </>
+                        }
                     </div>
 
                     <div className='graphics' style={{ paddingTop: '20px' }}>
