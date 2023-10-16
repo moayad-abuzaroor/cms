@@ -3,7 +3,7 @@ import TvShowTitleComponent from "../shared/tvShowsTitleComponent";
 import TvShowsNavBar from "../shared/TvShowsNavBar";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faEdit, faTrash, faCircleMinus } from "@fortawesome/free-solid-svg-icons";
 
 
 function EditSeason (){
@@ -107,20 +107,28 @@ function EditSeason (){
                             <label className='labelBox'>Year</label>
                             <input className='form-control'/>
                         </div>
-                        <div className='form-group col-md-2'>
+                        <div className='form-group col-md-3'>
                             <label className='labelBox'>Get From</label>
-                            <select className='form-control' name='getfrom'>
-                                <option selected="false" disabled="disabled">Get From</option>
-                                <option>Manually</option>
-                                <option>option 3</option>
-                            </select>
+                            <div style={{display: 'flex'}}>
+                                <select className='form-control customBorderRight' name='getfrom'>
+                                    <option selected="false" disabled="disabled">Get From</option>
+                                    <option>Manually</option>
+                                    <option>option 3</option>
+                                </select>
+                                <button type="button" className="btn btn-danger customBorderLeft">
+                                    <FontAwesomeIcon icon={faCircleMinus} />
+                                </button>
+                            </div>
                         </div>
                         <div className='form-group col-md-3 mt-3'>
                             <div className='input-group mt-3'>
                                 <div className='custom-file'>
                                     <input type='file' className='custom-file-input' id='file-upload' accept='image/*' />
-                                    <label className='custom-file-label' htmlFor='file-upload'>Poster Link</label>
+                                    <label className='custom-file-label' htmlFor='file-upload'>Poster</label>
                                 </div>
+                                <button type="button" className="btn btn-danger customBorderLeft">
+                                    <FontAwesomeIcon icon={faCircleMinus} />
+                                </button>
                             </div>
                         </div>
                     </div>
