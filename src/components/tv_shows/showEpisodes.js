@@ -3,7 +3,7 @@ import TvShowTitleComponent from "../shared/tvShowsTitleComponent";
 import TvShowsNavBar from "../shared/TvShowsNavBar";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faEdit, faTrash, faCircleMinus } from "@fortawesome/free-solid-svg-icons";
 
 function ShowEpisodes() {
 
@@ -105,12 +105,17 @@ function ShowEpisodes() {
                         <div className='form-group col-md-3'>
                             <input className='form-control' type="text" placeholder="Episode Number" />
                         </div>
-                        <div className='form-group col-md-3'>
-                            <select className='form-control' name='stream_location'>
-                                <option selected="false" disabled="disabled">Select Stream Location</option>
-                                <option>VOD Streaming 15</option>
-                                <option>option 3</option>
-                            </select>
+                        <div className='form-group col-md-4'>
+                            <div style={{display: 'flex'}}>
+                                <select className='form-control customBorderRight' name='stream_location'>
+                                    <option value='' selected="false" disabled="disabled">Select Stream Location</option>
+                                    <option>VOD Streaming 15</option>
+                                    <option>option 3</option>
+                                </select>
+                                <button type="button" className="btn btn-danger customBorderLeft">
+                                    <FontAwesomeIcon icon={faCircleMinus} />
+                                </button>
+                            </div>
                         </div>
                         <div className='form-group col-md-2'>
                             <input className='btn btn-success' type="button" value="Generate"/>
