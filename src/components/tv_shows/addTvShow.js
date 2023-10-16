@@ -7,7 +7,7 @@ function AddTvShow({ sharedData, setSharedData }) {
 
   console.log(sharedData)
 
-  const initialGenres = sharedData?.id ? [sharedData.tvshow_genres] : [];
+  const initialGenres = sharedData?.id ? sharedData.tvshow_genres.split(',') : [];
   const initialStatusCheck = sharedData?.id ? (sharedData.tvshow_status === 'Active') : false;
   const initialStatus = sharedData?.id ? sharedData.tvshow_status : 'InActive';
 
@@ -206,6 +206,9 @@ function AddTvShow({ sharedData, setSharedData }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        const combinedGenres = selectedGenres.join(', ');
+
         if (tvshows.tvshow_title == null) {
           setRequiredMsg(true);
           count = count + 1;
@@ -239,7 +242,7 @@ function AddTvShow({ sharedData, setSharedData }) {
           if (tvshows.tvshow_last_date !== null) formData.append('tvshow_last_date', tvshows.tvshow_last_date);
           if (tvshows.tvshow_rate !== null) formData.append('tvshow_rate', tvshows.tvshow_rate);
           if (tvshows.tvshow_awards !== null) formData.append('tvshow_awards', tvshows.tvshow_awards);
-          if (tvshows.tvshow_genres !== null) formData.append('tvshow_genres', selectedGenres[0]);
+          if (tvshows.tvshow_genres !== null) formData.append('tvshow_genres', combinedGenres);
           if (tvshows.tvshow_parental_rate !== null) formData.append('tvshow_parental_rate', tvshows.tvshow_parental_rate);
           if (tvshows.tvshow_country !== null) formData.append('tvshow_country', tvshows.tvshow_country);
           if (tvshows.tvshow_language !== null) formData.append('tvshow_language', tvshows.tvshow_language);
@@ -376,7 +379,7 @@ function AddTvShow({ sharedData, setSharedData }) {
                       <span
                         key={index}
                         className="badge badge-pill badge-primary mr-2"
-                        style={{ cursor: 'pointer' }}
+                        style={{ cursor: 'pointer', color:'white' }}
                         onClick={() => handleRemoveGenre(genre)}
                       >
                         {genre} <span className="font-weight-bold">x</span>
