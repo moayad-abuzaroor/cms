@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import TvShowTitleComponent from '../shared/tvShowsTitleComponent';
 import TvShowsNavBar from '../shared/TvShowsNavBar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleMinus } from '@fortawesome/free-solid-svg-icons';
 
 function AddTvShow({ sharedData, setSharedData }) {
 
@@ -393,30 +395,45 @@ function AddTvShow({ sharedData, setSharedData }) {
             <div className='form-row'>
                 <div className='form-group col-md-4'>
                     <label className='labelBox'>Parental Rating</label>
-                    <select value={tvshows.tvshow_parental_rate} onChange={handleParentalRatingChange} className='form-control' name='parentalRating'>
-                        <option selected="false" disabled="disabled">Select a Parental Rating</option>
-                        <option>Rate 1</option>
-                        <option>Rate 2</option>
-                        <option>Rate 3</option>
-                    </select>
+                    <div style={{display: 'flex'}}>
+                      <select value={tvshows.tvshow_parental_rate} onChange={handleParentalRatingChange} className='form-control customBorderRight' name='parentalRating'>
+                          <option value='' selected="false" disabled="disabled">Select a Parental Rating</option>
+                          <option>Rate 1</option>
+                          <option>Rate 2</option>
+                          <option>Rate 3</option>
+                      </select>
+                      <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setTvshows({...tvshows, tvshow_parental_rate: ''})}}>
+                          <FontAwesomeIcon icon={faCircleMinus} />
+                      </button>
+                    </div>
                 </div>
                 <div className='form-group col-md-4'>
                     <label className='labelBox'>Countries</label>
-                    <select value={tvshows.tvshow_country} onChange={handleCountryChange} className='form-control' name='Countries'>
-                        <option selected="false" disabled="disabled">Select Countries</option>
-                        <option>Country 1</option>
-                        <option>Country 2</option>
-                        <option>Country 3</option>
-                    </select>
+                    <div style={{display: 'flex'}}>
+                      <select value={tvshows.tvshow_country} onChange={handleCountryChange} className='form-control customBorderRight' name='Countries'>
+                          <option value='' selected="false" disabled="disabled">Select Countries</option>
+                          <option>Country 1</option>
+                          <option>Country 2</option>
+                          <option>Country 3</option>
+                      </select>
+                      <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setTvshows({...tvshows, tvshow_country: ''})}}>
+                          <FontAwesomeIcon icon={faCircleMinus} />
+                      </button>
+                    </div>
                 </div>
                 <div className='form-group col-md-4'>
                     <label className='labelBox'>Original Version Language</label>
-                    <select value={tvshows.tvshow_language} onChange={handleLanguageChange} className='form-control' name='Genres'>
-                        <option selected="false" disabled="disabled">Select a Language</option>
-                        <option>Language 1</option>
-                        <option>Language 2</option>
-                        <option>Language 3</option>
-                    </select>
+                    <div style={{display: 'flex'}}>
+                      <select value={tvshows.tvshow_language} onChange={handleLanguageChange} className='form-control customBorderRight' name='Genres'>
+                          <option value='' selected="false" disabled="disabled">Select a Language</option>
+                          <option>Language 1</option>
+                          <option>Language 2</option>
+                          <option>Language 3</option>
+                      </select>
+                      <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setTvshows({...tvshows, tvshow_language: ''})}}>
+                          <FontAwesomeIcon icon={faCircleMinus} />
+                      </button>
+                    </div>
                 </div>                        
             </div>
 
