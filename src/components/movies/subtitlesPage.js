@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash, faCircleMinus } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Add Bootstrap CSS
 import MovieTitleComponent from '../shared/movietTitleComponent';
 import '../../stylesheets/subtitlesPage.css'
@@ -124,7 +124,7 @@ function SubtitlesPage({sharedData, setSharedData}) {
                             </div>
                             <div className='form-group mt-2'>
                                 <label className='labelBox'>Movie Subtitle <span className='text-danger'>*</span></label>
-                                <div className="form-group col-md-6">
+                                <div className="form-group col-md-8">
                                     <div className="input-group">
                                         <div className="custom-file">
                                         <input                                       
@@ -132,8 +132,11 @@ function SubtitlesPage({sharedData, setSharedData}) {
                                             type="file" className={`custom-file-input ${movieSubtitleRequiredMsg ? 'is-invalid' : ''}`}
                                             id="movieSubtitleUpload" accept=".srt,.sub,.sbv,.smi,.vtt" />
                                             <label className="custom-file-label" htmlFor="movieSubtitleUpload">{movieSubtitle.name || 'Browse'}</label>
-                                        </div>                                        
-                                    </div>
+                                        </div> 
+                                        <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setMovieSubtitle('')}}>
+                                            <FontAwesomeIcon icon={faCircleMinus} />
+                                        </button>                                       
+                                    </div>                                
                                     {movieSubtitleRequiredMsg && <div className='text-danger small'>Required Field</div>}
                                 </div>
                                 <div className='sub-allowed' style={{ paddingTop: '8px' }}>
@@ -153,7 +156,7 @@ function SubtitlesPage({sharedData, setSharedData}) {
                             </div>
                             <div className='form-group mt-2'>
                                 <label className='labelBox'>Trailer Subtitle</label>
-                                <div className="form-group col-md-6">
+                                <div className="form-group col-md-8">
                                     <div className="input-group">
                                         <div className="custom-file">
                                             <input type="file"
@@ -161,6 +164,9 @@ function SubtitlesPage({sharedData, setSharedData}) {
                                              className="custom-file-input" id="trailerSubtitleUpload" accept=".srt,.sub,.sbv,.smi,.vtt" />
                                             <label className="custom-file-label" htmlFor="trailerSubtitleUpload">{trailerSubtitle.name || 'Browse'}</label>
                                         </div>
+                                        <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setTrailerSubtitle('')}}>
+                                            <FontAwesomeIcon icon={faCircleMinus} />
+                                        </button>
                                     </div>
                                 </div>
                                 <div className='sub-allowed' style={{ paddingTop: '8px' }}>
@@ -183,11 +189,16 @@ function SubtitlesPage({sharedData, setSharedData}) {
                         <div className="col-md-6">
                             
                             <div className='form-group mt-4'>
-                                <select value={language} onChange={handleLanguageChange} className='form-control' name='sub-language'>
-                                    <option selected="false" disabled="disabled">Select a Language</option>
-                                    <option>Arabic</option>
-                                    <option>English</option>
-                                </select>
+                                <div style={{display: 'flex'}}>
+                                    <select value={language} onChange={handleLanguageChange} className='form-control customBorderRight' name='sub-language'>
+                                        <option value='' selected="false" disabled="disabled">Select a Language</option>
+                                        <option>Arabic</option>
+                                        <option>English</option>
+                                    </select>
+                                    <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setLanguage('')}}>
+                                        <FontAwesomeIcon icon={faCircleMinus} />
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
