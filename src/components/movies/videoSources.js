@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MovieTitleComponent from '../shared/movietTitleComponent';
 import MoviesNavBar from '../shared/MoviesNavBar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleMinus } from "@fortawesome/free-solid-svg-icons";
 
 function VideoSources({sharedData, setSharedData}) {
 
@@ -62,7 +64,7 @@ function VideoSources({sharedData, setSharedData}) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (movieStreamLocation == null) {
+        if (movieStreamLocation == null || movieStreamLocation == '') {
             setMovieLocationRequiredMsg(true);
             count = count + 1;
         } else {
@@ -78,7 +80,7 @@ function VideoSources({sharedData, setSharedData}) {
             setMovieUrlRequiredMsg(false);
         }
 
-        if (movieProtection == null) {
+        if (movieProtection == null || movieProtection == '') {
             setMovieProtectionRequiredMsg(true);
             count = count + 1;
         } else {
@@ -86,7 +88,7 @@ function VideoSources({sharedData, setSharedData}) {
             setMovieProtectionRequiredMsg(false);
         }
 
-        if (trailerStreamLocation == null) {
+        if (trailerStreamLocation == null || trailerStreamLocation == '') {
             setTrailerLocationRequiredMsg(true);
             count = count + 1;
         } else {
@@ -102,7 +104,7 @@ function VideoSources({sharedData, setSharedData}) {
             setTrailerUrlRequiredMsg(false);
         }
 
-        if (trailerProtection == null) {
+        if (trailerProtection == null || trailerProtection == '') {
             setTrailerProtectionRequiredMsg(true);
             count = count + 1;
         } else {
@@ -177,18 +179,23 @@ function VideoSources({sharedData, setSharedData}) {
                     <div className="form-row">
                         <div className="form-group col-md-6">
                             <label className="labelBox">Stream Location <span className="text-danger">*</span></label>
-                            <select
-                              value={movieStreamLocation}
-                              onChange={handleMovieStreamLocationChange}
-                              className={`form-control ${movieLocationRequiredMsg ? 'is-invalid' : ''}`} 
-                              name="StreamLocation"
-                              >
-                                <option selected="false" disabled="disabled">Select Stream Location</option>
-                                <option>VOD Streaming 15</option>
-                                <option>option 1</option>
-                                <option>option 2</option>
-                                <option>option 3</option>
-                            </select>
+                            <div style={{display: 'flex'}}>
+                                <select
+                                value={movieStreamLocation}
+                                onChange={handleMovieStreamLocationChange}
+                                className={`customBorderRight form-control ${movieLocationRequiredMsg ? 'is-invalid' : ''}`} 
+                                name="StreamLocation"
+                                >
+                                    <option value='' selected="false" disabled="disabled">Select Stream Location</option>
+                                    <option>VOD Streaming 15</option>
+                                    <option>option 1</option>
+                                    <option>option 2</option>
+                                    <option>option 3</option>
+                                </select>
+                                <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setMovieStreamLocation('')}}>
+                                    <FontAwesomeIcon icon={faCircleMinus} />
+                                </button>
+                            </div>
                             {movieLocationRequiredMsg && <div className='text-danger small'>Required Field</div>}
                         </div>
 
@@ -202,14 +209,19 @@ function VideoSources({sharedData, setSharedData}) {
                     <div className="form-row">
                         <div className="form-group col-md-6">
                             <label className="labelBox">Protection <span className="text-danger">*</span></label>
-                            <select value={movieProtection} onChange={handleMovieProtectionChange} name="Protection"
-                                className={`form-control ${movieProtectionRequiredMsg ? 'is-invalid' : ''}`}
-                            >
-                                <option selected="false" disabled="disabled">Select a Protection</option>
-                                <option>nimble</option>
-                                <option>option 2</option>
-                                <option>option 3</option>
-                            </select>
+                            <div style={{display: 'flex'}}>
+                                <select value={movieProtection} onChange={handleMovieProtectionChange} name="Protection"
+                                    className={`customBorderRight form-control ${movieProtectionRequiredMsg ? 'is-invalid' : ''}`}
+                                >
+                                    <option value='' selected="false" disabled="disabled">Select a Protection</option>
+                                    <option>nimble</option>
+                                    <option>option 2</option>
+                                    <option>option 3</option>
+                                </select>
+                                <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setMovieProtection('')}}>
+                                    <FontAwesomeIcon icon={faCircleMinus} />
+                                </button>
+                            </div>
                             {movieProtectionRequiredMsg && <div className='text-danger small'>Required Field</div>}
                         </div>
 
@@ -236,15 +248,20 @@ function VideoSources({sharedData, setSharedData}) {
                     <div className="form-row mt-4">
                         <div className="form-group col-md-6">
                             <label className="labelBox">Stream Location <span className="text-danger">*</span></label>
-                            <select value={trailerStreamLocation} onChange={handleTrailerStreamLocationChange} name="TrailerStreamLocation"
-                                className={`form-control ${trailerLocationRequiredMsg ? 'is-invalid' : ''}`}
-                            >
-                                <option selected="false" disabled="disabled">Select Stream Location</option>
-                                <option>VOD Streaming15</option>
-                                <option>option 1</option>
-                                <option>option 2</option>
-                                <option>option 3</option>
-                            </select>
+                            <div style={{display: 'flex'}}>
+                                <select value={trailerStreamLocation} onChange={handleTrailerStreamLocationChange} name="TrailerStreamLocation"
+                                    className={`customBorderRight form-control ${trailerLocationRequiredMsg ? 'is-invalid' : ''}`}
+                                >
+                                    <option value='' selected="false" disabled="disabled">Select Stream Location</option>
+                                    <option>VOD Streaming15</option>
+                                    <option>option 1</option>
+                                    <option>option 2</option>
+                                    <option>option 3</option>
+                                </select>
+                                <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setTrailerStreamLocation('')}}>
+                                    <FontAwesomeIcon icon={faCircleMinus} />
+                                </button>
+                            </div>
                             {trailerLocationRequiredMsg && <div className='text-danger small'>Required Field</div>}
                         </div>
 
@@ -258,13 +275,18 @@ function VideoSources({sharedData, setSharedData}) {
                     <div className="form-row">
                         <div className="form-group col-md-6">
                             <label className="labelBox">Protection <span className="text-danger">*</span></label>
-                            <select value={trailerProtection} onChange={handleTrailerProtectionChange}
-                             className={`form-control ${trailerProtectionRequiredMsg ? 'is-invalid' : ''}`} name="TrailerProtection" >
-                                <option selected="false" disabled="disabled">Select a Protection</option>
-                                <option>nimble</option>
-                                <option>option 2</option>
-                                <option>option 3</option>
-                            </select>
+                            <div style={{display: 'flex'}}>
+                                <select value={trailerProtection} onChange={handleTrailerProtectionChange}
+                                className={`customBorderRight form-control ${trailerProtectionRequiredMsg ? 'is-invalid' : ''}`} name="TrailerProtection" >
+                                    <option value='' selected="false" disabled="disabled">Select a Protection</option>
+                                    <option>nimble</option>
+                                    <option>option 2</option>
+                                    <option>option 3</option>
+                                </select>
+                                <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setTrailerProtection('')}}>
+                                    <FontAwesomeIcon icon={faCircleMinus} />
+                                </button>
+                            </div>
                             {trailerProtectionRequiredMsg && <div className='text-danger small'>Required Field</div>}
                         </div>
 
