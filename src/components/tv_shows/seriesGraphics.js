@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import '../../stylesheets/graphics.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faPlus} from '@fortawesome/free-solid-svg-icons';
+import {faCircleMinus} from '@fortawesome/free-solid-svg-icons';
 import MovieTitleComponent from '../shared/movietTitleComponent';
 import TvShowTitleComponent from '../shared/tvShowsTitleComponent';
 import TvShowsNavBar from '../shared/TvShowsNavBar';
@@ -12,7 +12,7 @@ function SeriesGraphics({ sharedData, setSharedData }){
 
     console.log(sharedData)
 
-    const [backendSelectedImageILike, setBackendSelectedImageILike] = useState(null);
+    const [backendSelectedImageILike, setBackendSelectedImageILike] = useState('');
     const [backendSelectedImageJaw, setBackendSelectedImageJaw] = useState('');
     const [backendSelectedImageMin, setBackendSelectedImageMin] = useState('');
 
@@ -108,6 +108,15 @@ function SeriesGraphics({ sharedData, setSharedData }){
         });
     };
 
+    const handleRemoveImages = () => {
+        setBackendSelectedImageILike('');
+        setBackendSelectedImageJaw('');
+        setBackendSelectedImageMin('');
+        setSelectedImageILike(null)
+        setSelectedImageJaw(null)
+        setSelectedImageMin(null)
+    };
+
     return(
         <div className='container-fluid bg-light' style={{ padding: '2%', height: '100%'}}>
             <div className='row'>
@@ -137,8 +146,11 @@ function SeriesGraphics({ sharedData, setSharedData }){
                             <div className='input-group'>
                                 <div className='custom-file'>
                                     <input type='file' className='custom-file-input' id='file-upload' accept='image/*' onChange={handleImageUpload} />
-                                    <label className='custom-file-label' htmlFor='file-upload'>Browse</label>
+                                    <label className='custom-file-label' htmlFor='file-upload'>{backendSelectedImageILike.name || 'Browse'}</label>
                                 </div>
+                                <button type="button" className="btn btn-danger customBorderLeft" onClick={handleRemoveImages}>
+                                    <FontAwesomeIcon icon={faCircleMinus} />
+                                </button>
                             </div>
                         </div>
                     </div>

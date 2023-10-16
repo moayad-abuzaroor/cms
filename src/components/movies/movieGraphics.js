@@ -131,19 +131,7 @@ function MovieGraphics({sharedData, setSharedData}) {
         setSelectedImageJaw(null)
         setSelectedImageMin(null)
     };
-    const handleRemoveImageJaw = () => {
-        setBackendSelectedImageJaw('');
-        setBackendSelectedImageILike(backendSelectedImageJaw);
-        setBackendSelectedImageMin(backendSelectedImageMin);
-        setSelectedImageJaw(null)
-    };
 
-    const handleRemoveImageMin = () => {
-        setBackendSelectedImageMin('');
-        setBackendSelectedImageJaw(backendSelectedImageJaw);
-        setBackendSelectedImageILike(backendSelectedImageILike);
-        setSelectedImageMin(null)
-    };
 
     return (
         <div className='container-fluid bg-light' style={{ padding: '2%', height: '100%' }}>
