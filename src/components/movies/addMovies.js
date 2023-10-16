@@ -512,7 +512,7 @@ const [status, setStatus] = useState(initialStatus);
               </div>
             
 
-              <div className='form-group'>
+              <div className='form-group col-md-8'>
                 {casts.map((member, index) => (
                   <div key={index} className='mb-2'>
                     <span className="badge badge-pill badge-info mr-2" style={{color:'white', cursor:'pointer'}}>
@@ -564,7 +564,7 @@ const [status, setStatus] = useState(initialStatus);
             </div>
           
 
-            <div className='form-group'>
+            <div className='form-group col-md-8'>
               {crew.map((member, index) => (
                 <div key={index} className='mb-2'>
                   <span className="badge badge-pill badge-info mr-2" style={{color:'white', cursor:'pointer'}}>

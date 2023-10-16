@@ -26,41 +26,41 @@ function AddTvShow({ sharedData, setSharedData }) {
     const [requiredMsg, setRequiredMsg] = useState(false);
 
 
+    const [crew, setCrew] = useState([]);
     const [crewName, setCrewName] = useState('');
     const [crewRole, setCrewRole] = useState('');
-    const [crewTags, setCrewTags] = useState([]);
 
-    const handleAddCrewTag = () => {
-        if (crewName && crewRole) {
-        setCrewTags([...crewTags, { crewName, crewRole }]);
+    const handleAddCrew = () => {
+      if (crewName && crewRole) {
+        setCrew([...crew, { name: crewName, role: crewRole }]);
         setCrewName('');
         setCrewRole('');
-        }
+      }
     };
 
-    const handleRemoveCrewTag = (index) => {
-        const updatedTags = [...crewTags];
-        updatedTags.splice(index, 1);
-        setCrewTags(updatedTags);
+    const handleRemoveCrew = (index) => {
+      const updatedCrew = [...crew];
+      updatedCrew.splice(index, 1);
+      setCrew(updatedCrew);
     };
 
     
+    const [casts, setCasts] = useState([]);
     const [castName, setCastName] = useState('');
     const [castRole, setCastRole] = useState('');
-    const [castTags, setCastTags] = useState([]);
 
-    const handleAddCastTag = () => {
-        if (castName && castRole) {
-        setCastTags([...castTags, { castName, castRole }]);
+    const handleAddCast = () => {
+      if (castName && castRole) {
+        setCasts([...casts, { name: castName, role: castRole }]);
         setCastName('');
         setCastRole('');
-        }
+      }
     };
 
-    const handleRemoveCastTag = (index) => {
-        const updatedTags = [...castTags];
-        updatedTags.splice(index, 1);
-        setCastTags(updatedTags);
+    const handleRemoveCast = (index) => {
+      const updatedCasts = [...casts];
+      updatedCasts.splice(index, 1);
+      setCasts(updatedCasts);
     };
 
     const [genre, setGenre] = useState('');
@@ -210,6 +210,8 @@ function AddTvShow({ sharedData, setSharedData }) {
         e.preventDefault();
 
         const combinedGenres = selectedGenres.join(', ');
+        const combinedCasts = casts.map(member => `${member.name} - ${member.role}`).join(', ');
+        const combinedCrew = crew.map(member => `${member.name} - ${member.role}`).join(', ');
 
         if (tvshows.tvshow_title == null) {
           setRequiredMsg(true);
@@ -249,6 +251,8 @@ function AddTvShow({ sharedData, setSharedData }) {
           if (tvshows.tvshow_country !== null) formData.append('tvshow_country', tvshows.tvshow_country);
           if (tvshows.tvshow_language !== null) formData.append('tvshow_language', tvshows.tvshow_language);
           if (tvshows.tvshow_title !== null) formData.append('tvshow_status', status);
+          formData.append('tvshow_cast', combinedCasts);
+          formData.append('tvshow_crew', combinedCrew);
 
 
           if(sharedData.id == null){
@@ -451,76 +455,101 @@ function AddTvShow({ sharedData, setSharedData }) {
             <div className='form-row mt-3'>
               <div className='form-group col-md-4'>
                 <label className='labelBox'>Name</label>
-                <input 
-                  className='form-control' 
-                  value={castName} 
-                  onChange={(e) => setCastName(e.target.value)} 
+                <input
+                  className='form-control'
+                  value={castName}
+                  onChange={(e) => setCastName(e.target.value)}
                 />
               </div>
               <div className='form-group col-md-4'>
                 <label className='labelBox'>Role</label>
-                <input 
-                  className='form-control' 
-                  value={castRole} 
-                  onChange={(e) => setCastRole(e.target.value)} 
+                <input
+                  className='form-control'
+                  value={castRole}
+                  onChange={(e) => setCastRole(e.target.value)}
                 />
               </div>
-              <div className='form-group col-md-4' style={{marginTop: '7px'}}>
-                <button 
+              <div className='form-group col-md-4' style={{ marginTop: '7px' }}>
+                <button
                   type='button'
-                  className='btn btn-primary mt-4' 
-                  onClick={handleAddCastTag}
+                  className='btn btn-primary mt-4'
+                  onClick={handleAddCast}
                 >
                   Add
                 </button>
               </div>
-            </div>
+            
 
-            <div className='form-group'>
-              <textarea
-                className='form-control'
-                value={castTags.map(tag => `${tag.castName}-${tag.castRole}`).join(' , ')}
-              />
+              <div className='form-group col-md-8'>
+                {casts.map((member, index) => (
+                  <div key={index} className='mb-2'>
+                    <span className="badge badge-pill badge-info mr-2" style={{color:'white', cursor:'pointer'}}>
+                      {`${member.name} - ${member.role}`}
+                      <span onClick={() => handleRemoveCast(index)} className="font-weight-bold"> x</span>
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              <div className='form-group col-md-8'>
+                <textarea
+                  className='form-control'
+                  value={sharedData.tvshow_cast}
+                  readOnly
+                />
+              </div>
             </div>
 
             <div className='line'>
                 <p className='lineLabel'>Crew</p>
             </div>
 
-            <div className='form-row mt-3'>
-                <div className='form-group col-md-4'>
-                <label className='labelBox'>Name</label>
-                <input
-                    className='form-control'
-                    value={crewName}
-                    onChange={(e) => setCrewName(e.target.value)}
-                />
+          <div className='form-row mt-3'>
+            <div className='form-group col-md-4'>
+              <label className='labelBox'>Name</label>
+              <input
+                className='form-control'
+                value={crewName}
+                onChange={(e) => setCrewName(e.target.value)}
+              />
+            </div>
+            <div className='form-group col-md-4'>
+              <label className='labelBox'>Role</label>
+              <input
+                className='form-control'
+                value={crewRole}
+                onChange={(e) => setCrewRole(e.target.value)}
+              />
+            </div>
+            <div className='form-group col-md-4' style={{ marginTop: '7px' }}>
+              <button
+                type='button'
+                className='btn btn-primary mt-4'
+                onClick={handleAddCrew}
+              >
+                Add
+              </button>
+            </div>
+          
+            <div className='form-group col-md-8'>
+              {crew.map((member, index) => (
+                <div key={index} className='mb-2'>
+                  <span className="badge badge-pill badge-info mr-2" style={{color:'white', cursor:'pointer'}}>
+                    {`${member.name} - ${member.role}`}
+                    <span onClick={() => handleRemoveCrew(index)} className="font-weight-bold"> x</span>
+                  </span>
                 </div>
-                <div className='form-group col-md-4'>
-                <label className='labelBox'>Role</label>
-                <input
-                    className='form-control'
-                    value={crewRole}
-                    onChange={(e) => setCrewRole(e.target.value)}
-                />
-                </div>
-                <div className='form-group col-md-4' style={{ marginTop: '7px' }}>
-                <button
-                    type='button'
-                    className='btn btn-primary mt-4'
-                    onClick={handleAddCrewTag}
-                >
-                    Add
-                </button>
-                </div>
+              ))}
             </div>
 
-            <div className='form-group'>
-                <textarea
+            <div className='form-group col-md-8'>
+              <textarea
                 className='form-control'
-                value={crewTags.map(tag => `${tag.crewName}-${tag.crewRole}`).join(' , ')}
-                />
-            </div>
+                value={sharedData.tvshow_crew}
+                readOnly
+              />
+            </div>  
+          </div>
 
             <div className='form-group'>
                 <input className='btn btn-primary' type='submit' value="Save" />
