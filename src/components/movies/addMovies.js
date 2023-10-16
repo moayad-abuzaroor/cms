@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import MovieTitleComponent from '../shared/movietTitleComponent';
 import MoviesNavBar from '../shared/MoviesNavBar';
+import { faCircleMinus, faList } from "@fortawesome/free-solid-svg-icons";
 
 
 function AddMovies({ sharedData, setSharedData }) {
@@ -244,7 +245,7 @@ const [status, setStatus] = useState(initialStatus);
       if (movieDetails.movie_country !== null) formData.append('movie_country', movieDetails.movie_country);
       if (movieDetails.movie_parental_rate !== null) formData.append('movie_parental_rate', movieDetails.movie_parental_rate);
       if (movieDetails.movie_language !== null) formData.append('movie_language', movieDetails.movie_language);
-      if (movieDetails.movie_status !== null) {formData.append('movie_status', status)} else {formData.append('movie_status', status)};
+      if (movieDetails.movie_status !== null) {formData.append('movie_status', status)} else {formData.append('movie_status', 'InActive')};
       // ... Add other fields similarly
 
       // Add files to FormData (assuming ilikeImageFile, jawImageFile, and ministraImageFile are file objects)
@@ -401,34 +402,49 @@ const [status, setStatus] = useState(initialStatus);
 
                 <div className='form-group col-md-4'>
                     <label className='labelBox'>Countries</label>
-                    <select value={movieDetails.movie_country} onChange={handleCountryChange} className='form-control' name='Countries'>
-                        <option selected="false" disabled="disabled">Select Countries</option>
-                        <option>Country 1</option>
-                        <option>Country 2</option>
-                        <option>Country 3</option>
-                    </select>
+                    <div style={{display: 'flex'}}>
+                      <select value={movieDetails.movie_country} onChange={handleCountryChange} className='form-control customBorderRight' name='Countries'>
+                          <option value='' selected="false" disabled="disabled">Select Countries</option>
+                          <option>Country 1</option>
+                          <option>Country 2</option>
+                          <option>Country 3</option>
+                      </select>
+                      <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setMovieDetails({...movieDetails, movie_country: ''})}}>
+                          <FontAwesomeIcon icon={faCircleMinus} />
+                      </button>
+                    </div>
                 </div>
             </div>
 
             <div className='form-row'>
                 <div className='form-group col-md-4'>
                     <label className='labelBox'>Parental Rating</label>
-                    <select value={movieDetails.movie_parental_rate} onChange={handleParentalRateChange} className='form-control' name='parentalRating'>
-                        <option selected="false" disabled="disabled">Select a Parental Rating</option>
-                        <option>Rate 1</option>
-                        <option>Rate 2</option>
-                        <option>Rate 3</option>
-                    </select>
+                    <div style={{display: 'flex'}}>
+                      <select value={movieDetails.movie_parental_rate} onChange={handleParentalRateChange} className='form-control customBorderRight' name='parentalRating'>
+                          <option value='' selected="false" disabled="disabled">Select a Parental Rating</option>
+                          <option>Rate 1</option>
+                          <option>Rate 2</option>
+                          <option>Rate 3</option>
+                      </select>
+                      <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setMovieDetails({...movieDetails, movie_parental_rate: ''})}}>
+                          <FontAwesomeIcon icon={faCircleMinus} />
+                      </button>
+                    </div>
                 </div>
 
                 <div className='form-group col-md-4'>
                     <label className='labelBox'>Original Version Language</label>
-                    <select value={movieDetails.movie_language} onChange={handleLanguageChange} className='form-control' name='Genres'>
-                        <option selected="false" disabled="disabled">Select a Language</option>
-                        <option>Language 1</option>
-                        <option>Language 2</option>
-                        <option>Language 3</option>
-                    </select>
+                    <div style={{display: 'flex'}}>
+                      <select value={movieDetails.movie_language} onChange={handleLanguageChange} className='form-control customBorderRight' name='Genres'>
+                          <option value='' selected="false" disabled="disabled">Select a Language</option>
+                          <option>Language 1</option>
+                          <option>Language 2</option>
+                          <option>Language 3</option>
+                      </select>
+                      <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setMovieDetails({...movieDetails, movie_language: ''})}}>
+                          <FontAwesomeIcon icon={faCircleMinus} />
+                      </button>
+                    </div>
                 </div>
 
                 <div className='form-group col-md-4'>
