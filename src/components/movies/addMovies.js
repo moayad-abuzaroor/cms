@@ -29,7 +29,7 @@ function AddMovies({ sharedData, setSharedData }) {
 
   // ...
 
-const initialGenres = sharedData?.id ? [sharedData.movie_genres] : [];
+const initialGenres = sharedData?.id ? sharedData.movie_genres.split(',') : [];
 const initialStatusCheck = sharedData?.id ? (sharedData.movie_status === 'Active') : false;
 const initialStatus = sharedData?.id ? sharedData.movie_status : 'InActive';
 
@@ -52,7 +52,7 @@ const [status, setStatus] = useState(initialStatus);
     const selectedGenre = e.target.value;
     if (selectedGenre && !selectedGenres.includes(selectedGenre)) {
       setSelectedGenres([...selectedGenres, selectedGenre]);
-      setGenre(selectedGenre)
+      setGenre(selectedGenre);
     }
     setGenresRequiredMsg(false); // Reset the validation message
   };
@@ -204,6 +204,8 @@ const [status, setStatus] = useState(initialStatus);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const combinedGenres = selectedGenres.join(', ');
+    console.log(combinedGenres)
     if (movieDetails.movie_title == '') {
       setRequiredMsg(true);
       count = count + 1;
@@ -241,7 +243,7 @@ const [status, setStatus] = useState(initialStatus);
       if (movieDetails.movie_rate !== null) formData.append('movie_rate', movieDetails.movie_rate);
       if (movieDetails.movie_awards !== null) formData.append('movie_awards', movieDetails.movie_awards);
       if (movieDetails.movie_runtime !== null) formData.append('movie_runtime', movieDetails.movie_runtime);
-      if (movieDetails.movie_genres !== null) formData.append('movie_genres', selectedGenres[0]);
+      if (movieDetails.movie_genres !== null) formData.append('movie_genres', combinedGenres);
       if (movieDetails.movie_country !== null) formData.append('movie_country', movieDetails.movie_country);
       if (movieDetails.movie_parental_rate !== null) formData.append('movie_parental_rate', movieDetails.movie_parental_rate);
       if (movieDetails.movie_language !== null) formData.append('movie_language', movieDetails.movie_language);
@@ -367,16 +369,15 @@ const [status, setStatus] = useState(initialStatus);
                 </div>
 
                 <div className="form-group col-md-4">
-                  <label className="labelBox">
-                    Genres <span className="text-danger">*</span>
-                  </label>
+                  <label className="labelBox">Genres <span className="text-danger">*</span></label>
                   <select
                     className={`form-control ${genresRequiredMsg ? 'is-invalid' : ''}`}
                     name="Genres"
                     onChange={handleGenreSelect}
                     value="" // This is important to reset the selection after each pick
+                     // Allow multiple selections
                   >
-                    <option selected="false" disabled value="">
+                    <option disabled value="">
                       Select Genres
                     </option>
                     {genreOptions.map((genre, index) => (
@@ -397,7 +398,7 @@ const [status, setStatus] = useState(initialStatus);
                       </span>
                     ))}
                   </div>
-                  {genresRequiredMsg && <div className='text-danger small'>Required Field</div>}
+                  {genresRequiredMsg && <div className="text-danger small">Required Field</div>}
                 </div>
 
                 <div className='form-group col-md-4'>
@@ -409,7 +410,7 @@ const [status, setStatus] = useState(initialStatus);
                           <option>Country 2</option>
                           <option>Country 3</option>
                       </select>
-                      <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setMovieDetails({...movieDetails, movie_country: ''})}}>
+                      <button type="button" className="btn btn-primary customBorderLeft" onClick={() => {setMovieDetails({...movieDetails, movie_country: ''})}}>
                           <FontAwesomeIcon icon={faCircleMinus} />
                       </button>
                     </div>
