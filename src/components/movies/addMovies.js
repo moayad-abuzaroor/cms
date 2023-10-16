@@ -11,6 +11,8 @@ import { faCircleMinus, faList } from "@fortawesome/free-solid-svg-icons";
 function AddMovies({ sharedData, setSharedData }) {
 
   console.log(sharedData)
+  
+
 
   const [navbarDisabled, setNavbarDisabled] = useState(sharedData.id == null ? true : false);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
@@ -32,6 +34,10 @@ function AddMovies({ sharedData, setSharedData }) {
 const initialGenres = sharedData?.id ? sharedData.movie_genres.split(',') : [];
 const initialStatusCheck = sharedData?.id ? (sharedData.movie_status === 'Active') : false;
 const initialStatus = sharedData?.id ? sharedData.movie_status : 'InActive';
+const initialCasts = sharedData?.id ? sharedData.movie_cast : [];
+const initialCrew = sharedData?.id ? sharedData.movie_crew : [];
+
+
 
 const [selectedGenres, setSelectedGenres] = useState(initialGenres);
 const [statusCheck, setStatusCheck] = useState(initialStatusCheck);
@@ -75,16 +81,54 @@ const [status, setStatus] = useState(initialStatus);
     }
   };
   
+  
+  const [crew, setCrew] = useState([]);
+  const [crewName, setCrewName] = useState('');
+  const [crewRole, setCrewRole] = useState('');
 
-  console.log(status)
+  const handleAddCrew = () => {
+    if (crewName && crewRole) {
+      setCrew([...crew, { name: crewName, role: crewRole }]);
+      setCrewName('');
+      setCrewRole('');
+    }
+  };
+
+  const handleRemoveCrew = (index) => {
+    const updatedCrew = [...crew];
+    updatedCrew.splice(index, 1);
+    setCrew(updatedCrew);
+  };
+
+  
+  const [casts, setCasts] = useState([]);
+  const [castName, setCastName] = useState('');
+  const [castRole, setCastRole] = useState('');
+
+  const handleAddCast = () => {
+    if (castName && castRole) {
+      setCasts([...casts, { name: castName, role: castRole }]);
+      setCastName('');
+      setCastRole('');
+    }
+  };
+
+  const handleRemoveCast = (index) => {
+    const updatedCasts = [...casts];
+    updatedCasts.splice(index, 1);
+    setCasts(updatedCasts);
+  };
+
+  
 
   const [movieDetails, setMovieDetails] = useState({
     movie_title: sharedData.movie_title, movie_description: sharedData.movie_description, movie_year: sharedData.movie_year, movie_release_date: sharedData.movie_release_date, movie_rate: sharedData.movie_rate, movie_awards: sharedData.movie_awards, movie_runtime: sharedData.movie_runtime,
-    movie_source: sharedData.movie_source, movie_subtitles: sharedData.movie_subtitles, movie_genres: genre, movie_country: sharedData.movie_country,
+    movie_source: sharedData.movie_source, movie_subtitles: sharedData.movie_subtitles, movie_genres: genre, movie_country: sharedData.movie_country, movie_cast: sharedData.movie_cast, movie_crew: sharedData.movie_crew,
     movie_parental_rate: sharedData.movie_parental_rate, movie_language: sharedData.movie_language, movie_status: status, ilike_image: sharedData.ilike_image, jaw_image: sharedData.jaw_image, ministra_image: sharedData.ministra_image, movie_stream_location: sharedData.movie_stream_location, movie_url: sharedData.movie_url,
     movie_protection: sharedData.movie_protection, trailer_stream_location: sharedData.trailer_stream_location, trailer_url: sharedData.trailer_url, trailer_protection: sharedData.trailer_protection, movie_subtitle: sharedData.movie_subtitle, trailer_subtitle: sharedData.trailer_subtitle, subtitles_language: sharedData.subtitles_language,
     market_manager_country: sharedData.market_manager_country
   });
+
 
   const [requiredMsg, setRequiredMsg] = useState(false);
 
@@ -159,52 +203,32 @@ const [status, setStatus] = useState(initialStatus);
     });
   };
 
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  const [crewName, setCrewName] = useState('');
-  const [crewRole, setCrewRole] = useState('');
-  const [crewTags, setCrewTags] = useState([]);
-
-  const handleAddCrewTag = () => {
-    if (crewName && crewRole) {
-      setCrewTags([...crewTags, { crewName, crewRole }]);
-      setCrewName('');
-      setCrewRole('');
-    }
+  const handleCastChange = (e) => {
+    setMovieDetails({
+      ...movieDetails,
+      movie_cast: e.target.value
+    });
   };
 
-  const handleRemoveCrewTag = (index) => {
-    const updatedTags = [...crewTags];
-    updatedTags.splice(index, 1);
-    setCrewTags(updatedTags);
+  const handleCrewChange = (e) => {
+    console.log('Crew value changed:', e.target.value);
+    setMovieDetails({
+      ...movieDetails,
+      movie_crew: e.target.value
+    });
   };
 
-  
-  const [castName, setCastName] = useState('');
-  const [castRole, setCastRole] = useState('');
-  const [castTags, setCastTags] = useState([]);
-
-  const handleAddCastTag = () => {
-    if (castName && castRole) {
-      setCastTags([...castTags, { castName, castRole }]);
-      setCastName('');
-      setCastRole('');
-    }
-  };
-
-  const handleRemoveCastTag = (index) => {
-    const updatedTags = [...castTags];
-    updatedTags.splice(index, 1);
-    setCastTags(updatedTags);
-  };
-
-  
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 
   var count = 0;
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const combinedGenres = selectedGenres.join(', ');
+    const combinedCasts = casts.map(member => `${member.name} - ${member.role}`).join(', ');
+    const combinedCrew = crew.map(member => `${member.name} - ${member.role}`).join(', ');
+
     console.log(combinedGenres)
     if (movieDetails.movie_title == '') {
       setRequiredMsg(true);
@@ -231,8 +255,6 @@ const [status, setStatus] = useState(initialStatus);
       setMovieDetails({...movieDetails, movie_genres: selectedGenres[0]})
       
 
-
-
       const formData = new FormData(); // Create a FormData object to handle file uploads
 
       // Add form data to the FormData object
@@ -248,6 +270,8 @@ const [status, setStatus] = useState(initialStatus);
       if (movieDetails.movie_parental_rate !== null) formData.append('movie_parental_rate', movieDetails.movie_parental_rate);
       if (movieDetails.movie_language !== null) formData.append('movie_language', movieDetails.movie_language);
       if (movieDetails.movie_status !== null) {formData.append('movie_status', status)} else {formData.append('movie_status', 'InActive')};
+      formData.append('movie_cast', combinedCasts);
+      formData.append('movie_crew', combinedCrew);
       // ... Add other fields similarly
 
       // Add files to FormData (assuming ilikeImageFile, jawImageFile, and ministraImageFile are file objects)
@@ -410,7 +434,7 @@ const [status, setStatus] = useState(initialStatus);
                           <option>Country 2</option>
                           <option>Country 3</option>
                       </select>
-                      <button type="button" className="btn btn-primary customBorderLeft" onClick={() => {setMovieDetails({...movieDetails, movie_country: ''})}}>
+                      <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setMovieDetails({...movieDetails, movie_country: ''})}}>
                           <FontAwesomeIcon icon={faCircleMinus} />
                       </button>
                     </div>
@@ -463,36 +487,49 @@ const [status, setStatus] = useState(initialStatus);
             <div className='form-row mt-3'>
               <div className='form-group col-md-4'>
                 <label className='labelBox'>Name</label>
-                <input 
-                  className='form-control' 
-                  value={castName} 
-                  onChange={(e) => setCastName(e.target.value)} 
+                <input
+                  className='form-control'
+                  value={castName}
+                  onChange={(e) => setCastName(e.target.value)}
                 />
               </div>
               <div className='form-group col-md-4'>
                 <label className='labelBox'>Role</label>
-                <input 
-                  className='form-control' 
-                  value={castRole} 
-                  onChange={(e) => setCastRole(e.target.value)} 
+                <input
+                  className='form-control'
+                  value={castRole}
+                  onChange={(e) => setCastRole(e.target.value)}
                 />
               </div>
-              <div className='form-group col-md-4' style={{marginTop: '7px'}}>
-                <button 
+              <div className='form-group col-md-4' style={{ marginTop: '7px' }}>
+                <button
                   type='button'
-                  className='btn btn-primary mt-4' 
-                  onClick={handleAddCastTag}
+                  className='btn btn-primary mt-4'
+                  onClick={handleAddCast}
                 >
                   Add
                 </button>
               </div>
-            </div>
+            
 
-            <div className='form-group'>
-              <textarea
-                className='form-control'
-                value={castTags.map(tag => `${tag.castName}-${tag.castRole}`).join(' , ')}
-              />
+              <div className='form-group'>
+                {casts.map((member, index) => (
+                  <div key={index} className='mb-2'>
+                    <span className="badge badge-pill badge-info mr-2" style={{color:'white', cursor:'pointer'}}>
+                      {`${member.name} - ${member.role}`}
+                      <span onClick={() => handleRemoveCast(index)} className="font-weight-bold"> x</span>
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              <div className='form-group col-md-8'>
+                <textarea
+                  className='form-control'
+                  value={sharedData.movie_cast}
+                  readOnly
+                />
+              </div>
             </div>
 
           <div className='line mt-4'>
@@ -520,18 +557,31 @@ const [status, setStatus] = useState(initialStatus);
               <button
                 type='button'
                 className='btn btn-primary mt-4'
-                onClick={handleAddCrewTag}
+                onClick={handleAddCrew}
               >
                 Add
               </button>
             </div>
-          </div>
+          
 
-          <div className='form-group'>
-            <textarea
-              className='form-control'
-              value={crewTags.map(tag => `${tag.crewName}-${tag.crewRole}`).join(' , ')}
-            />
+            <div className='form-group'>
+              {crew.map((member, index) => (
+                <div key={index} className='mb-2'>
+                  <span className="badge badge-pill badge-info mr-2" style={{color:'white', cursor:'pointer'}}>
+                    {`${member.name} - ${member.role}`}
+                    <span onClick={() => handleRemoveCrew(index)} className="font-weight-bold"> x</span>
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <div className='form-group col-md-8'>
+              <textarea
+                className='form-control'
+                value={sharedData.movie_crew}
+                readOnly
+              />
+            </div>
           </div>
 
           <div className='form-group'>
