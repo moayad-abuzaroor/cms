@@ -1,6 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faCircleMinus } from '@fortawesome/free-solid-svg-icons';
 import MovieTitleComponent from "../shared/movietTitleComponent";
 import MoviesNavBar from "../shared/MoviesNavBar";
 import { useState } from "react";
@@ -77,11 +77,16 @@ function MarketManagerPage({sharedData, setSharedData}) {
                     <div className="form-row mt-4">
                         <div className="form-group col-md-4">
                             <label className="labelBox">Select Countries</label>
-                            <select value={market} onChange={handleMarketChange} className="form-control market-country-select" name="countries">
-                                <option selected="false" disabled="disabled">Select Country</option>
-                                <option>Country 1</option>
-                                <option>Country 2</option>
-                            </select>
+                            <div style={{display: 'flex'}}>
+                                <select value={market} onChange={handleMarketChange} className="form-control market-country-select customBorderRight" name="countries">
+                                    <option value='' selected="false" disabled="disabled">Select Country</option>
+                                    <option>Country 1</option>
+                                    <option>Country 2</option>
+                                </select>
+                                <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setMarket('')}}>
+                                    <FontAwesomeIcon icon={faCircleMinus} />
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div className='form-group mt-4'>
