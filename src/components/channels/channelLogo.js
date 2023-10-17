@@ -8,7 +8,7 @@ function ChannelLogo({ sharedData, setSharedData }){
     const [showDangerAlert, setShowDangerAlert] = useState(false);
 
     const [selectedImage, setSelectedImage] = useState(sharedData.channel_logo);
-    const [backendSelectedImage, setBackendSelectedImage] = useState(null);
+    const [backendSelectedImage, setBackendSelectedImage] = useState('');
     console.log(selectedImage)
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
@@ -26,6 +26,7 @@ function ChannelLogo({ sharedData, setSharedData }){
 
     const handleRemoveImage = () => {
         setSelectedImage(null);
+        setBackendSelectedImage('');
     };
 
     const handleSubmit = (e) => {
@@ -89,7 +90,7 @@ function ChannelLogo({ sharedData, setSharedData }){
                         <div className='input-group'>
                             <div className='custom-file'>
                                 <input type='file' className='custom-file-input' id='file-upload' accept='image/*' onChange={handleImageUpload} />
-                                <label className='custom-file-label' htmlFor='file-upload'>Select Image</label>
+                                <label className='custom-file-label' htmlFor='file-upload'>{backendSelectedImage.name || 'Select Image'}</label>
                             </div>
                         </div>
                     </div>
