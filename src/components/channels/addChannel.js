@@ -64,7 +64,7 @@ function AddChannel({ sharedData, setSharedData }){
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const [showDangerAlert, setShowDangerAlert] = useState(false);
 
-    const initialCategories = sharedData?.id ? [sharedData.channel_categories] : [];
+    const initialCategories = sharedData?.id ? sharedData.channel_categories.split(',') : [];
     const initialStatusCheck = sharedData?.id ? (sharedData.channel_status === 'Active') : false;
     const initialStatus = sharedData?.id ? sharedData.channel_status : 'InActive';
 
@@ -178,6 +178,10 @@ function AddChannel({ sharedData, setSharedData }){
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        const combinedCategories = selectedCategories.join(', ');
+
+
         if (channelDetails.channel_title == '') {
             setRequiredMsg(true);
             count = count + 1;
@@ -218,7 +222,7 @@ function AddChannel({ sharedData, setSharedData }){
 
             formData.append('channel_title', channelDetails.channel_title);
             if (channelDetails.channel_epg !== null) formData.append('channel_epg', selectedEPG);
-            if (channelDetails.channel_categories !== null) formData.append('channel_categories', selectedCategories[0]);
+            if (channelDetails.channel_categories !== null) formData.append('channel_categories', combinedCategories);
             if (channelDetails.channel_number !== null) formData.append('channel_number', channelDetails.channel_number);
             if (channelDetails.channel_type !== null) formData.append('channel_type', channelDetails.channel_type);
             if (channelDetails.channel_parental_rate !== null) formData.append('channel_parental_rate', channelDetails.channel_parental_rate);
