@@ -381,7 +381,7 @@ function AddChannel({ sharedData, setSharedData }){
                                     <option value='' selected="false" disabled="disabled">Select a Parental Rating</option>
                                     <option>Restricted</option>
                                 </select>
-                                <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setChannelDetails({...channelDetails, channel_type: ''})}}>
+                                <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setChannelDetails({...channelDetails, channel_parental_rate: ''})}}>
                                     <FontAwesomeIcon icon={faCircleMinus} />
                                 </button>
                             </div>

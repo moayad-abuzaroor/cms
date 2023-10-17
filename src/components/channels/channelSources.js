@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import ChannelsTitleComponent from "../shared/channelsTitleComponent";
 import ChannelsNavBar from "../shared/ChannelsNavBar";
+import { faCircleMinus, faList } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function ChannelSources({ sharedData, setSharedData }){
 
@@ -80,7 +82,7 @@ function ChannelSources({ sharedData, setSharedData }){
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if(channelStreamLocation == null){
+        if(channelStreamLocation == null || channelStreamLocation == ''){
             setChannelLocationRequiredMsg(true);
             count = count + 1;
         } else {
@@ -95,14 +97,14 @@ function ChannelSources({ sharedData, setSharedData }){
         }
 
         if(backupCheckbox){
-            if(backupStreamLocation == null){
+            if(backupStreamLocation == null || backupStreamLocation == ''){
                 setBackupLocationRequiredMsg(true);
                 count = count + 1;
             } else {
                 setBackupLocationRequiredMsg(false);
             }
     
-            if(backupUrlPath == ''){
+            if(backupUrlPath == '' || backupUrlPath == null){
                 setBackupUrlRequiredMsg(true);
                 count = count + 1;
             } else {
@@ -179,16 +181,21 @@ function ChannelSources({ sharedData, setSharedData }){
                     <div className="form-row mt-2">
                         <div className="form-group col-md-4">
                             <label className="labelBox">Stream Location <span className="text-danger">*</span></label>
-                            <select
-                              value={channelStreamLocation}
-                              onChange={handleChannelStreamLocationChange}
-                              className={`form-control ${channelLocationRequiredMsg ? 'is-invalid' : ''}`} 
-                              name="StreamLocation"
-                              >
-                                <option selected="false" disabled="disabled">Select Stream Location</option>
-                                <option>External URL</option>
-                                <option>Media Server / CDN</option>
-                            </select>
+                            <div style={{display: 'flex'}}>
+                                <select
+                                value={channelStreamLocation}
+                                onChange={handleChannelStreamLocationChange}
+                                className={`customBorderRight form-control ${channelLocationRequiredMsg ? 'is-invalid' : ''}`} 
+                                name="StreamLocation"
+                                >
+                                    <option value='' selected="false" disabled="disabled">Select Stream Location</option>
+                                    <option>External URL</option>
+                                    <option>Media Server / CDN</option>
+                                </select>
+                                <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setChannelStreamLocation('')}}>
+                                    <FontAwesomeIcon icon={faCircleMinus} />
+                                </button>
+                            </div>
                             {channelLocationRequiredMsg && <div className='text-danger small'>Required Field</div>}
                         </div>
 
@@ -200,12 +207,17 @@ function ChannelSources({ sharedData, setSharedData }){
 
                         <div className="form-group col-md-4">
                             <label className="labelBox">Protection</label>
-                            <select value={channelProtection} onChange={handleChannelProtectionChange} name="Protection"className='form-control' >
-                                <option selected="false" disabled="disabled">Select a Protection</option>
-                                <option>disabled</option>
-                                <option>nimble</option>
-                                <option>nimble2</option>
-                            </select>
+                            <div style={{display: 'flex'}}>
+                                <select value={channelProtection} onChange={handleChannelProtectionChange} name="Protection"className='form-control customBorderRight' >
+                                    <option value='' selected="false" disabled="disabled">Select a Protection</option>
+                                    <option>disabled</option>
+                                    <option>nimble</option>
+                                    <option>nimble2</option>
+                                </select>
+                                <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setChannelProtection('')}}>
+                                    <FontAwesomeIcon icon={faCircleMinus} />
+                                </button>
+                            </div>
                             { channelProtection == 'disabled' ? false : true  && channelProtection && <label className="labelBox mt-2">DRM Content ID</label> }
                             { channelProtection == 'disabled' ? false : true  && channelProtection && 
                                 <input value={channelDRM} onChange={handleChannelDRMChange} className='form-control'/>
@@ -227,16 +239,21 @@ function ChannelSources({ sharedData, setSharedData }){
                     {backupCheckbox && <div className="form-row mt-2">
                         <div className="form-group col-md-4">
                             <label className="labelBox">Stream Location <span className="text-danger">*</span></label>
-                            <select
-                              value={backupStreamLocation}
-                              onChange={handleBackupStreamLocationChange}
-                              className={`form-control ${backupLocationRequiredMsg ? 'is-invalid' : ''}`} 
-                              name="StreamLocation"
-                              >
-                                <option selected="false" disabled="disabled">Select Stream Location</option>
-                                <option>External URL</option>
-                                <option>Media Server / CDN</option>
-                            </select>
+                            <div style={{display: 'flex'}}>
+                                <select
+                                value={backupStreamLocation}
+                                onChange={handleBackupStreamLocationChange}
+                                className={`customBorderRight form-control ${backupLocationRequiredMsg ? 'is-invalid' : ''}`} 
+                                name="StreamLocation"
+                                >
+                                    <option value='' selected="false" disabled="disabled">Select Stream Location</option>
+                                    <option>External URL</option>
+                                    <option>Media Server / CDN</option>
+                                </select>
+                                <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setBackupStreamLocation('')}}>
+                                    <FontAwesomeIcon icon={faCircleMinus} />
+                                </button>
+                            </div>
                             {backupLocationRequiredMsg && <div className='text-danger small'>Required Field</div>}
                         </div>
 
@@ -248,12 +265,17 @@ function ChannelSources({ sharedData, setSharedData }){
 
                         <div className="form-group col-md-4">
                             <label className="labelBox">Protection</label>
-                            <select value={backupProtection} onChange={handleBackupProtectionChange} name="Protection"className='form-control' >
-                                <option selected="false" disabled="disabled">Select a Protection</option>
-                                <option>disabled</option>
-                                <option>nimble</option>
-                                <option>nimble2</option>
-                            </select>
+                            <div style={{display: 'flex'}}>
+                                <select value={backupProtection} onChange={handleBackupProtectionChange} name="Protection"className='form-control customBorderRight' >
+                                    <option value='' selected="false" disabled="disabled">Select a Protection</option>
+                                    <option>disabled</option>
+                                    <option>nimble</option>
+                                    <option>nimble2</option>
+                                </select>
+                                <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setBackupProtection('')}}>
+                                    <FontAwesomeIcon icon={faCircleMinus} />
+                                </button>
+                            </div>
                             { backupProtection == 'disabled' ? false : true  && backupProtection && <label className="labelBox mt-2">DRM Content ID</label> }
                             { backupProtection == 'disabled' ? false : true  && backupProtection && 
                                 <input value={backupDRM} onChange={handleBackupDRMChange} className='form-control'/>
