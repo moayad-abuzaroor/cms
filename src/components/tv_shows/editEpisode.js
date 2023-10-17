@@ -3,7 +3,7 @@ import TvShowTitleComponent from "../shared/tvShowsTitleComponent";
 import TvShowsNavBar from "../shared/TvShowsNavBar";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faEdit, faTrash, faCircleMinus } from "@fortawesome/free-solid-svg-icons";
 
 
 function EditEpisode(){
@@ -15,9 +15,6 @@ function EditEpisode(){
     const [selectedGenres, setSelectedGenres] = useState([]);
     const [genre, setGenre] = useState('');
     const [genreOptions, setGenreOptions] = useState([
-        'Genres 1',
-        'Genres 2',
-        'Genres 3',
         'مسلسلات تركية',
         'Action',
         'Crime',
@@ -386,7 +383,7 @@ function EditEpisode(){
                                 <span
                                     key={index}
                                     className="badge badge-pill badge-primary mr-2"
-                                    style={{ cursor: 'pointer' }}
+                                    style={{ cursor: 'pointer', color: 'white' }}
                                     onClick={() => handleRemoveGenre(genre)}
                                 >
                                     {genre} <span className="font-weight-bold">x</span>
@@ -439,6 +436,9 @@ function EditEpisode(){
                                         className="custom-file-input" id="posterUpload" />
                                     <label className="custom-file-label" htmlFor="posterUpload">{'Browse'}</label>
                                 </div>
+                                <button type="button" className="btn btn-danger customBorderLeft">
+                                  <FontAwesomeIcon icon={faCircleMinus} />
+                                </button>
                             </div>
                         </div>
 
@@ -489,12 +489,17 @@ function EditEpisode(){
 
                         <div className='form-group col-md-4'>
                             <label className='labelBox'>Media Streaming</label>
-                            <select value={episodeDetails.media_streaming} onChange={handleMediaStreamingChange} className='form-control' name='Countries'>
-                                <option selected="false" disabled="disabled">Select Media Streaming</option>
-                                <option>VOD 1</option>
-                                <option>VOD 2</option>
-                                <option>VOD 3</option>
-                            </select>
+                            <div style={{display: 'flex'}}>
+                              <select value={episodeDetails.media_streaming} onChange={handleMediaStreamingChange} className='customBorderRight form-control' name='Countries'>
+                                  <option value='' selected="false" disabled="disabled">Select Media Streaming</option>
+                                  <option>VOD 1</option>
+                                  <option>VOD 2</option>
+                                  <option>VOD 3</option>
+                              </select>
+                              <button type="button" className="btn btn-danger customBorderLeft">
+                                  <FontAwesomeIcon icon={faCircleMinus} />
+                              </button>
+                            </div>
                         </div>
                        
                         <div className='form-group col-md-4'>
@@ -506,6 +511,9 @@ function EditEpisode(){
                                         className="custom-file-input" id="arabicSubtitleUpload" accept=".srt,.sub,.sbv,.smi,.vtt" />
                                     <label className="custom-file-label" htmlFor="arabicSubtitleUpload">{'Browse'}</label>
                                 </div>
+                                <button type="button" className="btn btn-danger customBorderLeft">
+                                  <FontAwesomeIcon icon={faCircleMinus} />
+                                </button>
                             </div>
                         </div>
 
@@ -518,6 +526,9 @@ function EditEpisode(){
                                         className="custom-file-input" id="englishSubtitleUpload" accept=".srt,.sub,.sbv,.smi,.vtt" />
                                     <label className="custom-file-label" htmlFor="englishSubtitleUpload">{'Browse'}</label>
                                 </div>
+                                <button type="button" className="btn btn-danger customBorderLeft">
+                                  <FontAwesomeIcon icon={faCircleMinus} />
+                                </button>
                             </div>
                         </div>
 
