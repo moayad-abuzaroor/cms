@@ -193,7 +193,7 @@ function AddChannel({ sharedData, setSharedData }){
             setCategoriesRequiredMsg(false);
         }
 
-        if(channelDetails.channel_type == null){
+        if(channelDetails.channel_type == null || channelDetails.channel_type == ''){
             setTypeRequiredMsg(true);
             count = count + 1;
         } else {
@@ -359,11 +359,16 @@ function AddChannel({ sharedData, setSharedData }){
                         </div>
                         <div className='form-group col-md-4'>
                             <label className='labelBox'>Select Type <span className='text-danger'>*</span></label>
-                            <select value={channelDetails.channel_type} onChange={handleTypeChange} className={`form-control ${typeRequiredMsg ? 'is-invalid' : ''}`} name='type'>
-                                <option selected="false" disabled="disabled">Select Type</option>
-                                <option>Video</option>
-                                <option>Audio</option>
-                            </select>
+                            <div style={{display: 'flex'}}>
+                                <select value={channelDetails.channel_type} onChange={handleTypeChange} className={`customBorderRight form-control ${typeRequiredMsg ? 'is-invalid' : ''}`} name='type'>
+                                    <option value='' selected="false" disabled="disabled">Select Type</option>
+                                    <option>Video</option>
+                                    <option>Audio</option>
+                                </select>
+                                <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setChannelDetails({...channelDetails, channel_type: ''})}}>
+                                    <FontAwesomeIcon icon={faCircleMinus} />
+                                </button>
+                            </div>
                             {typeRequiredMsg && <div className='text-danger small'>Required Field</div>}
                         </div>
                     </div>
@@ -371,10 +376,15 @@ function AddChannel({ sharedData, setSharedData }){
                     <div className="form-row">
                         <div className='form-group col-md-4'>
                             <label className='labelBox'>Parental Rating</label>
-                            <select value={channelDetails.channel_parental_rate} onChange={handleParentalChange} className='form-control' name='parentalRating'>
-                                <option selected="false" disabled="disabled">Select a Parental Rating</option>
-                                <option>Restricted</option>
-                            </select>
+                            <div style={{display: 'flex'}}>
+                                <select value={channelDetails.channel_parental_rate} onChange={handleParentalChange} className='form-control customBorderRight' name='parentalRating'>
+                                    <option value='' selected="false" disabled="disabled">Select a Parental Rating</option>
+                                    <option>Restricted</option>
+                                </select>
+                                <button type="button" className="btn btn-danger customBorderLeft" onClick={() => {setChannelDetails({...channelDetails, channel_type: ''})}}>
+                                    <FontAwesomeIcon icon={faCircleMinus} />
+                                </button>
+                            </div>
                         </div>
                         <div className='form-group col-md-4 mt-3 ml-4'>
                             <div className='form-check mt-4'>
