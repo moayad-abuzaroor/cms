@@ -33,6 +33,7 @@ function AddUser(){
           // Handle the response data if needed
           console.log('Success:', data);
           setUsername('')
+          setPassword('')
         })
         .catch(error => {
           // Handle errors

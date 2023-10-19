@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import '../../stylesheets/sideBar.css'
 import '../../stylesheets/sb-admin-2.min.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faTv, faFilm, faPeopleGroup, faDatabase, faVideo, faPhotoFilm, faPhotoVideo, faHome, faPlay, faAngleRight, faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import {faTv, faFilm, faPeopleGroup, faDatabase, faVideo, faPhotoFilm, faPhotoVideo, faHome, faPlay, faAngleRight, faAngleDown, faToolbox, faUserShield } from '@fortawesome/free-solid-svg-icons';
 
 
 function SideBar() {
@@ -51,7 +51,7 @@ function SideBar() {
           <a className="nav-link">
               <i className="fas fa-fw fa-tachometer-alt"></i>           
               <span>
-                <FontAwesomeIcon style={{color:'white'}} className="mr-3" icon={faHome} />Administration
+                <FontAwesomeIcon style={{color:'white'}} className="mr-3" icon={faUserShield} />Administration
                 <FontAwesomeIcon style={{color:'white', float:'right'}} className="mr-2 mt-2" icon={faAngleRight} />           
               </span>
           </a>
