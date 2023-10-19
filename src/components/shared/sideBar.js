@@ -47,6 +47,20 @@ function SideBar() {
     <hr className="sidebar-divider"></hr>
 
     <li className="nav-item">
+      <Link to="adduser" className="collapse-item" style={{ textDecoration: 'none' }}>
+          <a className="nav-link">
+              <i className="fas fa-fw fa-tachometer-alt"></i>           
+              <span>
+                <FontAwesomeIcon style={{color:'white'}} className="mr-3" icon={faHome} />Administration
+                <FontAwesomeIcon style={{color:'white', float:'right'}} className="mr-2 mt-2" icon={faAngleRight} />           
+              </span>
+          </a>
+      </Link>
+    </li>
+
+    <hr className="sidebar-divider"></hr>
+
+    <li className="nav-item">
         <a onClick={toggleSubmenu} className="nav-link" href="#" data-target="#collapseTwo" aria-expanded="true"
             aria-controls="collapseTwo">
             <i className="fas fa-fw fa-cog"></i>
