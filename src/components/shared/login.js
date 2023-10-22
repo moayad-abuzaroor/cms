@@ -4,29 +4,32 @@ import bg from '../../images/login.jpg'
 
 function Login() {
 
-      const[invalidMsg, setInvalidMsg] = useState(false);
-    
-      const navigate = useNavigate();
-    
-      const handleLogin = async (e) => {
-        e.preventDefault();
-        const username = e.target.elements.username.value;
-        const password = e.target.elements.password.value;
+  const [invalidMsg, setInvalidMsg] = useState(false);
+  const navigate = useNavigate();
 
-        try {
-            const response = await fetch(`http://localhost:8000/api/login/?username=${username}&password=${password}`);
+  const handleLogin = async (e) => {
+      e.preventDefault();
+      const username = e.target.elements.username.value;
+      const password = e.target.elements.password.value;
 
-            if (response.ok) {
-                console.log("User logged in:", username);
-                // Navigate to the dashboard
-                navigate("/dashboard");
-            } else {
-                setInvalidMsg(true);
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
+      try {
+          const response = await fetch(`http://localhost:8000/api/login/?username=${username}&password=${password}`);
+
+          if (response.ok) {
+              const data = await response.json();
+              console.log(data.tokens.access)
+              localStorage.setItem('token', data.nToken);
+              console.log("User logged in:", username);
+
+              // Navigate to the dashboard with username as a URL parameter
+              navigate(`/dashboard`);
+          } else {
+              setInvalidMsg(true);
+          }
+      } catch (error) {
+          console.error('Error:', error);
+      }
+  };
 
   return (
     <div className="container-fluid">

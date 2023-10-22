@@ -32,7 +32,7 @@ function NavHeader() {
             <FontAwesomeIcon className='icon mr-2' icon={faUser} />Profile
             </a>
             <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style={{ left: 'auto', right: 0 }}>
-              <Link className="dropdown-item" to="#"><FontAwesomeIcon className='icon mr-2' icon={faIdBadge} />My Account</Link>
+              <Link className="dropdown-item" to="profile"><FontAwesomeIcon className='icon mr-2' icon={faIdBadge} />My Account</Link>
               <div className="dropdown-divider"></div>
               <a className="dropdown-item" onClick={(e) => handleLogout(e)} href="/#">
                 <FontAwesomeIcon className='icon mr-2' icon={faPowerOff} />
