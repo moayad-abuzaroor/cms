@@ -47,36 +47,65 @@ function Profile() {
     
     
       return (
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Old Password:</label>
-            <input
-              type="password"
-              name="oldPassword"
-              value={formData.oldPassword}
-              onChange={handleChange}
-            />
+        <div className="container-fluid bg-light" style={{ padding: '2%', height: '100%'}}>
+          <div className='row'>
+              <div className='col'>
+                  <p className='pathText'>Profile/ <span style={{ color: 'rgb(55, 55, 55)' }}>My Account</span></p>
+              </div>
           </div>
-          <div>
-            <label>New Password:</label>
-            <input
-              type="password"
-              name="newPassword"
-              value={formData.newPassword}
-              onChange={handleChange}
-            />
+          <div className='backDiv'>
+              <div className='headerDiv'>
+                  <p className='headerText mt-3'>My Account</p>
+              </div>           
           </div>
-          <div>
-            <label>Confirm New Password:</label>
-            <input
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-            />
+          <div className='row'>
+            <form onSubmit={handleSubmit} className='col-lg-11 mx-auto addForm' style={{backgroundColor: 'white'}}>
+              <div className="line mt-1">
+                  <p className="lineLabel">Edit Password</p>
+              </div>
+              <div className='form-row mt-4'>
+                <div className='form-group col-md-4'>
+                  <label className='labelBox'>Current Password</label>
+                  <input
+                    className={`form-control`} 
+                    type="password"
+                    name="oldPassword"
+                    value={formData.oldPassword}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+
+              <div className='form-row'>
+                <div className='form-group col-md-4'>
+                  <label className='labelBox'>New Password:</label>
+                  <input
+                    className={`form-control`}
+                    type="password"
+                    name="newPassword"
+                    value={formData.newPassword}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+
+              <div className='form-row'>
+                <div className='form-group col-md-4'>
+                  <label className='labelBox'>Confirm New Password:</label>
+                  <input
+                    className={`form-control`}
+                    type="password"
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+              <button type="submit" className="btn btn-primary mt-1">Change Password</button>
+            </form>
           </div>
-          <button type="submit">Change Password</button>
-        </form>
+        </div>
+        
       );
     }
 
